@@ -1,0 +1,69 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box_check_update = false
+  #config.vm.synced_folder ".", "/home/vagrant"
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+
+  config.vm.define "UbuntuVMS" do |server|
+    server.vm.provider "virtualbox" do |vb1|
+      vb1.name = "UbuntuVMS"
+      vb1.gui = false
+      vb1.memory = "1024"
+      vb1.cpus = 1
+    end
+    server.vm.hostname = "server"
+    server.vm.network "public_network", ip: "192.168.1.240"
+    server.vm.provision "shell", path: "server.sh"
+  end
+
+  config.vm.define "UbuntuVMC" do |client|
+    client.vm.provider "virtualbox" do |vb2|
+      vb2.name = "UbuntuVMC"
+      vb2.gui = false
+      vb2.memory = "1024"
+      vb2.cpus = 1
+    end
+    client.vm.hostname = "client"
+    client.vm.network "public_network", ip: "192.168.1.241"
+    client.vm.provision "shell", path: "client.sh"
+  end
+
+  config.vm.define "OpenVPNServer" do |vpnserver|
+    vpnserver.vm.provider "virtualbox" do |vb3|
+      vb3.name = "OpenVPNServer"
+      vb3.gui = false
+      vb3.memory = "1024"
+      vb3.cpus = 1
+    end
+    vpnserver.vm.hostname = "VPNserver"
+    vpnserver.vm.network "public_network", ip: "192.168.100.24"
+  end
+
+  config.vm.define "OpenVPNClient" do |vpnclient|
+    vpnclient.vm.provider "virtualbox" do |vb4|
+      vb4.name = "OpenVPNClient"
+      vb4.gui = false
+      vb4.memory = "1024"
+      vb4.cpus = 1
+    end
+    vpnclient.vm.hostname = "VPNclient"
+    vpnclient.vm.network "public_network", ip: "192.168.100.25"
+  end
+
+  config.vm.define "OpenVPNCA" do |vpnCA|
+    vpnCA.vm.provider "virtualbox" do |vb5|
+      vb5.name = "OpenVPNCA"
+      vb5.gui = false
+      vb5.memory = "1024"
+      vb5.cpus = 1
+    end
+    vpnCA.vm.hostname = "VPNCA"
+    vpnCA.vm.network "public_network", ip: "192.168.100.26"
+  end
+  
+    
+end

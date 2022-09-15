@@ -1,2 +1,4 @@
-# first-TMS-repo
-First GIT project for TMS course DevOps
+Результат теста "BASH ДЛЯ НАЧИНАЮЩИХ":
+Пользователь - la13
+- заработанные очки - 24;
+- 8 из 8 верных ответов (100%)

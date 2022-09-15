@@ -12,13 +12,3 @@ for (( i=1 ; i<="$depth_gen" ; i++ )); do
     cd "$a"
     touch "$i".txt
 done
-
-
-
-
-
-
-
-
-
-

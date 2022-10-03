@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box_check_update = false
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+
+  config.vm.define "Master" do |master|
+    master.vm.box = "bento/ubuntu-20.04"
+    master.vm.synced_folder ".", "/home/vagrant/share_win"
+    master.vm.provider "virtualbox" do |vb1|
+      vb1.name = "Master"
+      vb1.gui = false
+      vb1.memory = "512"
+      vb1.cpus = 1
+    end
+    master.vm.hostname = "masteransible"
+    master.vm.network "public_network", ip: "192.168.1.241"
+  end
+
+  config.vm.define "CentOS" do |centos|
+    centos.vm.box = "bento/centos-8"
+    centos.vm.provider "virtualbox" do |vb2|
+      vb2.name = "CentOS"
+      vb2.gui = false
+      vb2.memory = "512"
+      vb2.cpus = 1
+    end
+    centos.vm.hostname = "centOS"
+    centos.vm.network "public_network", ip: "192.168.1.242"
+  end
+
+  config.vm.define "Debian" do |debian|
+    debian.vm.box = "bento/debian-9"
+    debian.vm.provider "virtualbox" do |vb3|
+      vb3.name = "Debian"
+      vb3.gui = false
+      vb3.memory = "512"
+      vb3.cpus = 1
+    end
+    debian.vm.hostname = "debian"
+    debian.vm.network "public_network", ip: "192.168.1.243"
+  end
+
+  config.vm.define "Ubuntu" do |ubuntu|
+    ubuntu.vm.box = "bento/ubuntu-20.04"
+    ubuntu.vm.provider "virtualbox" do |vb4|
+      vb4.name = "Ubuntu"
+      vb4.gui = false
+      vb4.memory = "512"
+      vb4.cpus = 1
+    end
+    ubuntu.vm.hostname = "ubuntu"
+    ubuntu.vm.network "public_network", ip: "192.168.1.244"
+  end
+    
+end

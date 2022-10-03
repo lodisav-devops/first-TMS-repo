@@ -1,0 +1,16 @@
+[CentOS_servers]
+CentOS    ansible_host=192.168.1.242
+
+[Debian_servers]
+Debian    ansible_host=192.168.1.243
+
+[Ubuntu_servers]
+Ubuntu    ansible_host=192.168.1.244
+
+[Debian_distr_family:children]
+Debian_servers
+Ubuntu_servers
+
+[Staging_servers:children]
+CentOS_servers
+Debian_distr_family

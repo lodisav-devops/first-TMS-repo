@@ -1,0 +1,9 @@
+---
+- name: Setting yum on the CentOS 8
+  hosts: CentOS_servers
+  become: yes
+
+  tasks:
+  - name: Setting yum
+    shell: "cd /etc/yum.repos.d/ | sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* | sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*"
+...

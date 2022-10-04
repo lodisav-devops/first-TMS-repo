@@ -1,5 +1,5 @@
 ---
-- name: Install HTTPD on the CentOS system
+- name: Setting yum on the CentOS 8
   hosts: CentOS_servers
   become: yes
 

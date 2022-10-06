@@ -1,0 +1,41 @@
+---
+- name: Install HTTPD and Copy Web Page
+  hosts: Staging_servers
+  become: yes
+
+  vars:
+    source: ./WebPage
+    destin: /var/www/html
+
+  tasks:
+  # OS RedHat_family
+  - block:
+    - name: Install Apache Web_Server on the RedHat
+      yum: name=httpd state=latest   
+    - name: Start and Enable Apache Web_server on the RedHat
+      service: name=httpd state=started enabled=yes
+    when: ansible_os_family == "RedHat"
+
+  # OS Debian_family
+  - block:
+    - name: Install Apache Web_Server on the Debian/Ubuntu system
+      apt: name=apache2 state=latest   
+    - name: Start and Enable Apache Web_server on the Debian/Ubuntu system
+      service: name=apache2 state=started enabled=yes
+    when: ansible_os_family == "Debian"
+
+  - name: Generating index.html file on the Servers
+    template: src={{ source }}/index.j2 dest={{ destin }}/index.html mode=0555
+    notify:
+      - Restart Apache RedHat
+      - Restart Apache Debian
+
+  handlers:
+  - name: Restart Apache RedHat
+    service: name=httpd state=restarted
+    when: ansible_os_family == "RedHat"
+
+  - name: Restart Apache Debian
+    service: name=apache2 state=restarted
+    when: ansible_os_family == "Debian"
+...

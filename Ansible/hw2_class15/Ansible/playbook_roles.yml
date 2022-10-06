@@ -1,0 +1,8 @@
+---
+- name: Install HTTPD and Copy Web Page
+  hosts: Staging_servers
+  become: yes
+
+  roles:
+    - install_apache
+...

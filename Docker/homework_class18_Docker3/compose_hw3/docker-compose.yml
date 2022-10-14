@@ -11,6 +11,7 @@ services:
     container_name: my-centos-7
     networks:
       - my_net
+    restart: always
 
   ubuntu-20.04:
     build: ./ubuntu_20.04
@@ -21,6 +22,7 @@ services:
     container_name: my-ubuntu-20.04
     networks:
       - my_net
+    restart: always
 
   ubuntu-22.04:
     build: ./ubuntu_22.04
@@ -31,6 +33,7 @@ services:
     container_name: my-ubuntu-22.04
     networks:
       - other_net
+    restart: always
 
 networks:
   my_net:

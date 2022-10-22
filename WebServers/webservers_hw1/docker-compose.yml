@@ -7,7 +7,7 @@ services:
     ports:
       - "8085:80"
     volumes:
-      - ./WebPage:/opt/nginx/html
+      - ./WebPage:/opt/nginx/html      
       - ./centos/nginx_logs:/opt/nginx/logs
     container_name: my-centos-7
     networks:

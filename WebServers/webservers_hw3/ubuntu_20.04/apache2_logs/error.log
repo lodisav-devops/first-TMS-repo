@@ -1,0 +1,61 @@
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Oct 22 19:01:08.174580 2022] [mpm_event:notice] [pid 14:tid 140590740773952] AH00489: Apache/2.4.41 (Ubuntu) configured -- resuming normal operations
+[Sat Oct 22 19:01:08.176131 2022] [core:notice] [pid 14:tid 140590740773952] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.3. Set the 'ServerName' directive globally to suppress this message
+[Sun Oct 23 11:35:40.500009 2022] [mpm_event:notice] [pid 14:tid 139938765995072] AH00489: Apache/2.4.41 (Ubuntu) configured -- resuming normal operations
+[Sun Oct 23 11:35:40.500290 2022] [core:notice] [pid 14:tid 139938765995072] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Wed Oct 26 15:17:16.718649 2022] [ssl:warn] [pid 7:tid 140275760389184] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.2. Set the 'ServerName' directive globally to suppress this message
+[Wed Oct 26 15:17:16.741328 2022] [ssl:warn] [pid 7:tid 140275760389184] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Oct 26 15:17:16.744989 2022] [mpm_event:notice] [pid 7:tid 140275760389184] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Wed Oct 26 15:17:16.745036 2022] [core:notice] [pid 7:tid 140275760389184] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Wed Oct 26 15:43:51.948590 2022] [ssl:warn] [pid 7:tid 140689483693120] AH01909: defubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.2. Set the 'ServerName' directive globally to suppress this message
+[Wed Oct 26 15:43:51.974795 2022] [ssl:warn] [pid 7:tid 140689483693120] AH01909: defubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Oct 26 15:43:51.982098 2022] [mpm_event:notice] [pid 7:tid 140689483693120] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Wed Oct 26 15:43:51.982151 2022] [core:notice] [pid 7:tid 140689483693120] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Wed Oct 26 15:49:15.445975 2022] [ssl:warn] [pid 7:tid 139660597357632] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.2. Set the 'ServerName' directive globally to suppress this message
+[Wed Oct 26 15:49:15.475278 2022] [ssl:warn] [pid 7:tid 139660597357632] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Oct 26 15:49:15.483331 2022] [mpm_event:notice] [pid 7:tid 139660597357632] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Wed Oct 26 15:49:15.483376 2022] [core:notice] [pid 7:tid 139660597357632] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 09:09:51.085539 2022] [ssl:warn] [pid 7:tid 140518628277312] AH01909: localhost.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 09:09:51.107093 2022] [ssl:warn] [pid 7:tid 140518628277312] AH01909: localhost.com:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 09:09:51.112982 2022] [mpm_event:notice] [pid 7:tid 140518628277312] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 09:09:51.113045 2022] [core:notice] [pid 7:tid 140518628277312] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 09:16:25.043567 2022] [ssl:warn] [pid 7:tid 139625472736320] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 09:16:25.059683 2022] [ssl:warn] [pid 7:tid 139625472736320] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 09:16:25.063058 2022] [mpm_event:notice] [pid 7:tid 139625472736320] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 09:16:25.063089 2022] [core:notice] [pid 7:tid 139625472736320] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 09:48:26.781023 2022] [ssl:warn] [pid 7:tid 140461464288320] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 09:48:26.795723 2022] [ssl:warn] [pid 7:tid 140461464288320] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 09:48:26.799829 2022] [mpm_event:notice] [pid 7:tid 140461464288320] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 09:48:26.799865 2022] [core:notice] [pid 7:tid 140461464288320] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 09:57:19.331826 2022] [ssl:warn] [pid 7:tid 140020704103488] AH01909: ubuntu20.04:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 09:57:19.346806 2022] [ssl:warn] [pid 7:tid 140020704103488] AH01909: ubuntu20.04:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 09:57:19.351131 2022] [mpm_event:notice] [pid 7:tid 140020704103488] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 09:57:19.351168 2022] [core:notice] [pid 7:tid 140020704103488] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 10:20:55.449191 2022] [ssl:warn] [pid 7:tid 139900444159040] AH01909: ubuntu20.04:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 10:20:55.468920 2022] [ssl:warn] [pid 7:tid 139900444159040] AH01909: ubuntu20.04:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 10:20:55.474485 2022] [mpm_event:notice] [pid 7:tid 139900444159040] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 10:20:55.474518 2022] [core:notice] [pid 7:tid 139900444159040] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 12:35:50.467169 2022] [ssl:warn] [pid 7:tid 139924256025664] AH01909: ubuntu20.04:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 12:35:50.491385 2022] [ssl:warn] [pid 7:tid 139924256025664] AH01909: ubuntu20.04:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 12:35:50.496288 2022] [mpm_event:notice] [pid 7:tid 139924256025664] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 12:35:50.496335 2022] [core:notice] [pid 7:tid 139924256025664] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 12:59:34.747384 2022] [ssl:warn] [pid 7:tid 140230650690624] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 12:59:34.771222 2022] [ssl:warn] [pid 7:tid 140230650690624] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 12:59:34.777246 2022] [mpm_event:notice] [pid 7:tid 140230650690624] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 12:59:34.777390 2022] [core:notice] [pid 7:tid 140230650690624] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Oct 27 13:04:36.769231 2022] [ssl:warn] [pid 7:tid 139742691531840] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.22.0.3. Set the 'ServerName' directive globally to suppress this message
+[Thu Oct 27 13:04:36.794249 2022] [ssl:warn] [pid 7:tid 139742691531840] AH01909: ubuntu20.04.com:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Oct 27 13:04:36.801304 2022] [mpm_event:notice] [pid 7:tid 139742691531840] AH00489: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f mod_wsgi/4.6.8 Python/2.7 configured -- resuming normal operations
+[Thu Oct 27 13:04:36.801336 2022] [core:notice] [pid 7:tid 139742691531840] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'

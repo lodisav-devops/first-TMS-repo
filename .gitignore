@@ -1,10 +1,10 @@
-/WebServers/webservers_hw3/centos/cert
-/WebServers/webservers_hw3/centos/nginx_logs
-/WebServers/webservers_hw3/ubuntu_20.04/cert
-/WebServers/webservers_hw3/ubuntu_20.04/apache2_logs
+/WebServers/webservers_hw3/centos/cert/
+/WebServers/webservers_hw3/centos/nginx_logs/
+/WebServers/webservers_hw3/ubuntu_20.04/cert/
+/WebServers/webservers_hw3/ubuntu_20.04/apache2_logs/
 /WebServers/webservers_hw3/ubuntu_20.04/apache2.conf
 /WebServers/webservers_hw3/ubuntu_20.04/other-vhosts-access-log.conf
-/WebServers/webservers_hw3/ubuntu_22.04/cert
-/WebServers/webservers_hw3/ubuntu_22.04/apache2_logs
+/WebServers/webservers_hw3/ubuntu_22.04/cert/
+/WebServers/webservers_hw3/ubuntu_22.04/apache2_logs/
 /WebServers/webservers_hw3/ubuntu_22.04/apache2.conf
 /WebServers/webservers_hw3/ubuntu_22.04/other-vhosts-access-log.conf

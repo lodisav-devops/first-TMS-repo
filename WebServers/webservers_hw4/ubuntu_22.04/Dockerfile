@@ -2,8 +2,6 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y  apache2 && \
     mkdir -p /opt/apache2/html /opt/apache2/logs /opt/cert
 COPY ./cert /opt/cert
-COPY ./apache2.conf /etc/apache2
-COPY ./other-vhosts-access-log.conf /etc/apache2/conf-available
 COPY ./webub22.04.com.conf /etc/apache2/sites-available
 RUN chown -R www-data:www-data /opt/cert && \
     a2enmod ssl && \

@@ -4,6 +4,9 @@ services:
 
   centos:
     build: ./centos
+    depends_on:
+      - "ubuntu-20.04"
+      - "ubuntu-22.04"
     image: nginx:centos 
     ports:
       - "8085:80"
@@ -17,6 +20,8 @@ services:
       - "ubuntu-22.04"
     networks:
       - my_net
+    extra_hosts:
+      - "my-domain:192.168.1.240"
     restart: always
 
   ubuntu-20.04:
@@ -31,6 +36,8 @@ services:
     container_name: my-ubuntu-20.04
     networks:
       - my_net
+    extra_hosts:
+      - "my-domain:192.168.1.240"
     restart: always
 
   ubuntu-22.04:
@@ -45,10 +52,16 @@ services:
     container_name: my-ubuntu-22.04
     networks:
       - my_net
+    extra_hosts:
+      - "my-domain:192.168.1.240"
     restart: always
 
   haproxy:
     build: ./haproxy
+    depends_on:
+      - "ubuntu-20.04"
+      - "ubuntu-22.04"
+      - "centos"
     image: haproxy:round
     ports:
       - "8081:80"
@@ -59,6 +72,8 @@ services:
       - "ubuntu-22.04"
     networks:
       - my_net
+    extra_hosts:
+      - "my-domain:192.168.1.240"
     restart: always
 
 networks:

@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  centos_db:
+    build: ./centos
+    image: postgres:v1 
+    ports:
+      - "5432:5432"   
+    container_name: postgresql
+    networks:
+      - my_net
+    restart: always
+
+  ubuntu-22.04:
+    build: ./ubuntu_22.04
+    image: mysql:v1
+    ports:
+      - "3306:3306"   
+    container_name: mysqldb
+    networks:
+      - my_net   
+    restart: always
+
+networks:
+  my_net:  

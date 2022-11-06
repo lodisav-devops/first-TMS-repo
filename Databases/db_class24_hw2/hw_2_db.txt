@@ -1,0 +1,164 @@
+##### Connect to Mysql #####
+mysql -u root -p
+
+##### Create user and Database #####
+CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';
+CREATE DATABASE testDB;
+GRANT ALL ON testDB.* TO 'test'@'localhost';
+FLUSH PRIVILEGES;
+exit
+
+##### Change user and reconnect to mysql #####
+mysql -u test -p
+USE testDB;
+
+##### Create Table 1 and Table 2 #####
+CREATE TABLE Table1 (
+    Id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(10) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL
+    );
+CREATE TABLE Table2 (
+    Id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    Email VARCHAR(255) NOT NULL,
+    Name VARCHAR(15) NOT NULL,
+    Surname VARCHAR(255) NOT NULL,
+    Age TINYINT UNSIGNED NOT NULL
+    );
+
+##### Insert into Table1 information #####
+INSERT INTO Table1 (Username, Password, Email)
+    VALUES ('ecce46', 'OpTr6345!', 'eugeniy_ecce46@gmail.com');
+INSERT INTO Table1 (Username, Password, Email)
+    VALUES ('alexgus', 'gsY3jkk81_jdk', 'guskov_poland@yandex.ru');
+INSERT INTO Table1 (Username, Password, Email)
+    VALUES ('guran_alex', 'LndPs91JnD538', 'guranchik.alex@21vek.by');
+INSERT INTO Table1 (Username, Password, Email)
+    VALUES ('shamanalex', 'lslld92719HS', 'alexshaman@mail.ru');
+INSERT INTO Table1 (Username, Password, Email)
+    VALUES ('rom_odin', 'lz,slds,d555', 'roman_odin13@ops.gov.by');
+INSERT INTO Table1 (Username, Password, Email)
+    -> VALUES ('lod_tema', 'NaYDl;a23OO*jask', 'lodis.art@test.com');
+
+SELECT * FROM Table1;
++----+------------+------------------+--------------------------+
+| Id | Username   | Password         | Email                    |
++----+------------+------------------+--------------------------+
+|  1 | ecce46     | OpTr6345!        | eugeniy_ecce46@gmail.com |
+|  2 | alexgus    | gsY3jkk81_jdk    | guskov_poland@yandex.ru  |
+|  3 | guran_alex | LndPs91JnD538    | guranchik.alex@21vek.by  |
+|  4 | shamanalex | lslld92719HS     | alexshaman@mail.ru       |
+|  5 | rom_odin   | lz,slds,d555     | roman_odin13@ops.gov.by  |
+|  6 | lod_tema   | NaYDl;a23OO*jask | lodis.art@test.com       |
++----+------------+------------------+--------------------------+
+
+##### Insert into Table2 information #####
+INSERT INTO Table2 (Email, Name, Surname, Age)
+    VALUES ('roman_odin13@ops.gov.by', 'Roman', 'Odinichenko', '30');
+INSERT INTO Table2 (Email, Name, Surname, Age)
+    VALUES ('guskov_poland@yandex.ru', 'Alexey', 'Guskov', '35');
+INSERT INTO Table2 (Email, Name, Surname, Age)
+    VALUES ('lodis.art@test.com', 'Artyom', 'Lodis', '30');
+INSERT INTO Table2 (Email, Name, Surname, Age)
+    VALUES ('guranchik.alex@21vek.by', 'Alexey', 'Guranchik', '38');
+INSERT INTO Table2 (Email, Name, Surname, Age)
+    VALUES ('eugeniy_ecce46@gmail.com', 'Evgeniy', 'Bondar', '39');
+INSERT INTO Table2 (Email, Name, Surname, Age)
+    VALUES ('alexshaman@mail.ru', 'Alex', 'Shamanov', '24');
+
+SELECT * FROM Table2;
++----+--------------------------+---------+-------------+-----+
+| Id | Email                    | Name    | Surname     | Age |
++----+--------------------------+---------+-------------+-----+
+|  1 | roman_odin13@ops.gov.by  | Roman   | Odinichenko |  30 |
+|  2 | guskov_poland@yandex.ru  | Alexey  | Guskov      |  35 |
+|  3 | lodis.art@test.com       | Artyom  | Lodis       |  30 |
+|  4 | guranchik.alex@21vek.by  | Alexey  | Guranchik   |  38 |
+|  5 | eugeniy_ecce46@gmail.com | Evgeniy | Bondar      |  39 |
+|  6 | alexshaman@mail.ru       | Alex    | Shamanov    |  24 |
++----+--------------------------+---------+-------------+-----+
+
+Exercise 1.
+##### Вывод данных из первой таблицы в виде отсортированных по username #####
+SELECT * FROM Table1 ORDER BY Username; # по возрастанию
++----+------------+------------------+--------------------------+
+| Id | Username   | Password         | Email                    |
++----+------------+------------------+--------------------------+
+|  2 | alexgus    | gsY3jkk81_jdk    | guskov_poland@yandex.ru  |
+|  1 | ecce46     | OpTr6345!        | eugeniy_ecce46@gmail.com |
+|  3 | guran_alex | LndPs91JnD538    | guranchik.alex@21vek.by  |
+|  6 | lod_tema   | NaYDl;a23OO*jask | lodis.art@test.com       |
+|  5 | rom_odin   | lz,slds,d555     | roman_odin13@ops.gov.by  |
+|  4 | shamanalex | lslld92719HS     | alexshaman@mail.ru       |
++----+------------+------------------+--------------------------+
+
+SELECT * FROM Table1 ORDER BY Username DESC; # по убыванию
++----+------------+------------------+--------------------------+
+| Id | Username   | Password         | Email                    |
++----+------------+------------------+--------------------------+
+|  4 | shamanalex | lslld92719HS     | alexshaman@mail.ru       |
+|  5 | rom_odin   | lz,slds,d555     | roman_odin13@ops.gov.by  |
+|  6 | lod_tema   | NaYDl;a23OO*jask | lodis.art@test.com       |
+|  3 | guran_alex | LndPs91JnD538    | guranchik.alex@21vek.by  |
+|  1 | ecce46     | OpTr6345!        | eugeniy_ecce46@gmail.com |
+|  2 | alexgus    | gsY3jkk81_jdk    | guskov_poland@yandex.ru  |
++----+------------+------------------+--------------------------+
+
+Exercise 2.
+##### Вывод всех данных пользователей из обеих таблиц в одном output #####
+SELECT Table2.Surname, Table2.Name, Table2.Age, Table1.Email, Table1.Username, Table1.Password
+    FROM Table1 CROSS JOIN Table2 Where Table1.Email=Table2.Email
+    ORDER BY Table2.Surname;
++-------------+---------+-----+--------------------------+------------+------------------+
+| Surname     | Name    | Age | Email                    | Username   | Password         |
++-------------+---------+-----+--------------------------+------------+------------------+
+| Bondar      | Evgeniy |  39 | eugeniy_ecce46@gmail.com | ecce46     | OpTr6345!        |
+| Guranchik   | Alexey  |  38 | guranchik.alex@21vek.by  | guran_alex | LndPs91JnD538    |
+| Guskov      | Alexey  |  35 | guskov_poland@yandex.ru  | alexgus    | gsY3jkk81_jdk    |
+| Lodis       | Artyom  |  30 | lodis.art@test.com       | lod_tema   | NaYDl;a23OO*jask |
+| Odinichenko | Roman   |  30 | roman_odin13@ops.gov.by  | rom_odin   | lz,slds,d555     |
+| Shamanov    | Alex    |  24 | alexshaman@mail.ru       | shamanalex | lslld92719HS     |
++-------------+---------+-----+--------------------------+------------+------------------+
+
+SELECT * FROM Table1 INNER JOIN Table2 using(Email);
++--------------------------+----+------------+------------------+----+---------+-------------+-----+
+| Email                    | Id | Username   | Password         | Id | Name    | Surname     | Age |
++--------------------------+----+------------+------------------+----+---------+-------------+-----+
+| roman_odin13@ops.gov.by  |  5 | rom_odin   | lz,slds,d555     |  1 | Roman   | Odinichenko |  30 |
+| guskov_poland@yandex.ru  |  2 | alexgus    | gsY3jkk81_jdk    |  2 | Alexey  | Guskov      |  35 |
+| lodis.art@test.com       |  6 | lod_tema   | NaYDl;a23OO*jask |  3 | Artyom  | Lodis       |  30 |
+| guranchik.alex@21vek.by  |  3 | guran_alex | LndPs91JnD538    |  4 | Alexey  | Guranchik   |  38 |
+| eugeniy_ecce46@gmail.com |  1 | ecce46     | OpTr6345!        |  5 | Evgeniy | Bondar      |  39 |
+| alexshaman@mail.ru       |  4 | shamanalex | lslld92719HS     |  6 | Alex    | Shamanov    |  24 |
++--------------------------+----+------------+------------------+----+---------+-------------+-----+
+
+SELECT Table2.Id, Table2.Surname, Table2.Name, Table2.Age, Table2.Email, Table1.Id, Table1.Username, Table1.Password
+    FROM Table1 INNER JOIN Table2 using(Email)
+    ORDER BY Table2.Surname;
++----+-------------+---------+-----+--------------------------+----+------------+------------------+
+| Id | Surname     | Name    | Age | Email                    | Id | Username   | Password         |
++----+-------------+---------+-----+--------------------------+----+------------+------------------+
+|  5 | Bondar      | Evgeniy |  39 | eugeniy_ecce46@gmail.com |  1 | ecce46     | OpTr6345!        |
+|  4 | Guranchik   | Alexey  |  38 | guranchik.alex@21vek.by  |  3 | guran_alex | LndPs91JnD538    |
+|  2 | Guskov      | Alexey  |  35 | guskov_poland@yandex.ru  |  2 | alexgus    | gsY3jkk81_jdk    |
+|  3 | Lodis       | Artyom  |  30 | lodis.art@test.com       |  6 | lod_tema   | NaYDl;a23OO*jask |
+|  1 | Odinichenko | Roman   |  30 | roman_odin13@ops.gov.by  |  5 | rom_odin   | lz,slds,d555     |
+|  6 | Shamanov    | Alex    |  24 | alexshaman@mail.ru       |  4 | shamanalex | lslld92719HS     |
++----+-------------+---------+-----+--------------------------+----+------------+------------------+
+
+Exercise 3.
+##### Вывод username и age пользователей с сортировкой по age #####
+SELECT Table1.Username, Table2.Age FROM Table1
+    CROSS JOIN Table2 Where Table1.Email=Table2.Email
+    ORDER BY Table2.Age;
++------------+-----+
+| Username   | Age |
++------------+-----+
+| shamanalex |  24 |
+| rom_odin   |  30 |
+| lod_tema   |  30 |
+| alexgus    |  35 |
+| guran_alex |  38 |
+| ecce46     |  39 |
++------------+-----+

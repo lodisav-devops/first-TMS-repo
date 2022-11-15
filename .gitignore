@@ -8,3 +8,11 @@
 /WebServers/webservers_hw4/ubuntu_2*.04/apache2_logs/
 /WebServers/webservers_hw4/ubuntu_2*.04/apache2.conf
 /WebServers/webservers_hw4/ubuntu_2*.04/other-vhosts-access-log.conf
+/Docker/docker_infrastucture_hw25/.env
+/Docker/docker_infrastucture_hw25/mysql/data/
+/Docker/docker_infrastucture_hw25/backend/apache2_configs/apache2.conf
+/Docker/docker_infrastucture_hw25/backend/apache2_configs/other-vhosts-access-log.conf
+/Docker/docker_infrastucture_hw25/backend/apache2_logs/
+/Docker/docker_infrastucture_hw25/backend/cert/
+/Docker/docker_infrastucture_hw25/frontend/cert/
+/Docker/docker_infrastucture_hw25/frontend/nginx_logs/

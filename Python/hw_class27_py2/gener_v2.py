@@ -19,7 +19,7 @@ for i in number_of_attempts:
    else:
       def last_fail():
          if i == 3:
-            print("Sorry you didn't guess the number!!!)")
+            print(f"Sorry you didn't guess the number!!!, Hidden number - {random_number}")
             print("You have used up all your attempts!!!")
             return
          elif entered_number < random_number:

@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"   
+    container_name: mysqldb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - my_net   
+    restart: always
+
+  backend:
+    build: ./backend
+    depends_on:
+      - "db"
+    image: backend:v1
+    ports:
+      - "8082:80"
+      - "44302:443"
+    volumes:
+      - ./backend/apache2_logs:/opt/apache2/logs
+    container_name: pma
+    links:
+      - "db"
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      PMA_ARBITRARY: ${PMA_ARBITRARY}
+    networks:
+      - my_net
+    extra_hosts:
+      - "my-domain:192.168.1.240"
+      - "db:192.168.1.240"
+    restart: always
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - "db"
+      - "backend"
+    image: frontend:v1 
+    ports:
+      - "8081:80"
+      - "44301:443"
+    volumes:     
+      - ./frontend/nginx_logs:/opt/nginx/logs
+    container_name: nginx_proxy_reverse
+    links:
+      - "backend"
+    networks:
+      - my_net
+    extra_hosts:
+      - "my-domain:192.168.1.240"
+    restart: always
+
+networks:
+  my_net:

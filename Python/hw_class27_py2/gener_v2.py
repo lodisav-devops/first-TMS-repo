@@ -29,8 +29,6 @@ def game_number():
          last_fail()
    return
 
-game_number()
-
 def continue_game():
    question_continue = input("If you want to continue the game please answer (yes or no): ")
    if question_continue == "yes":
@@ -40,5 +38,6 @@ def continue_game():
    else:
       print("You entered an invalid value, please try again!")
       continue_game()
-      
+
+game_number()
 continue_game()

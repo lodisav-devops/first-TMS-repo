@@ -27,4 +27,4 @@ for i in number_of_attempts:
          else:
             print(f"Sorry you didn't guess the number (this number less than {entered_number}), attempt again")
       last_fail()
-      
+ 

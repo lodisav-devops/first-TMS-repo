@@ -19,7 +19,7 @@ def read_data_host():
     amount_host_file = text_file.count(host_search)
     if amount_host_file == 0:
         print("This hostname is not in the data")
-        file_handling()
+        continue_work()
     else:
         print("This hostname is in the datafile:")
         read_file = open(my_file, mode='r', encoding='utf_8')
@@ -38,7 +38,7 @@ def read_data_username():
     amount_username_file = text_file.count(username_search)
     if amount_username_file == 0:
         print("This username is not in the data")
-        file_handling()
+        continue_work()
     else:
         print("This username is in the datafile:")
         read_file = open(my_file, mode='r', encoding='utf_8')

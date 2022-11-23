@@ -1,0 +1,5 @@
+Host: IT001, Username: admin, Password: pass
+Host: IT001, Username: user, Password: userpass
+Host: IT001, Username: lodis, Password: passlod
+Host: IT002, Username: admin, Password: paSSwOrd
+Host: IT002, Username: teacher, Password: teachpass

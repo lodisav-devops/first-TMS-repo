@@ -1,6 +1,7 @@
 import random
 
 def continue_game():
+   ''' Function to continue or stop playing in this game '''
    question_continue = input("If you want to continue the game please answer (yes or no): ")
    if question_continue == "yes":
       game_number()
@@ -11,6 +12,7 @@ def continue_game():
       continue_game()
 
 def game_number():
+   ''' Basic function for this program '''
    try:
       lower_limit = int(input("Please enter an integer lower limit: "))
       upper_limit = int(input("Please enter an integer upper limit: "))

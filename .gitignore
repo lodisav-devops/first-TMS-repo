@@ -17,3 +17,5 @@
 /Docker/docker_infrastucture_hw25/frontend/cert/
 /Docker/docker_infrastucture_hw25/frontend/nginx_logs/
 /Python/hw_class28_py3/data.txt
+/Jenkins/hw_class32(GUI_CI_CD)/docker/cert/
+/Jenkins/hw_class32(GUI_CI_CD)/docker/apache2.conf

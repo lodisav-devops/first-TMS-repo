@@ -1,0 +1,49 @@
+-----General-----
+---This project is parameterized---
+
+---1 parameter---
+Choice Parameter
+Name - ENV_DOCKER_IMAGES_NAME
+Choices - test
+          apache
+          docker_ci
+---2 parameter---
+Choice Parameter
+Name - ENV_DOCKER_IMAGES_TAG
+Choices - v1
+          v2
+          v3
+          v4
+          v5
+---3 parameter---
+String Parameter
+Name - ENV_DOCKER_CONTAINER_REDIRECT
+Default Value - 44300
+---4 parameter---
+String Parameter
+Name - ENV_DOCKER_CONTAINER_NAME
+Default Value - jenkins
+---5 parameter---
+String Parameter
+Name - ENV_DOCKER_CONTAINER_PORT
+Default Value - 8081
+
+-----Source Code Management-----
+Git
+Repositories
+Repository URL - git@github.com:lodisav-devops/test-jenkins.git
+Credentials - docker_hw
+Branches to build
+Branch Specifier (blank for 'any') - */master
+
+-----Build Steps-----
+---Execute shell---
+ls -lah docker/
+sudo docker build -t "$ENV_DOCKER_IMAGES_NAME":"$ENV_DOCKER_IMAGES_TAG" --build-arg DOCKER_IMAGES_NAME="$ENV_DOCKER_IMAGES_NAME" --build-arg DOCKER_IMAGES_TAG="$ENV_DOCKER_IMAGES_TAG" --build-arg DOCKER_CONTAINER_REDIRECT="$ENV_DOCKER_CONTAINER_REDIRECT" docker/.
+sudo docker images
+
+-----Post-build Actions-----
+---Trigger parameterized build on other projects---
+Projects to build - docker_apache_CD
+Trigger when build is - Stable
+Add Parameters - Current build parameters

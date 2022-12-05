@@ -1,0 +1,33 @@
+-----General-----
+---This project is parameterized---
+
+---1 parameter---
+Choice Parameter
+Name - ENV_DOCKER_IMAGES_NAME
+Choices - test
+          apache
+          docker_ci
+---2 parameter---
+Choice Parameter
+Name - ENV_DOCKER_IMAGES_TAG
+Choices - v1
+          v2
+          v3
+          v4
+          v5
+---3 parameter---
+String Parameter
+Name - ENV_DOCKER_CONTAINER_REDIRECT
+Default Value - 
+---4 parameter---
+String Parameter
+Name - ENV_DOCKER_CONTAINER_NAME
+Default Value - 
+---5 parameter---
+String Parameter
+Name - ENV_DOCKER_CONTAINER_PORT
+Default Value - 
+
+-----Build Steps-----
+---Execute shell---
+sudo docker run -d --rm --name "$ENV_DOCKER_CONTAINER_NAME"_"$ENV_DOCKER_IMAGES_NAME" -p "$ENV_DOCKER_CONTAINER_PORT":80 -p "$ENV_DOCKER_CONTAINER_REDIRECT":443 "$ENV_DOCKER_IMAGES_NAME":"$ENV_DOCKER_IMAGES_TAG"

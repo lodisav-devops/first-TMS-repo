@@ -1,0 +1,9 @@
+Started by upstream project "docker_apache_CI" build number 20
+originally caused by:
+ Started by user Artyom Lodis
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/docker_apache_CD
+[docker_apache_CD] $ /bin/sh -xe /tmp/jenkins9570950202437360438.sh
++ sudo docker run -d --rm --name jenkins_test -p 8081:80 -p 44306:443 test:v1
+4e138f345a0bda0042d97c9bd363bd9734bf055fd283e5ff13fb77c1775331cf
+Finished: SUCCESS

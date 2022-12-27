@@ -19,9 +19,7 @@ cp /home/ec2-user/my_script.sh /home/ec2-user/project
 
 # создание папки для хранения backup
 mkdir /home/ec2-user/backup
-cd /home/ec2-user/backup
-aws s3 sync s3://"$s3_bucket_name" .
-cd /home/ec2-user
+aws s3 sync s3://"$s3_bucket_name" /home/ec2-user/backup
 
 # создание backup
 tar -czf "$backup_name-$date_now".tar.gz project
@@ -37,9 +35,7 @@ function checkConditionDeleteOldUploadFile {
         rm /home/ec2-user/backup/"$old_file"
         checkConditionDeleteOldUploadFile
     else
-        cd /home/ec2-user/backup
-        aws s3 sync . s3://"$s3_bucket_name" --delete
-        cd /home/ec2-user
+        aws s3 sync /home/ec2-user/backup s3://"$s3_bucket_name" --delete        
     fi
 }
 

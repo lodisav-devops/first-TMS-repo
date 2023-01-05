@@ -673,6 +673,8 @@ Resources:
       MinSize: '2'
       MaxSize: '10'
       DesiredCapacity: '4'
+      LoadBalancerNames:
+        - !Ref BackendLoadBalancer
       Tags:
         - Key: Environment
           Value: Backend
@@ -770,7 +772,7 @@ Resources:
           Value: Frontend
           
 #----- Backend Load Balancer -----
-  FrontendLoadBalancer:
+  BackendLoadBalancer:
     Type: "AWS::ElasticLoadBalancing::LoadBalancer"
     Properties:
       LoadBalancerName: !Ref BackendLoadBalancerName

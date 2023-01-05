@@ -1,0 +1,800 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "AWS homework of lesson 39"
+
+Metadata:
+ AWS::CloudFormation::Interface: 
+    ParameterGroups: 
+      -
+        Label:
+          default: "Network Configuration"
+        Parameters:
+          - Environment
+          - VPCBlock
+          - PublicSubnetACIDR
+          - PublicSubnetBCIDR
+          - PrivateSubnetA1CIDR
+          - PrivateSubnetB1CIDR
+          - PrivateSubnetA2CIDR
+          - PrivateSubnetB2CIDR
+
+      -
+        Label:
+          default: "Bastion Configuration"
+        Parameters:
+          - BastionSecurityGroupName
+          - BastionSSHLocation
+          - BastionImageId
+          - BastionInstanceType
+          - BastionLaunchConfigurationName
+          - BastionKeyName
+          - BastionAutoScalingGroupName
+
+      -
+        Label:
+          default: "Overall Servers Configuration"
+        Parameters:
+          - ServerSecurityGroupName
+          - ServerHTTPLocation
+
+      -
+        Label:
+          default: "Frontend Servers Configuration"
+        Parameters:
+          - FrontendImageId
+          - FrontendInstanceType
+          - FrontendLaunchConfigurationName
+          - FrontendKeyName
+          - FrontendAutoScalingGroupName
+
+      -
+        Label:
+          default: "Backend Servers Configuration"
+        Parameters:
+          - BackendImageId
+          - BackendInstanceType
+          - BackendLaunchConfigurationName
+          - BackendKeyName
+          - BackendAutoScalingGroupName
+      
+      -
+        Label:
+          default: "Load Balancers Configuration"
+        Parameters:
+          - FrontendLoadBalancerName
+          - BackendLoadBalancerName
+
+Parameters:
+  Environment:
+    Type: String
+    Default: "My-Network"
+
+  VPCBlock:
+    Type: String
+    Default: '10.33.0.0/16'
+    
+  PublicSubnetACIDR:
+    Type: String
+    Default: '10.33.10.0/24'
+    Description: "Public Subnet-A CIDR"
+
+  PublicSubnetBCIDR:
+    Type: String
+    Default: '10.33.20.0/24'
+    Description: "Public Subnet-B CIDR"
+  
+  PrivateSubnetA1CIDR: 
+    Type: String
+    Default: '10.33.11.0/24'
+    Description: "Private Subnet-A1 CIDR frontend"
+    
+  PrivateSubnetB1CIDR: 
+    Type: String
+    Default: '10.33.21.0/24'
+    Description: "Private Subnet-B1 CIDR frontend"
+  
+  PrivateSubnetA2CIDR: 
+    Type: String
+    Default: '10.33.12.0/24'
+    Description: "Private Subnet-A2 CIDR backend"
+  
+  PrivateSubnetB2CIDR: 
+    Type: String
+    Default: '10.33.22.0/24'
+    Description: "Private Subnet-B2 CIDR backend"
+
+  BastionSecurityGroupName:
+    Type: String
+    Default: 'SSH-Access-for-Bastion'
+    Description: "Name of the Bastion Security Group"
+
+  BastionSSHLocation:
+    Type: String
+    Description: "The IP address range that can be used to SSH to the EC2 instances"
+    MinLength: '9'
+    MaxLength: '18'
+    Default: '0.0.0.0/0'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: "must be a valid IP CIDR range of the form x.x.x.x/x."
+  
+  BastionImageId:
+    Type: String
+    Description: "Bastion server instance image Id"
+    Default: 'ami-0fe0b2cf0e1f25c8a'
+    AllowedValues:
+      - ami-0fe0b2cf0e1f25c8a
+      - ami-08c149f9b2ace933d
+      - ami-0ac03fb170870f7c7
+      - ami-05e786af422f8082a
+      - ami-00463ddd1036a8eb6
+      - ami-07cd20392675b2b83
+  
+  BastionInstanceType:
+    Type: String
+    Description: "Bastion server instance type"
+    Default: 't2.micro'
+    AllowedValues:
+      - t2.nano
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+  
+  BastionLaunchConfigurationName:
+    Type: String
+    Description: "Bastion Launch Configuration server name"
+    Default: 'Bastion-LC'
+
+  BastionKeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: "Name of an existing EC2 KeyPair to enable SSH access to the Bastion instance"
+  
+  BastionAutoScalingGroupName:
+    Type: String
+    Description: "Bastion Auto Scaling Group name"
+    Default: 'Bastion-ASG'
+
+  ServerSecurityGroupName:
+    Type: String
+    Default: 'HTTP-Access-for-Servers'
+    Description: "Name of the overall Servers Security Group"
+
+  ServerHTTPLocation:
+    Type: String
+    Description: "The IP address range that can be used to HTTP to the EC2 instances"
+    MinLength: '9'
+    MaxLength: '18'
+    Default: '0.0.0.0/0'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: "must be a valid IP CIDR range of the form x.x.x.x/x."
+
+  FrontendImageId:
+    Type: String
+    Description: "Frontend servers instance image Id"
+    Default: 'ami-0fe0b2cf0e1f25c8a'
+    AllowedValues:
+      - ami-0fe0b2cf0e1f25c8a
+      - ami-08c149f9b2ace933d
+      - ami-0ac03fb170870f7c7
+      - ami-05e786af422f8082a
+      - ami-00463ddd1036a8eb6
+      - ami-07cd20392675b2b83
+
+  FrontendInstanceType:
+    Type: String
+    Description: "Frontend servers instance type"
+    Default: 't3.medium'
+    AllowedValues:
+      - t2.micro
+      - t3.medium
+      - t3.large
+      - t3.xlarge
+      - t3.2xlarge
+
+  FrontendLaunchConfigurationName:
+    Type: String
+    Description: "Frontend Launch Configuration servers name"
+    Default: 'Frontend-LC'
+
+  FrontendKeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: "Name of an existing EC2 KeyPair to enable SSH access to the Frontend instance"
+  
+  FrontendAutoScalingGroupName:
+    Type: String
+    Description: "Frontend Auto Scaling Group name"
+    Default: 'Frontend-ASG'
+
+  BackendImageId:
+    Type: String
+    Description: "Backend servers instance image Id"
+    Default: 'ami-0fe0b2cf0e1f25c8a'
+    AllowedValues:
+      - ami-0fe0b2cf0e1f25c8a
+      - ami-08c149f9b2ace933d
+      - ami-0ac03fb170870f7c7
+      - ami-05e786af422f8082a
+      - ami-00463ddd1036a8eb6
+      - ami-07cd20392675b2b83
+
+  BackendInstanceType:
+    Type: String
+    Description: "Backend servers instance type"
+    Default: 'c3.xlarge'
+    AllowedValues:
+      - t2.micro
+      - t3.medium
+      - c1.medium
+      - c3.large
+      - c3.xlarge
+      - c3.2xlarge
+      - c3.4xlarge
+      - c3.8xlarge
+
+  BackendLaunchConfigurationName:
+    Type: String
+    Description: "Backend Launch Configuration servers name"
+    Default: 'Backend-LC'
+
+  BackendKeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: "Name of an existing EC2 KeyPair to enable SSH access to the Backend instance"
+  
+  BackendAutoScalingGroupName:
+    Type: String
+    Description: "Backend Auto Scaling Group name"
+    Default: 'Backend-ASG'
+
+  FrontendLoadBalancerName:
+    Type: String
+    Description: "Frontend Load Balancer name"
+    Default: 'Frontend-LB'
+
+  BackendLoadBalancerName:
+    Type: String
+    Description: "Backend Load Balancer name"
+    Default: 'Backend-LB'
+
+Resources:
+#------ VPC -----
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCBlock
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Ref Environment
+          
+#----- Internet Gateway -----
+  GatewayInternet:
+    Type: "AWS::EC2::InternetGateway"
+    Properties: 
+      Tags:
+        - Key: Name
+          Value: !Ref Environment
+
+  #----- Attachment IGW to VPC -----
+  GatewayAttachmentInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId:  !Ref VPC
+      InternetGatewayId: !Ref GatewayInternet
+
+#----- Public Subnets -----
+  PublicSubnetA:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "PublicSubnetACIDR"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Public-A" ] ]
+
+  PublicSubnetB:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "PublicSubnetBCIDR"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Public-B" ] ]
+
+#----- Public RouteTables -----
+  #----- Creation of Empty Route Table -----
+  RouteTableForPublicSubnet:
+    Type: "AWS::EC2::RouteTable"                    
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [ " ", [ !Ref Environment, "PublicRouteTable" ] ]
+
+  #----- Creation and Attachment of Routes for Route Table -----
+  RoutesForPublicRouteTable:
+    Type: "AWS::EC2::Route"
+    DependsOn: GatewayAttachmentInternet
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref GatewayInternet
+      RouteTableId: !Ref RouteTableForPublicSubnet
+
+#----- Associate Public Route for Public Subnets -----    
+  RouteAssociationPublicA:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForPublicSubnet
+      SubnetId: !Ref PublicSubnetA
+    
+  RouteAssociationPublicB:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForPublicSubnet
+      SubnetId: !Ref PublicSubnetB
+
+#----- ElasticIP for NAT Gateways -----
+  EIP1:
+    Type: "AWS::EC2::EIP"
+    DependsOn : GatewayAttachmentInternet
+    Properties:
+      Domain: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: EIP-NATGateway-A
+
+  EIP2:
+    Type: "AWS::EC2::EIP"
+    DependsOn : GatewayAttachmentInternet
+    Properties:
+      Domain: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: EIP-NATGateway-B
+
+#----- NAT Gateways -----
+  NATGatewayA:
+    DependsOn: GatewayAttachmentInternet
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      AllocationId:  !GetAtt EIP1.AllocationId
+      Tags:
+        - Key: Name
+          Value: NATGateway-A
+  
+  NATGatewayB:
+    DependsOn: GatewayAttachmentInternet
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref PublicSubnetB
+      AllocationId:  !GetAtt EIP2.AllocationId
+      Tags:
+        - Key: Name
+          Value: NATGateway-B
+
+#----- Private Subnets -----
+  PrivateSubnetA1:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "PrivateSubnetA1CIDR"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Private-A1" ] ]
+  
+  PrivateSubnetA2:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "PrivateSubnetA2CIDR"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Private-A2" ] ]
+
+  PrivateSubnetB1:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "PrivateSubnetB1CIDR"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Private-B1" ] ]
+  
+  PrivateSubnetB2:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "PrivateSubnetB2CIDR"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Private-B2" ] ]
+
+#----- Private RouteTables -----
+  RouteTableForPrivateSubnetA:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [ " ", [ !Ref Environment, "PrivateRouteTableA" ] ]
+          
+  RouteTableForPrivateSubnetB:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [ " ", [ !Ref Environment, "PrivateRouteTableB" ] ]
+
+#----- Routes for Private Subnet RouteTables using NAT -----
+  RoutesForPrivateRouteTableA:
+    Type: AWS::EC2::Route
+    DependsOn: NATGatewayA
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      RouteTableId: !Ref RouteTableForPrivateSubnetA
+      NatGatewayId: !Ref NATGatewayA
+    
+  RoutesForPrivateRouteTableB:
+    Type: AWS::EC2::Route
+    DependsOn: NATGatewayB
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      RouteTableId: !Ref RouteTableForPrivateSubnetB
+      NatGatewayId: !Ref NATGatewayB
+    
+#----- Associate Private Route for Private Subnets -----
+ 
+  RouteAssociationPrivateA1:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForPrivateSubnetA
+      SubnetId: !Ref PrivateSubnetA1
+
+  RouteAssociationPrivateA2:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForPrivateSubnetA
+      SubnetId: !Ref PrivateSubnetA2
+
+  RouteAssociationPrivateB1:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForPrivateSubnetB
+      SubnetId: !Ref PrivateSubnetB1
+  
+  RouteAssociationPrivateB2:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForPrivateSubnetB
+      SubnetId: !Ref PrivateSubnetB2
+
+#----- Security Group for Bastion -----
+  BastionSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable SSH via port 22"
+      GroupName: !Ref BastionSecurityGroupName
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: !Ref BastionSSHLocation
+
+#----- Bastion LaunchConfiguration -----
+  BastionLaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    Properties:
+      ImageId: !Ref BastionImageId
+      InstanceType: !Ref BastionInstanceType
+      LaunchConfigurationName: !Ref BastionLaunchConfigurationName
+      AssociatePublicIpAddress: true
+      KeyName: !Ref BastionKeyName
+      SecurityGroups:
+        - !Ref BastionSecurityGroup
+  
+#----- Bastion AutoScaling Group -----
+  BastionAutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    DependsOn: GatewayAttachmentInternet
+    Properties:
+      AutoScalingGroupName: !Ref BastionAutoScalingGroupName
+      LaunchConfigurationName: !Ref BastionLaunchConfiguration
+      VPCZoneIdentifier:
+        - !Ref PublicSubnetA
+        - !Ref PublicSubnetB
+      MinSize: '1'
+      MaxSize: '1'
+      Tags:
+        - Key: Environment
+          Value: Bastion
+          PropagateAtLaunch: true
+        - Key: Owner
+          Value: "Lodis Artyom"
+          PropagateAtLaunch: true
+        - Key: Name
+          Value: Bastion-Instance
+          PropagateAtLaunch: true
+
+#----- Security Group for Frontend and Backend -----
+  ServerSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable HTTP via port 80"
+      GroupName: !Ref ServerSecurityGroupName
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: !Ref ServerHTTPLocation
+
+#----- BastionSecurityGroupEgress - Servers SecurityGroupIngress -----
+  OutboundRule:
+    Type: "AWS::EC2::SecurityGroupEgress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - ServerSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+
+  InboundRule:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - ServerSecurityGroup
+          - GroupId
+
+#----- Frontend LaunchConfiguration -----
+  FrontendLaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    Properties:
+      ImageId: !Ref FrontendImageId
+      InstanceType: !Ref FrontendInstanceType
+      LaunchConfigurationName: !Ref FrontendLaunchConfigurationName
+      AssociatePublicIpAddress: false
+      KeyName: !Ref FrontendKeyName
+      SecurityGroups:
+        - !Ref ServerSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: '30'
+            VolumeType: gp2
+        - DeviceName: /dev/sdb
+          Ebs:
+            VolumeSize: '150'
+            VolumeType: st1
+            DeleteOnTermination: false
+
+#----- Frontend AutoScaling Group -----
+  FrontendAutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"  
+    Properties:
+      AutoScalingGroupName: !Ref FrontendAutoScalingGroupName
+      LaunchConfigurationName: !Ref FrontendLaunchConfiguration
+      VPCZoneIdentifier:
+        - !Ref PrivateSubnetA1
+        - !Ref PrivateSubnetB1
+      MinSize: '2'
+      MaxSize: '10'
+      DesiredCapacity: '3'
+      LoadBalancerNames:
+        - !Ref FrontendLoadBalancer
+      Tags:
+        - Key: Environment
+          Value: Frontend
+          PropagateAtLaunch: true
+        - Key: Owner
+          Value: "Lodis Artyom"
+          PropagateAtLaunch: true
+        - Key: Name
+          Value: Frontend-Instance
+          PropagateAtLaunch: true
+
+  #----- Frontend Schedule Action -----
+  ScheduledActionOut: 
+    Type: "AWS::AutoScaling::ScheduledAction"
+    Properties:
+      AutoScalingGroupName: !Ref FrontendAutoScalingGroup
+      MaxSize: '8'
+      MinSize: '8'
+      Recurrence: "0 8 * * 1-5"
+      TimeZone: "Etc/GMT-3"
+  ScheduledActionIn: 
+    Type: "AWS::AutoScaling::ScheduledAction"
+    Properties:
+      AutoScalingGroupName: !Ref FrontendAutoScalingGroup
+      MaxSize: '2'
+      MinSize: '2'
+      Recurrence: "0 20 * * 1-5"
+      TimeZone: "Etc/GMT-3"
+
+#----- Backend LaunchConfiguration -----
+  BackendLaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    Properties:
+      ImageId: !Ref BackendImageId
+      InstanceType: !Ref BackendInstanceType
+      LaunchConfigurationName: !Ref BackendLaunchConfigurationName
+      AssociatePublicIpAddress: false
+      KeyName: !Ref BackendKeyName
+      SecurityGroups:
+        - !Ref ServerSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: '30'
+            VolumeType: gp2
+        - DeviceName: /dev/sdb
+          Ebs:
+            VolumeSize: '50'
+            VolumeType: gp3
+            Iops: '5000'
+            DeleteOnTermination: false
+
+#----- Backend AutoScaling Group -----
+  BackendAutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"  
+    Properties:
+      AutoScalingGroupName: !Ref BackendAutoScalingGroupName
+      LaunchConfigurationName: !Ref BackendLaunchConfiguration
+      VPCZoneIdentifier:
+        - !Ref PrivateSubnetA2
+        - !Ref PrivateSubnetB2
+      MinSize: '2'
+      MaxSize: '10'
+      DesiredCapacity: '4'
+      Tags:
+        - Key: Environment
+          Value: Backend
+          PropagateAtLaunch: true
+        - Key: Owner
+          Value: "Lodis Artyom"
+          PropagateAtLaunch: true
+        - Key: Name
+          Value: Backend-Instance
+          PropagateAtLaunch: true
+
+#----- Backend Scaling Policy -----
+  BackendASGScalingPolicyHigh:
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    Properties:
+      AutoScalingGroupName: !Ref BackendAutoScalingGroup
+      PolicyType: StepScaling
+      AdjustmentType: ChangeInCapacity
+      StepAdjustments:
+        - MetricIntervalLowerBound: '0'
+          ScalingAdjustment: '1'
+  
+  CPUAlarmHigh:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      EvaluationPeriods: '2'
+      Statistic: Average
+      Threshold: '70'
+      AlarmDescription: "Scale out if CPU > 70% for 2 minutes"
+      Period: '60'
+      AlarmActions:
+      - !Ref BackendASGScalingPolicyHigh
+      Namespace: AWS/EC2
+      Dimensions:
+      - Name: AutoScalingGroupName
+        Value: !Ref BackendAutoScalingGroup
+      ComparisonOperator: GreaterThanThreshold
+      MetricName: CPUUtilization
+
+  BackendASGScalingPolicyLow:
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    Properties:
+      AutoScalingGroupName: !Ref BackendAutoScalingGroup
+      PolicyType: StepScaling
+      AdjustmentType: ChangeInCapacity
+      StepAdjustments:
+        - MetricIntervalUpperBound: '0'
+          ScalingAdjustment: '-1'
+  
+  CPUAlarmLow:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      EvaluationPeriods: '2'
+      Statistic: Average
+      Threshold: '30'
+      AlarmDescription: "Scale out if CPU < 30% for 2 minutes"
+      Period: '60'
+      AlarmActions:
+      - !Ref BackendASGScalingPolicyLow
+      Namespace: AWS/EC2
+      Dimensions:
+      - Name: AutoScalingGroupName
+        Value: !Ref BackendAutoScalingGroup
+      ComparisonOperator: LessThanThreshold
+      MetricName: CPUUtilization
+
+#----- Frontend Load Balancer -----
+  FrontendLoadBalancer:
+    Type: "AWS::ElasticLoadBalancing::LoadBalancer"
+    Properties:
+      LoadBalancerName: !Ref FrontendLoadBalancerName
+      Subnets:
+        - !Ref PrivateSubnetA1
+        - !Ref PrivateSubnetB1
+      CrossZone: true
+      Scheme: internal
+      Listeners:
+        - InstancePort: '80'
+          InstanceProtocol: HTTP
+          LoadBalancerPort: '80'
+          Protocol: HTTP
+      HealthCheck:
+        Target: HTTP:80/
+        HealthyThreshold: '2'
+        UnhealthyThreshold: '3'
+        Interval: '10'
+        Timeout: '5'
+      SecurityGroups:
+        - !Ref ServerSecurityGroup
+      ConnectionDrainingPolicy:
+        Enabled: true
+        Timeout: '30'
+      Tags:
+        - Key: Environment
+          Value: Frontend
+          
+#----- Backend Load Balancer -----
+  FrontendLoadBalancer:
+    Type: "AWS::ElasticLoadBalancing::LoadBalancer"
+    Properties:
+      LoadBalancerName: !Ref BackendLoadBalancerName
+      Subnets:
+        - !Ref PrivateSubnetA2
+        - !Ref PrivateSubnetB2
+      CrossZone: true
+      Scheme: internal
+      Listeners:
+        - InstancePort: '80'
+          InstanceProtocol: HTTP
+          LoadBalancerPort: '80'
+          Protocol: HTTP
+      HealthCheck:
+        Target: HTTP:80/
+        HealthyThreshold: '2'
+        UnhealthyThreshold: '3'
+        Interval: '10'
+        Timeout: '5'
+      SecurityGroups:
+        - !Ref ServerSecurityGroup
+      ConnectionDrainingPolicy:
+        Enabled: true
+        Timeout: '30'
+      Tags:
+        - Key: Environment
+          Value: Backend

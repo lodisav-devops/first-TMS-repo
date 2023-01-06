@@ -31,15 +31,10 @@ Metadata:
 
       -
         Label:
-          default: "Overall Servers Configuration"
-        Parameters:
-          - ServerSecurityGroupName
-          - ServerHTTPLocation
-
-      -
-        Label:
           default: "Frontend Servers Configuration"
         Parameters:
+          - FrontendSecurityGroupName
+          - FrontendHTTPLocation
           - FrontendImageId
           - FrontendInstanceType
           - FrontendLaunchConfigurationName
@@ -50,6 +45,8 @@ Metadata:
         Label:
           default: "Backend Servers Configuration"
         Parameters:
+          - BackendSecurityGroupName
+          - BackendHTTPLocation 
           - BackendImageId
           - BackendInstanceType
           - BackendLaunchConfigurationName
@@ -62,6 +59,16 @@ Metadata:
         Parameters:
           - FrontendLoadBalancerName
           - BackendLoadBalancerName
+      
+      -
+        Label:
+          default: "Helper Instance Configuration"
+        Parameters:
+          - HelperSecurityGroupName
+          - HelperTCPLocation
+          - HelperImageId
+          - HelperInstanceType
+          - HelperKeyName
 
 Parameters:
   Environment:
@@ -153,12 +160,12 @@ Parameters:
     Description: "Bastion Auto Scaling Group name"
     Default: 'Bastion-ASG'
 
-  ServerSecurityGroupName:
+  FrontendSecurityGroupName:
     Type: String
-    Default: 'HTTP-Access-for-Servers'
-    Description: "Name of the overall Servers Security Group"
+    Default: 'HTTP-Access-for-Frontend'
+    Description: "Name of the Frontend Security Group"
 
-  ServerHTTPLocation:
+  FrontendHTTPLocation:
     Type: String
     Description: "The IP address range that can be used to HTTP to the EC2 instances"
     MinLength: '9'
@@ -203,6 +210,20 @@ Parameters:
     Type: String
     Description: "Frontend Auto Scaling Group name"
     Default: 'Frontend-ASG'
+
+  BackendSecurityGroupName:
+    Type: String
+    Default: 'HTTP-Access-for-Backend'
+    Description: "Name of the Backend Security Group"
+
+  BackendHTTPLocation:
+    Type: String
+    Description: "The IP address range that can be used to HTTP to the EC2 instances"
+    MinLength: '9'
+    MaxLength: '18'
+    Default: '0.0.0.0/0'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: "must be a valid IP CIDR range of the form x.x.x.x/x."
 
   BackendImageId:
     Type: String
@@ -253,6 +274,52 @@ Parameters:
     Type: String
     Description: "Backend Load Balancer name"
     Default: 'Backend-LB'
+
+  HelperSecurityGroupName:
+    Type: String
+    Default: 'TCP-Access-for-Helper'
+    Description: "Name of the Helper Security Group"
+
+  HelperTCPLocation:
+    Type: String
+    Description: "The IP address range that can be used to TCP to the EC2 instances"
+    MinLength: '9'
+    MaxLength: '18'
+    Default: '0.0.0.0/0'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: "must be a valid IP CIDR range of the form x.x.x.x/x."
+
+  HelperImageId:
+    Type: String
+    Description: "Helper instance image Id"
+    Default: 'ami-0fe0b2cf0e1f25c8a'
+    AllowedValues:
+      - ami-0fe0b2cf0e1f25c8a
+      - ami-08c149f9b2ace933d
+      - ami-0ac03fb170870f7c7
+      - ami-05e786af422f8082a
+      - ami-00463ddd1036a8eb6
+      - ami-07cd20392675b2b83
+
+  HelperInstanceType:
+    Type: String
+    Description: "Helper instance type"
+    Default: 't2.micro'
+    AllowedValues:
+      - t2.nano
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+
+  HelperKeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: "Name of an existing EC2 KeyPair to enable SSH access to the Helper instance"
+
+
+
+
+
 
 Resources:
 #------ VPC -----
@@ -529,20 +596,46 @@ Resources:
           Value: Bastion-Instance
           PropagateAtLaunch: true
 
-#----- Security Group for Frontend and Backend -----
-  ServerSecurityGroup:
+#----- Security Group for Helper instance -----
+  HelperSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable TCP via port 5601"
+      GroupName: !Ref HelperSecurityGroupName
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '5601'
+          ToPort: '5601'
+          CidrIp: !Ref HelperTCPLocation
+
+#----- Security Group for Frontend -----
+  FrontendSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: "Enable HTTP via port 80"
-      GroupName: !Ref ServerSecurityGroupName
+      GroupName: !Ref FrontendSecurityGroupName
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '80'
           ToPort: '80'
-          CidrIp: !Ref ServerHTTPLocation
+          CidrIp: !Ref FrontendHTTPLocation
 
-#----- BastionSecurityGroupEgress - Servers SecurityGroupIngress -----
+#----- Security Group for Backend -----
+  BackendSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable HTTP via port 80"
+      GroupName: !Ref BackendSecurityGroupName
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: !Ref BackendHTTPLocation
+
+#----- BastionSecurityGroupEgress - FrontendSecurityGroupIngress -----
   OutboundRule:
     Type: "AWS::EC2::SecurityGroupEgress"
     Properties:
@@ -551,7 +644,7 @@ Resources:
       ToPort: '22'
       DestinationSecurityGroupId:
         Fn::GetAtt:
-          - ServerSecurityGroup
+          - FrontendSecurityGroup
           - GroupId
       GroupId:
         Fn::GetAtt:
@@ -570,7 +663,100 @@ Resources:
           - GroupId
       GroupId:
         Fn::GetAtt:
-          - ServerSecurityGroup
+          - FrontendSecurityGroup
+          - GroupId
+
+#----- BastionSecurityGroupEgress - BackendSecurityGroupIngress -----
+  OutboundRule:
+    Type: "AWS::EC2::SecurityGroupEgress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - BackendSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+
+  InboundRule:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - BackendSecurityGroup
+          - GroupId
+
+#----- BastionSecurityGroupEgress - HelperSecurityGroupIngress -----
+  OutboundRule:
+    Type: "AWS::EC2::SecurityGroupEgress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - HelperSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+
+  InboundRule:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - HelperSecurityGroup
+          - GroupId
+
+#----- HelperSecurityGroupEgress - BackendSecurityGroupIngress -----
+  OutboundRule:
+    Type: "AWS::EC2::SecurityGroupEgress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '5601'
+      ToPort: '5601'
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - BackendSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - HelperSecurityGroup
+          - GroupId
+
+  InboundRule:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '5601'
+      ToPort: '5601'
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - HelperSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - BackendSecurityGroup
           - GroupId
 
 #----- Frontend LaunchConfiguration -----
@@ -583,7 +769,7 @@ Resources:
       AssociatePublicIpAddress: false
       KeyName: !Ref FrontendKeyName
       SecurityGroups:
-        - !Ref ServerSecurityGroup
+        - !Ref FrontendSecurityGroup
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -648,7 +834,7 @@ Resources:
       AssociatePublicIpAddress: false
       KeyName: !Ref BackendKeyName
       SecurityGroups:
-        - !Ref ServerSecurityGroup
+        - !Ref BackendSecurityGroup
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -763,7 +949,7 @@ Resources:
         Interval: '10'
         Timeout: '5'
       SecurityGroups:
-        - !Ref ServerSecurityGroup
+        - !Ref FrontendSecurityGroup
       ConnectionDrainingPolicy:
         Enabled: true
         Timeout: '30'
@@ -793,10 +979,42 @@ Resources:
         Interval: '10'
         Timeout: '5'
       SecurityGroups:
-        - !Ref ServerSecurityGroup
+        - !Ref BackendSecurityGroup
       ConnectionDrainingPolicy:
         Enabled: true
         Timeout: '30'
       Tags:
         - Key: Environment
           Value: Backend
+
+#----- Helper Instance for Backend servers -----
+  HelperInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: !Ref HelperImageId
+      InstanceType: !Ref HelperInstanceType
+      KeyName: !Ref HelperKeyName
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: '10'
+            VolumeType: gp2
+      SubnetId: !Ref PrivateSubnetA2
+      SecurityGroupIds:
+        - !Ref HelperSecurityGroup      
+      Tags:
+        - Key: Environment
+          Value: Backend
+        - Key: Owner
+          Value: "Lodis Artyom"
+        - Key: Name
+          Value: Helper-Instance
+
+
+
+
+
+
+
+
+

@@ -62,13 +62,14 @@ Metadata:
       
       -
         Label:
-          default: "Helper Instance Configuration"
+          default: "Helper Instance Configuration and S3 bucket for logging"
         Parameters:
           - HelperSecurityGroupName
           - HelperTCPLocation
           - HelperImageId
           - HelperInstanceType
           - HelperKeyName
+          - S3BucketName
 
 Parameters:
   Environment:
@@ -315,11 +316,11 @@ Parameters:
   HelperKeyName:
     Type: 'AWS::EC2::KeyPair::KeyName'
     Description: "Name of an existing EC2 KeyPair to enable SSH access to the Helper instance"
-
-
-
-
-
+  
+  S3BucketName:
+    Type: String
+    Default: 'bucket-for-logging-helper-instance'
+    Description: "Name of the S3 bucket"
 
 Resources:
 #------ VPC -----
@@ -635,23 +636,8 @@ Resources:
           ToPort: '80'
           CidrIp: !Ref BackendHTTPLocation
 
-#----- BastionSecurityGroupEgress - FrontendSecurityGroupIngress -----
-  OutboundRule:
-    Type: "AWS::EC2::SecurityGroupEgress"
-    Properties:
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      DestinationSecurityGroupId:
-        Fn::GetAtt:
-          - FrontendSecurityGroup
-          - GroupId
-      GroupId:
-        Fn::GetAtt:
-          - BastionSecurityGroup
-          - GroupId
-
-  InboundRule:
+#----- FrontendSecurityGroupIngress -----
+  FrontInboundRule:
     Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       IpProtocol: tcp
@@ -666,23 +652,8 @@ Resources:
           - FrontendSecurityGroup
           - GroupId
 
-#----- BastionSecurityGroupEgress - BackendSecurityGroupIngress -----
-  OutboundRule:
-    Type: "AWS::EC2::SecurityGroupEgress"
-    Properties:
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      DestinationSecurityGroupId:
-        Fn::GetAtt:
-          - BackendSecurityGroup
-          - GroupId
-      GroupId:
-        Fn::GetAtt:
-          - BastionSecurityGroup
-          - GroupId
-
-  InboundRule:
+#----- BackendSecurityGroupIngress -----
+  BackendInboundRule:
     Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       IpProtocol: tcp
@@ -697,23 +668,8 @@ Resources:
           - BackendSecurityGroup
           - GroupId
 
-#----- BastionSecurityGroupEgress - HelperSecurityGroupIngress -----
-  OutboundRule:
-    Type: "AWS::EC2::SecurityGroupEgress"
-    Properties:
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      DestinationSecurityGroupId:
-        Fn::GetAtt:
-          - HelperSecurityGroup
-          - GroupId
-      GroupId:
-        Fn::GetAtt:
-          - BastionSecurityGroup
-          - GroupId
-
-  InboundRule:
+#----- HelperSecurityGroupIngress -----  
+  BastionHelperInboundRule:
     Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       IpProtocol: tcp
@@ -728,23 +684,8 @@ Resources:
           - HelperSecurityGroup
           - GroupId
 
-#----- HelperSecurityGroupEgress - BackendSecurityGroupIngress -----
-  OutboundRule:
-    Type: "AWS::EC2::SecurityGroupEgress"
-    Properties:
-      IpProtocol: tcp
-      FromPort: '5601'
-      ToPort: '5601'
-      DestinationSecurityGroupId:
-        Fn::GetAtt:
-          - BackendSecurityGroup
-          - GroupId
-      GroupId:
-        Fn::GetAtt:
-          - HelperSecurityGroup
-          - GroupId
-
-  InboundRule:
+#----- HelperBackendSecurityGroupIngress -----  
+  HelperBackendInboundRule:
     Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       IpProtocol: tcp
@@ -994,6 +935,7 @@ Resources:
       ImageId: !Ref HelperImageId
       InstanceType: !Ref HelperInstanceType
       KeyName: !Ref HelperKeyName
+      IamInstanceProfile: !Ref HelperInstanceProfile
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -1001,7 +943,7 @@ Resources:
             VolumeType: gp2
       SubnetId: !Ref PrivateSubnetA2
       SecurityGroupIds:
-        - !Ref HelperSecurityGroup      
+        - !Ref HelperSecurityGroup
       Tags:
         - Key: Environment
           Value: Backend
@@ -1010,11 +952,67 @@ Resources:
         - Key: Name
           Value: Helper-Instance
 
+#----- S3Bucket for Logging -----
+  S3Bucket:
+    Type: "AWS::S3::Bucket"
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref S3BucketName
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Environment
+          Value: "Helper-instance"
+        - Key: Owner
+          Value: "Lodis Artyom"
 
+#----- Helper Instance Role for work with S3Bucket -----
+  HelperRole:
+    Type: "AWS::IAM::Role"
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "ec2.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
 
+  HelperRolePolicies: 
+    Type: "AWS::IAM::Policy"
+    Properties: 
+      PolicyName: "HelperS3Policy"
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: "Allow"
+            Action:              
+              - "s3:GetBucketLocation"
+              - "s3:ListAllMyBuckets"
+            Resource: "*"
+          - Effect: "Allow"
+            Action:
+              - "s3:ListBucket"
+            Resource: !GetAtt S3Bucket.Arn
+          - Effect: "Allow"
+            Action:
+              - "s3:GetObject"
+              - "s3:DeleteObject"
+              - "s3:PutObject"
+            Resource: !Join [ "", [ !GetAtt S3Bucket.Arn, "/*" ] ]
+      Roles:
+        - Ref: "HelperRole"
 
-
-
-
-
-
+  HelperInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Path: /
+      Roles:
+        - !Ref HelperRole

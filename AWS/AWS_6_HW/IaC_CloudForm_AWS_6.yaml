@@ -16,6 +16,8 @@ Metadata:
           - PrivateSubnetB1CIDR
           - PrivateSubnetA2CIDR
           - PrivateSubnetB2CIDR
+          - DatabaseSubnetACIDR
+          - DatabaseSubnetBCIDR
 
       -
         Label:
@@ -71,6 +73,22 @@ Metadata:
           - HelperKeyName
           - S3BucketName
 
+      -
+        Label:
+          default: "Database Configuration"
+        Parameters:
+          - DatabaseSecurityGroupName
+          - DatabaseTCPLocation
+          - DatabaseSubnetGroupName
+          - DatabaseInstanceClass
+          - DatabaseInstanceIdentifier
+          - DatabaseName
+          - DatabaseAllocatedStorage
+          - PeriodAutoBackup
+          - MysqlDatabaseVersion
+          - DatabaseUsername
+          - DatabasePassword
+
 Parameters:
   Environment:
     Type: String
@@ -109,6 +127,16 @@ Parameters:
     Type: String
     Default: '10.33.22.0/24'
     Description: "Private Subnet-B2 CIDR backend"
+
+  DatabaseSubnetACIDR:
+    Type: String
+    Default: '10.33.88.0/24'
+    Description: "Database Subnet-A CIDR backend"
+
+  DatabaseSubnetBCIDR:
+    Type: String
+    Default: '10.33.99.0/24'
+    Description: "Database Subnet-B CIDR backend"
 
   BastionSecurityGroupName:
     Type: String
@@ -283,7 +311,7 @@ Parameters:
 
   HelperTCPLocation:
     Type: String
-    Description: "The IP address range that can be used to TCP to the EC2 instances"
+    Description: "The IP address range that can be used to TCP to the backend EC2 instances"
     MinLength: '9'
     MaxLength: '18'
     Default: '0.0.0.0/0'
@@ -321,6 +349,93 @@ Parameters:
     Type: String
     Default: 'bucket-for-logging-helper-instance'
     Description: "Name of the S3 bucket"
+
+  DatabaseSecurityGroupName:
+    Type: String
+    Default: 'TCP-Access-for-Database'
+    Description: "Name of the Database Security Group"
+
+  DatabaseTCPLocation:
+    Type: String
+    Description: "The IP address range that can be used to TCP to the Database instance"
+    MinLength: '9'
+    MaxLength: '18'
+    Default: '0.0.0.0/0'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: "must be a valid IP CIDR range of the form x.x.x.x/x."
+
+  DatabaseSubnetGroupName:
+    Type: String
+    Default: 'Mysql-SubnetGroup'
+    Description: "Name of the Database subnet group"
+
+  DatabaseInstanceClass:
+    Type: String
+    Description: "Database instance type"
+    Default: 'db.m5d.large'
+    AllowedValues:
+      - db.t2.micro
+      - db.t3.micro
+      - db.m5d.large
+      - db.m5d.xlarge
+      - db.m5d.2xlarge
+      - db.m5d.4xlarge
+
+  DatabaseInstanceIdentifier:
+    Type: String
+    Description: "My database instance"
+    Default: 'mydbinstance'
+
+  DatabaseName:
+    Type: String
+    Default: 'mydb'
+    Description: "Name of my Database"
+
+  DatabaseAllocatedStorage:
+    Default: '20'
+    Description: "The size of the database (GiB)"
+    Type: String
+    MinValue: '20'
+    MaxValue: '65536'
+    ConstraintDescription: "must be between 20 and 65536 GiB."
+
+  PeriodAutoBackup:
+    Default: '14'
+    Description: "The number of days for which automated backups are retained."
+    Type: Integer
+    MinValue: '1'
+    MaxValue: '35'
+
+  MysqlDatabaseVersion:
+    Type: String
+    Default: '8.0.30'
+    AllowedValues:
+      - '5.7.37'
+      - '5.7.38'
+      - '5.7.39'
+      - '5.7.40'
+      - '8.0.28'
+      - '8.0.30'
+      - '8.0.31'
+    Description: "Version of my Mysql Database"
+
+  DatabaseUsername:
+    NoEcho: 'true'
+    Description: "Username for MySQL database access"
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: "must begin with a letter and contain only alphanumeric characters."
+
+  DatabasePassword:
+    NoEcho: 'true'
+    Description: "Password MySQL database access"
+    Type: String
+    MinLength: '8'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]*'
+    ConstraintDescription: "must contain only alphanumeric characters."
 
 Resources:
 #------ VPC -----
@@ -549,6 +664,50 @@ Resources:
       RouteTableId: !Ref RouteTableForPrivateSubnetB
       SubnetId: !Ref PrivateSubnetB2
 
+#----- Database Subnets -----
+  DatabaseSubnetA:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "DatabaseSubnetACIDR"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Database-A" ] ]
+  
+  DatabaseSubnetB:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, "Fn::GetAZs": { Ref: "AWS::Region" } ]
+      CidrBlock: !Ref "DatabaseSubnetBCIDR"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Join [ "", [ !Ref Environment, "-Database-B" ] ]
+
+#----- Route Table and Route Association for Internal only - Databases -----
+  RouteTableForDatabase:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join [ " ", [ !Ref Environment, "DatabaseRouteTable" ] ]
+
+  RouteAssociationDatabaseA:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForDatabase
+      SubnetId: !Ref DatabaseSubnetA
+ 
+  RouteAssociationDatabaseB:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTableForDatabase
+      SubnetId: !Ref DatabaseSubnetB
+
 #----- Security Group for Bastion -----
   BastionSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
@@ -636,6 +795,19 @@ Resources:
           ToPort: '80'
           CidrIp: !Ref BackendHTTPLocation
 
+#----- Security Group for Database -----
+  DatabaseSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable TCP via port 3306 for Database"
+      GroupName: !Ref DatabaseSecurityGroupName
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
+          CidrIp: !Ref DatabaseTCPLocation
+
 #----- FrontendSecurityGroupIngress -----
   FrontInboundRule:
     Type: "AWS::EC2::SecurityGroupIngress"
@@ -698,6 +870,38 @@ Resources:
       GroupId:
         Fn::GetAtt:
           - BackendSecurityGroup
+          - GroupId
+
+#----- DatabaseSecurityGroupIngress -----
+  DatabaseInboundRule:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - BastionSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - DatabaseSecurityGroup
+          - GroupId
+
+#----- BackendDatabaseSecurityGroupIngress -----
+  BackendDatabaseInboundRule:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      IpProtocol: tcp
+      FromPort: '3306'
+      ToPort: '3306'
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - BackendSecurityGroup
+          - GroupId
+      GroupId:
+        Fn::GetAtt:
+          - DatabaseSecurityGroup
           - GroupId
 
 #----- Frontend LaunchConfiguration -----
@@ -1016,3 +1220,47 @@ Resources:
       Path: /
       Roles:
         - !Ref HelperRole
+
+#----- Database Configuration -----
+#----- Database Subnet Group -----
+  DatabaseSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "Subnet group for database"
+      DBSubnetGroupName: !Ref DatabaseSubnetGroupName
+      SubnetIds:
+        - !Ref DatabaseSubnetA
+        - !Ref DatabaseSubnetB
+      Tags:
+        - Key: Environment
+          Value: "Database"
+        - Key: Owner
+          Value: "Lodis Artyom"
+
+#----- Database Instance -----
+  DatabaseInstance:
+    Type: "AWS::RDS::DBInstance"
+    UpdateReplacePolicy: Snapshot
+    DeletionPolicy: Snapshot
+    Properties:
+      AllocatedStorage: !Ref DatabaseAllocatedStorage
+      BackupRetentionPeriod: !Ref PeriodAutoBackup
+      CopyTagsToSnapshot: true
+      DBInstanceClass: !Ref DatabaseInstanceClass
+      DBInstanceIdentifier: !Ref DatabaseInstanceIdentifier
+      DBName: !Ref DatabaseName
+      DBSubnetGroupName: !Ref DatabaseSubnetGroup
+      Engine: 'mysql'
+      EngineVersion: !Ref MysqlDatabaseVersion
+      MasterUsername: !Ref DatabaseUsername
+      MasterUserPassword: !Ref DatabasePassword
+      MultiAZ: true
+      PreferredBackupWindow: '02:00-04:00'
+      PubliclyAccessible: false
+      VPCSecurityGroups:
+        - !Ref DatabaseSecurityGroup
+      Tags:
+        - Key: Environment
+          Value: "Database"
+        - Key: Owner
+          Value: "Lodis Artyom"

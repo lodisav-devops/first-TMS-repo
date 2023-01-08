@@ -394,7 +394,7 @@ Parameters:
   DatabaseAllocatedStorage:
     Default: '20'
     Description: "The size of the database (GiB)"
-    Type: String
+    Type: Number
     MinValue: '20'
     MaxValue: '65536'
     ConstraintDescription: "must be between 20 and 65536 GiB."
@@ -402,7 +402,7 @@ Parameters:
   PeriodAutoBackup:
     Default: '14'
     Description: "The number of days for which automated backups are retained."
-    Type: Integer
+    Type: Number
     MinValue: '1'
     MaxValue: '35'
 
@@ -638,8 +638,7 @@ Resources:
       RouteTableId: !Ref RouteTableForPrivateSubnetB
       NatGatewayId: !Ref NATGatewayB
     
-#----- Associate Private Route for Private Subnets -----
- 
+#----- Associate Private Route for Private Subnets ----- 
   RouteAssociationPrivateA1:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
     Properties:

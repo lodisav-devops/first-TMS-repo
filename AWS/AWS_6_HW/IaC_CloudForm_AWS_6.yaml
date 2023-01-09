@@ -871,22 +871,6 @@ Resources:
           - BackendSecurityGroup
           - GroupId
 
-#----- DatabaseSecurityGroupIngress -----
-  DatabaseInboundRule:
-    Type: "AWS::EC2::SecurityGroupIngress"
-    Properties:
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      SourceSecurityGroupId:
-        Fn::GetAtt:
-          - BastionSecurityGroup
-          - GroupId
-      GroupId:
-        Fn::GetAtt:
-          - DatabaseSecurityGroup
-          - GroupId
-
 #----- BackendDatabaseSecurityGroupIngress -----
   BackendDatabaseInboundRule:
     Type: "AWS::EC2::SecurityGroupIngress"

@@ -89,6 +89,12 @@ Metadata:
           - DatabaseUsername
           - DatabasePassword
 
+      -
+        Label:
+          default: "Route53 Configuration"
+        Parameters:
+          - DomainName
+
 Parameters:
   Environment:
     Type: String
@@ -436,6 +442,11 @@ Parameters:
     MaxLength: '41'
     AllowedPattern: '[a-zA-Z0-9]*'
     ConstraintDescription: "must contain only alphanumeric characters."
+
+  DomainName:
+    Type: String
+    Default: 'myproject.be'
+    Description: "Name of my Domain"
 
 Resources:
 #------ VPC -----
@@ -1247,3 +1258,25 @@ Resources:
           Value: "Database"
         - Key: Owner
           Value: "Lodis Artyom"
+
+#----- Route53 -----
+#----- Route53 Hosted Zone -----
+  Route53HostedZone:
+    Type: "AWS::Route53::HostedZone"
+    Properties:
+      HostedZoneConfig:
+        Comment: !Join [ " ", [ "Hosted zone for", !Ref DomainName ] ]
+      Name: !Ref DomainName
+  
+#----- Route53 Record Set Group -----
+  Route53RecordSetGroup:
+    Type: "AWS::Route53::RecordSetGroup"
+    Properties:
+      Comment: "Creating records for the CloudFront."
+      HostedZoneId: !Ref Route53HostedZone
+      RecordSets:
+        - Name: !Ref DomainName
+          Type: A
+          AliasTarget:
+            DNSName: !GetAtt CloudFrontDistribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2

@@ -1,11 +1,11 @@
 data "aws_vpc" "def_vpc" {
-  default = "true"
+  default = "${var.default_aws_vpc}"
 }
 
 resource "aws_subnet" "subnet_frontend" {
   vpc_id = data.aws_vpc.def_vpc.id
-  cidr_block = "172.31.64.0/24"
-  map_public_ip_on_launch = true
+  cidr_block = "${var.subnet_cidr_block_frontend}"
+  map_public_ip_on_launch = "${var.subnet_map_public_ip_frontend}"
   tags = {
     "Name" = "Frontend Subnet"
     "Owner" = "Lodis Artyom"
@@ -17,7 +17,7 @@ resource "aws_security_group" "sg_frontend" {
   description = "Allow inbound traffic to the Frontend"
 
   dynamic "ingress" {
-    for_each = ["22", "80", "443"]
+    for_each = "${var.allow_ports_frontend}"
     content {
       description      = "Ports from Internet"
       from_port        = ingress.value

@@ -1,7 +1,7 @@
 resource "aws_subnet" "subnet_backend" {
   vpc_id = data.aws_vpc.def_vpc.id
-  cidr_block = "172.31.65.0/24"
-  map_public_ip_on_launch = false
+  cidr_block = "${var.subnet_cidr_block_backend}"
+  map_public_ip_on_launch = "${var.subnet_map_public_ip_backend}"
   tags = {
     "Name" = "Backend Subnet"
     "Owner" = "Lodis Artyom"
@@ -13,7 +13,7 @@ resource "aws_security_group" "sg_backend" {
   description = "Allow inbound traffic to the Backend"
 
   dynamic "ingress" {
-    for_each = [ "22", "8080" ]
+    for_each = "${var.allow_ports_backend}"
     content {
       description = "Ports from Backend"
       from_port        = ingress.value

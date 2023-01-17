@@ -1,5 +1,5 @@
 resource "aws_instance" "ec2_backend" {
-  count = 2
+  count = "${var.count_of_ec2_instance_backend}"
   ami = data.aws_ami.amazon_linux_ami_latest.id
   instance_type = "${var.ec2_instance_type}"
   key_name = "${var.key_name_ec2_backend}"

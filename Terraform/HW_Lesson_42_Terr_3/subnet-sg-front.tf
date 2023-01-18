@@ -6,10 +6,7 @@ resource "aws_subnet" "subnet_frontend" {
   vpc_id = data.aws_vpc.def_vpc.id
   cidr_block = "${var.subnet_cidr_block_frontend}"
   map_public_ip_on_launch = "${var.subnet_map_public_ip_frontend}"
-  tags = {
-    "Name" = "Frontend Subnet"
-    "Owner" = "Lodis Artyom"
-  }
+  tags = merge(var.common_tags, { Name = "Frontend Subnet" })
 }
 
 resource "aws_security_group" "sg_frontend" {
@@ -34,8 +31,5 @@ resource "aws_security_group" "sg_frontend" {
     cidr_blocks = [ "0.0.0.0/0" ]
   }
 
-  tags = {
-    "Name" = "Frontend Security Group"
-    "Owner" = "Lodis Artyom"
-  }
+  tags = merge(var.common_tags, { Name = "Frontend Security Group" })
 }

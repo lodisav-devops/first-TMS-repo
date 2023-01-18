@@ -62,3 +62,11 @@ variable "default_aws_vpc" {
   type = bool
   default = "true"
 }
+
+variable "common_tags" {
+  type = map
+  default = {
+    Owner = "Lodis Artyom"
+    Environment = "Lesson_42"
+  }
+}

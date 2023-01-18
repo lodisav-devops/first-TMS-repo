@@ -13,8 +13,5 @@ resource "aws_instance" "ec2_frontend" {
   key_name = "${var.key_name_ec2_frontend}"
   subnet_id = aws_subnet.subnet_frontend.id
   vpc_security_group_ids = [ aws_security_group.sg_frontend.id ]
-  tags = {
-    "Name" = "Frontend Instance"
-    "Owner" = "Lodis Artyom"
-  }
+  tags = merge(var.common_tags, { Name = "Frontend Instance" })
 }

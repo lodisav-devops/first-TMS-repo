@@ -2,10 +2,7 @@ resource "aws_subnet" "subnet_backend" {
   vpc_id = data.aws_vpc.def_vpc.id
   cidr_block = "${var.subnet_cidr_block_backend}"
   map_public_ip_on_launch = "${var.subnet_map_public_ip_backend}"
-  tags = {
-    "Name" = "Backend Subnet"
-    "Owner" = "Lodis Artyom"
-  }
+  tags = merge(var.common_tags, { Name = "Backend Subnet" })
 }
 
 resource "aws_security_group" "sg_backend" {
@@ -30,8 +27,5 @@ resource "aws_security_group" "sg_backend" {
     cidr_blocks = [ "0.0.0.0/0" ]
   }
 
-  tags = {
-    "Name" = "Backend Security Group"
-    "Owner" = "Lodis Artyom"
-  }
+  tags = merge(var.common_tags, { Name = "Backend Security Group" })
 }

@@ -23,3 +23,8 @@
 /Terraform/HW_Lesson_42_Terr_3/.terraform.lock.hcl
 /Terraform/HW_Lesson_42_Terr_3/terraform.tfstate
 /Terraform/HW_Lesson_42_Terr_3/terraform.tfstate.backup
+/Terraform/HW_Lesson_43_Terr_modules/*/.terraform/*
+/Terraform/HW_Lesson_43_Terr_modules/*/terraform.tfstate.d/*
+/Terraform/HW_Lesson_43_Terr_modules/*/.terraform.lock.hcl
+/Terraform/HW_Lesson_43_Terr_modules/*/terraform.tfstate
+/Terraform/HW_Lesson_43_Terr_modules/*/terraform.tfstate.backup

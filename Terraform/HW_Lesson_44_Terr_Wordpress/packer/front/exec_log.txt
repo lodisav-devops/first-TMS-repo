@@ -1,0 +1,529 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/balancers$ cd ../packer/front/
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/packer/front$ packer build .
+amazon-ebs.ubuntu: output will be in this color.
+
+==> amazon-ebs.ubuntu: Prevalidating any provided VPC information
+==> amazon-ebs.ubuntu: Prevalidating AMI Name: tms-wordpress-front-tepmlate
+    amazon-ebs.ubuntu: Found Image ID: ami-0c68b55d1c875067e
+==> amazon-ebs.ubuntu: Creating temporary keypair: packer_63da6bb8-0c0e-9f6e-e198-1b4adefc0f51
+==> amazon-ebs.ubuntu: Launching a source AWS instance...
+    amazon-ebs.ubuntu: Instance ID: i-05754b69355d4f427
+==> amazon-ebs.ubuntu: Waiting for instance (i-05754b69355d4f427) to become ready...
+==> amazon-ebs.ubuntu: Using SSH communicator to connect: 10.0.112.29
+==> amazon-ebs.ubuntu: Waiting for SSH to become available...
+==> amazon-ebs.ubuntu: Connected to SSH!
+==> amazon-ebs.ubuntu: Provisioning with Ansible...
+    amazon-ebs.ubuntu: Setting up proxy adapter for Ansible....
+==> amazon-ebs.ubuntu: Executing Ansible: ansible-playbook -e packer_build_name="ubuntu" -e packer_builder_type=amazon-ebs --ssh-extra-args '-o IdentitiesOnly=yes' --extra-vars nginx_wordpress_conf_wordpress_back_lb_url=internal-back-lb-2102008848.eu-west-1.elb.amazonaws.com -vvv -e ansible_ssh_private_key_file=/tmp/ansible-key1038712883 -i /tmp/packer-provisioner-ansible585852123 /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/wp_front.yaml
+    amazon-ebs.ubuntu: ansible-playbook [core 2.13.7]
+    amazon-ebs.ubuntu:   config file = /etc/ansible/ansible.cfg
+    amazon-ebs.ubuntu:   configured module search path = ['/home/lodis/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+    amazon-ebs.ubuntu:   ansible python module location = /usr/lib/python3/dist-packages/ansible
+    amazon-ebs.ubuntu:   ansible collection location = /home/lodis/.ansible/collections:/usr/share/ansible/collections
+    amazon-ebs.ubuntu:   executable location = /usr/bin/ansible-playbook
+    amazon-ebs.ubuntu:   python version = 3.10.6 (main, Nov 14 2022, 16:10:14) [GCC 11.3.0]
+    amazon-ebs.ubuntu:   jinja version = 3.0.3
+    amazon-ebs.ubuntu:   libyaml = True
+    amazon-ebs.ubuntu: Using /etc/ansible/ansible.cfg as config file
+    amazon-ebs.ubuntu: host_list declined parsing /tmp/packer-provisioner-ansible585852123 as it did not pass its verify_file() method
+    amazon-ebs.ubuntu: script declined parsing /tmp/packer-provisioner-ansible585852123 as it did not pass its verify_file() method
+    amazon-ebs.ubuntu: auto declined parsing /tmp/packer-provisioner-ansible585852123 as it did not pass its verify_file() method
+    amazon-ebs.ubuntu: Parsed /tmp/packer-provisioner-ansible585852123 inventory source with ini plugin
+    amazon-ebs.ubuntu: [DEPRECATION WARNING]: "include" is deprecated, use include_tasks/import_tasks
+    amazon-ebs.ubuntu: instead. This feature will be removed in version 2.16. Deprecation warnings can
+    amazon-ebs.ubuntu:  be disabled by setting deprecation_warnings=False in ansible.cfg.
+    amazon-ebs.ubuntu: statically imported: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/00_get_aws_info.yml
+    amazon-ebs.ubuntu: statically imported: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/01_install.yml
+    amazon-ebs.ubuntu: statically imported: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/02_configure.yml
+    amazon-ebs.ubuntu: Skipping callback 'default', as we already have a stdout callback.
+    amazon-ebs.ubuntu: Skipping callback 'minimal', as we already have a stdout callback.
+    amazon-ebs.ubuntu: Skipping callback 'oneline', as we already have a stdout callback.
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: PLAYBOOK: wp_front.yaml ********************************************************
+    amazon-ebs.ubuntu: 1 plays in /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/wp_front.yaml
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: PLAY [all] *********************************************************************
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: TASK [Gathering Facts] *********************************************************
+    amazon-ebs.ubuntu: task path: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/wp_front.yaml:1
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'echo ~lodis && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'~lodis\n', b"Warning: Permanently added '[127.0.0.1]:41141' (RSA) to the list of known hosts.\r\n")
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo ~lodis/.ansible/tmp `"&& mkdir "` echo ~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943 `" && echo ansible-tmp-1675258872.5354333-2842-23650116596943="` echo ~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943 `" ) && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'ansible-tmp-1675258872.5354333-2842-23650116596943=~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943\n', b'')
+    amazon-ebs.ubuntu: <default> Attempting python interpreter discovery
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'echo PLATFORM; uname; echo FOUND; command -v '"'"'"'"'"'"'"'"'python3.10'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.9'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.8'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.7'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.6'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.5'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/bin/python3'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/libexec/platform-python'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python2.7'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/bin/python'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python'"'"'"'"'"'"'"'"'; echo ENDFOUND && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'PLATFORM\nLinux\nFOUND\n/usr/bin/python3.8\n/usr/bin/python3\nENDFOUND\n', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'/usr/bin/python3.8 && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'{"platform_dist_result": [], "osrelease_content": "NAME=\\"Ubuntu\\"\\nVERSION=\\"20.04.5 LTS (Focal Fossa)\\"\\nID=ubuntu\\nID_LIKE=debian\\nPRETTY_NAME=\\"Ubuntu 20.04.5 LTS\\"\\nVERSION_ID=\\"20.04\\"\\nHOME_URL=\\"https://www.ubuntu.com/\\"\\nSUPPORT_URL=\\"https://help.ubuntu.com/\\"\\nBUG_REPORT_URL=\\"https://bugs.launchpad.net/ubuntu/\\"\\nPRIVACY_POLICY_URL=\\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\\"\\nVERSION_CODENAME=focal\\nUBUNTU_CODENAME=focal\\n"}\n', b'')
+    amazon-ebs.ubuntu: Using module file /usr/lib/python3/dist-packages/ansible/modules/setup.py
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpsm8zjzg_ TO ~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/AnsiballZ_setup.py
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpsm8zjzg_ '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/AnsiballZ_setup.py'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/AnsiballZ_setup.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' -tt 127.0.0.1 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-rtxewxmdzyqjqqicczsrhaarkpjleslp ; /usr/bin/python3 '"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/AnsiballZ_setup.py'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"''"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: Escalation succeeded
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'\n{"ansible_facts": {"ansible_ssh_host_key_dsa_public": "AAAAB3NzaC1kc3MAAACBAJtWzvsZ5Saq9gclHi15Xrt1hZtsnxm4N4lIJBxRP3NZ25o3yswlELyjvPxRaGDl+v8e9FQRgwcIsoUrdelPreUMvnDfsWtq42SbpZs6kUxWxF8N/tTjsJQZ3Pf0Rf4OXGly37nBeoZdKlXRRqCbZ1AXGYWOCT1ZM9IwYM6KBrLjAAAAFQD55sul/GFK7cXtapN6u5ar++g46QAAAIApmlq9Ke8CPabK6TQB/5/tdJHHG70FtqoCuzHqaK19aPxEdn77mu/F7L0YYIXLWP4rPPQJ8uevoKzhrf+kInUe51gEhNIpxVetgl/Bs4lQnLcKygbbsY9OvWunO4tiRvmJs/28QGvDJOg6XB8OmCuUY0P8R5WkVTHL0yw/NjLsjQAAAIBNFjP5qBXJ+7M9YldBAEp5/jDX5lvnpalWfCK5vTh67okG9NR1oJ1uGg2/UpztHWWp2iM8BBKDKtu+lCCXZ1Wu9Ux85RU6q9xSaEq4+fipNY9tMXKoyD56sczt/X7WJhQgiZscOXmzuYy1tVcXnNZLMS+Ywg9i3KDNd7k/jQOh2w==", "ansible_ssh_host_key_dsa_public_keytype": "ssh-dss", "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDFcVfMJeWwv+HdtDjzjzztFPEBL8UJ/rkJyDNQtQ4sF9oSE8YnFkuKW3EVdTJNlgSroHzfZGgpiocptoeAZMWjb61RR5nvwY9I0flRb6M1Td0HvpMOMjDzvfJSO+dJkolBQnPpwwkYDCJRhAH2W56FJP8ZaX9QK2HB69rxrIIjOKxjScRBT+ML8R975bGIS8nzKqL8zwTsIFaMS80CeP1Kaz8jL4ChuTLINu2r8wBzRP526T9zx93poPgf0Ed5rZNY3t4xO7gVycHsLpKR/L1MggQozd+X+0Vp7N3x71r+xy0M65FFqN6DTkubHSDZr2JOE8uoRWpku3/XbswFsfL2JjtKFF+WSS4Tz85psBeG+34mEpXYr+ELXdC/7QgAq8v+3ekSvDXUlREvis/BZnEqiVyav0dn02Tq4Y36P9aEKBKi8uzlV7EROB31OLgFde2sJiwFFgWS9OZef+MeaqjlGpSPeirJgRSkS7wvdK3NJ0Tigy1O6wCAFJ8HmkayhBs=", "ansible_ssh_host_key_rsa_public_keytype": "ssh-rsa", "ansible_ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN/daGcF+R/p/SGHbx8+sRPvsGeTF7+WHYl/51wbMLjBRdNoWEysiubaYyiWSZ7dDBhQMg188uh0dUU2QDzhcVI=", "ansible_ssh_host_key_ecdsa_public_keytype": "ecdsa-sha2-nistp256", "ansible_ssh_host_key_ed25519_public": "AAAAC3NzaC1lZDI1NTE5AAAAIDkDkKC8WcLHH3IbTCnQdbIx6JSfx+qcdycvQxykNiyJ", "ansible_ssh_host_key_ed25519_public_keytype": "ssh-ed25519", "ansible_fips": false, "ansible_is_chroot": false, "ansible_lsb": {"id": "Ubuntu", "description": "Ubuntu 20.04.5 LTS", "release": "20.04", "codename": "focal", "major_release": "20"}, "ansible_user_id": "root", "ansible_user_uid": 0, "ansible_user_gid": 0, "ansible_user_gecos": "root", "ansible_user_dir": "/root", "ansible_user_shell": "/bin/bash", "ansible_real_user_id": 0, "ansible_effective_user_id": 0, "ansible_real_group_id": 0, "ansible_effective_group_id": 0, "ansible_system": "Linux", "ansible_kernel": "5.15.0-1028-aws", "ansible_kernel_version": "#32~20.04.1-Ubuntu SMP Mon Jan 9 18:02:08 UTC 2023", "ansible_machine": "x86_64", "ansible_python_version": "3.8.10", "ansible_fqdn": "ip-10-0-112-29.eu-west-1.compute.internal", "ansible_hostname": "ip-10-0-112-29", "ansible_nodename": "ip-10-0-112-29", "ansible_domain": "eu-west-1.compute.internal", "ansible_userspace_bits": "64", "ansible_architecture": "x86_64", "ansible_userspace_architecture": "x86_64", "ansible_machine_id": "d78618dc819a42fe8f08ad4d6408251d", "ansible_system_capabilities_enforced": "False", "ansible_system_capabilities": [], "ansible_local": {}, "ansible_python": {"version": {"major": 3, "minor": 8, "micro": 10, "releaselevel": "final", "serial": 0}, "version_info": [3, 8, 10, "final", 0], "executable": "/usr/bin/python3", "has_sslcontext": true, "type": "cpython"}, "ansible_virtualization_type": "xen", "ansible_virtualization_role": "guest", "ansible_virtualization_tech_guest": ["xen"], "ansible_virtualization_tech_host": [], "ansible_apparmor": {"status": "enabled"}, "ansible_date_time": {"year": "2023", "month": "02", "weekday": "Wednesday", "weekday_number": "3", "weeknumber": "05", "day": "01", "hour": "13", "minute": "41", "second": "19", "epoch": "1675258879", "epoch_int": "1675258879", "date": "2023-02-01", "time": "13:41:19", "iso8601_micro": "2023-02-01T13:41:19.957779Z", "iso8601": "2023-02-01T13:41:19Z", "iso8601_basic": "20230201T134119957779", "iso8601_basic_short": "20230201T134119", "tz": "UTC", "tz_dst": "UTC", "tz_offset": "+0000"}, "ansible_cmdline": {"BOOT_IMAGE": "/boot/vmlinuz-5.15.0-1028-aws", "root": "PARTUUID=b6f09fc9-a0ef-4282-a149-e9c131355c9f", "ro": true, "console": "ttyS0", "nvme_core.io_timeout": "4294967295", "panic": "-1"}, "ansible_proc_cmdline": {"BOOT_IMAGE": "/boot/vmlinuz-5.15.0-1028-aws", "root": "PARTUUID=b6f09fc9-a0ef-4282-a149-e9c131355c9f", "ro": true, "console": ["tty1", "ttyS0"], "nvme_core.io_timeout": "4294967295", "panic": "-1"}, "ansible_processor": ["0", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz"], "ansible_processor_count": 1, "ansible_processor_cores": 1, "ansible_processor_threads_per_core": 1, "ansible_processor_vcpus": 1, "ansible_processor_nproc": 1, "ansible_memtotal_mb": 966, "ansible_memfree_mb": 300, "ansible_swaptotal_mb": 0, "ansible_swapfree_mb": 0, "ansible_memory_mb": {"real": {"total": 966, "used": 666, "free": 300}, "nocache": {"free": 754, "used": 212}, "swap": {"total": 0, "free": 0, "used": 0, "cached": 0}}, "ansible_bios_date": "08/24/2006", "ansible_bios_vendor": "Xen", "ansible_bios_version": "4.11.amazon", "ansible_board_asset_tag": "NA", "ansible_board_name": "NA", "ansible_board_serial": "NA", "ansible_board_vendor": "NA", "ansible_board_version": "NA", "ansible_chassis_asset_tag": "NA", "ansible_chassis_serial": "NA", "ansible_chassis_vendor": "Xen", "ansible_chassis_version": "NA", "ansible_form_factor": "Other", "ansible_product_name": "HVM domU", "ansible_product_serial": "ec250780-ea37-7011-4eb0-165429ec6907", "ansible_product_uuid": "ec250780-ea37-7011-4eb0-165429ec6907", "ansible_product_version": "4.11.amazon", "ansible_system_vendor": "Xen", "ansible_devices": {"loop1": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "0", "scheduler_mode": "none", "sectors": "113888", "sectorsize": "512", "size": "55.61 MB", "host": "", "holders": []}, "xvda": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {"xvda14": {"links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "start": "2048", "sectors": "8192", "sectorsize": 512, "size": "4.00 MB", "uuid": null, "holders": []}, "xvda1": {"links": {"ids": [], "uuids": ["f3b90bbe-f515-4471-9805-3eab4c179492"], "labels": ["cloudimg-rootfs"], "masters": []}, "start": "227328", "sectors": "16549855", "sectorsize": 512, "size": "7.89 GB", "uuid": "f3b90bbe-f515-4471-9805-3eab4c179492", "holders": []}, "xvda15": {"links": {"ids": [], "uuids": ["1AE8-7A32"], "labels": ["UEFI"], "masters": []}, "start": "10240", "sectors": "217088", "sectorsize": 512, "size": "106.00 MB", "uuid": "1AE8-7A32", "holders": []}}, "rotational": "0", "scheduler_mode": "mq-deadline", "sectors": "16777216", "sectorsize": "512", "size": "8.00 GB", "host": "", "holders": []}, "loop6": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "0", "sectorsize": "512", "size": "0.00 Bytes", "host": "", "holders": []}, "loop4": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "0", "scheduler_mode": "none", "sectors": "101624", "sectorsize": "512", "size": "49.62 MB", "host": "", "holders": []}, "loop2": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "0", "scheduler_mode": "none", "sectors": "129584", "sectorsize": "512", "size": "63.27 MB", "host": "", "holders": []}, "loop0": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "0", "scheduler_mode": "none", "sectors": "49944", "sectorsize": "512", "size": "24.39 MB", "host": "", "holders": []}, "loop7": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "0", "sectorsize": "512", "size": "0.00 Bytes", "host": "", "holders": []}, "loop5": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "0", "scheduler_mode": "none", "sectors": "0", "sectorsize": "512", "size": "0.00 Bytes", "host": "", "holders": []}, "loop3": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "0", "scheduler_mode": "none", "sectors": "188072", "sectorsize": "512", "size": "91.83 MB", "host": "", "holders": []}}, "ansible_device_links": {"ids": {}, "uuids": {"xvda15": ["1AE8-7A32"], "xvda1": ["f3b90bbe-f515-4471-9805-3eab4c179492"]}, "labels": {"xvda15": ["UEFI"], "xvda1": ["cloudimg-rootfs"]}, "masters": {}}, "ansible_uptime_seconds": 34, "ansible_lvm": {"lvs": {}, "vgs": {}, "pvs": {}}, "ansible_mounts": [{"mount": "/", "device": "/dev/root", "fstype": "ext4", "options": "rw,relatime,discard", "size_total": 8132173824, "size_available": 6431186944, "block_size": 4096, "block_total": 1985394, "block_available": 1570114, "block_used": 415280, "inode_total": 1032192, "inode_available": 960861, "inode_used": 71331, "uuid": "f3b90bbe-f515-4471-9805-3eab4c179492"}, {"mount": "/snap/core18/2667", "device": "/dev/loop1", "fstype": "squashfs", "options": "ro,nodev,relatime,errors=continue", "size_total": 58327040, "size_available": 0, "block_size": 131072, "block_total": 445, "block_available": 0, "block_used": 445, "inode_total": 10880, "inode_available": 0, "inode_used": 10880, "uuid": "N/A"}, {"mount": "/snap/amazon-ssm-agent/6312", "device": "/dev/loop0", "fstype": "squashfs", "options": "ro,nodev,relatime,errors=continue", "size_total": 25690112, "size_available": 0, "block_size": 131072, "block_total": 196, "block_available": 0, "block_used": 196, "inode_total": 16, "inode_available": 0, "inode_used": 16, "uuid": "N/A"}, {"mount": "/snap/core20/1778", "device": "/dev/loop2", "fstype": "squashfs", "options": "ro,nodev,relatime,errors=continue", "size_total": 66453504, "size_available": 0, "block_size": 131072, "block_total": 507, "block_available": 0, "block_used": 507, "inode_total": 11904, "inode_available": 0, "inode_used": 11904, "uuid": "N/A"}, {"mount": "/snap/lxd/24061", "device": "/dev/loop3", "fstype": "squashfs", "options": "ro,nodev,relatime,errors=continue", "size_total": 96337920, "size_available": 0, "block_size": 131072, "block_total": 735, "block_available": 0, "block_used": 735, "inode_total": 815, "inode_available": 0, "inode_used": 815, "uuid": "N/A"}, {"mount": "/snap/snapd/17883", "device": "/dev/loop4", "fstype": "squashfs", "options": "ro,nodev,relatime,errors=continue", "size_total": 52035584, "size_available": 0, "block_size": 131072, "block_total": 397, "block_available": 0, "block_used": 397, "inode_total": 491, "inode_available": 0, "inode_used": 491, "uuid": "N/A"}, {"mount": "/boot/efi", "device": "/dev/xvda15", "fstype": "vfat", "options": "rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro", "size_total": 109422592, "size_available": 103126016, "block_size": 512, "block_total": 213716, "block_available": 201418, "block_used": 12298, "inode_total": 0, "inode_available": 0, "inode_used": 0, "uuid": "1AE8-7A32"}], "ansible_env": {"SUDO_GID": "1000", "MAIL": "/var/mail/root", "USER": "root", "HOME": "/root", "SUDO_UID": "1000", "LOGNAME": "root", "TERM": "unknown", "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin", "LANG": "C.UTF-8", "SUDO_COMMAND": "/bin/sh -c echo BECOME-SUCCESS-rtxewxmdzyqjqqicczsrhaarkpjleslp ; /usr/bin/python3 \'~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/AnsiballZ_setup.py\'", "SHELL": "/bin/bash", "SUDO_USER": "ubuntu", "PWD": "/home/ubuntu"}, "ansible_distribution": "Ubuntu", "ansible_distribution_release": "focal", "ansible_distribution_version": "20.04", "ansible_distribution_major_version": "20", "ansible_distribution_file_path": "/etc/os-release", "ansible_distribution_file_variety": "Debian", "ansible_distribution_file_parsed": true, "ansible_os_family": "Debian", "ansible_fibre_channel_wwn": [], "ansible_selinux_python_present": true, "ansible_selinux": {"status": "disabled"}, "ansible_service_mgr": "systemd", "ansible_interfaces": ["eth0", "lo"], "ansible_lo": {"device": "lo", "mtu": 65536, "active": true, "type": "loopback", "promisc": false, "ipv4": {"address": "127.0.0.1", "broadcast": "", "netmask": "255.0.0.0", "network": "127.0.0.0", "prefix": "8"}, "ipv6": [{"address": "::1", "prefix": "128", "scope": "host"}], "features": {"rx_checksumming": "on [fixed]", "tx_checksumming": "on", "tx_checksum_ipv4": "off [fixed]", "tx_checksum_ip_generic": "on [fixed]", "tx_checksum_ipv6": "off [fixed]", "tx_checksum_fcoe_crc": "off [fixed]", "tx_checksum_sctp": "on [fixed]", "scatter_gather": "on", "tx_scatter_gather": "on [fixed]", "tx_scatter_gather_fraglist": "on [fixed]", "tcp_segmentation_offload": "on", "tx_tcp_segmentation": "on", "tx_tcp_ecn_segmentation": "on", "tx_tcp_mangleid_segmentation": "on", "tx_tcp6_segmentation": "on", "generic_segmentation_offload": "on", "generic_receive_offload": "on", "large_receive_offload": "off [fixed]", "rx_vlan_offload": "off [fixed]", "tx_vlan_offload": "off [fixed]", "ntuple_filters": "off [fixed]", "receive_hashing": "off [fixed]", "highdma": "on [fixed]", "rx_vlan_filter": "off [fixed]", "vlan_challenged": "on [fixed]", "tx_lockless": "on [fixed]", "netns_local": "on [fixed]", "tx_gso_robust": "off [fixed]", "tx_fcoe_segmentation": "off [fixed]", "tx_gre_segmentation": "off [fixed]", "tx_gre_csum_segmentation": "off [fixed]", "tx_ipxip4_segmentation": "off [fixed]", "tx_ipxip6_segmentation": "off [fixed]", "tx_udp_tnl_segmentation": "off [fixed]", "tx_udp_tnl_csum_segmentation": "off [fixed]", "tx_gso_partial": "off [fixed]", "tx_tunnel_remcsum_segmentation": "off [fixed]", "tx_sctp_segmentation": "on", "tx_esp_segmentation": "off [fixed]", "tx_udp_segmentation": "on", "tx_gso_list": "on", "fcoe_mtu": "off [fixed]", "tx_nocache_copy": "off [fixed]", "loopback": "on [fixed]", "rx_fcs": "off [fixed]", "rx_all": "off [fixed]", "tx_vlan_stag_hw_insert": "off [fixed]", "rx_vlan_stag_hw_parse": "off [fixed]", "rx_vlan_stag_filter": "off [fixed]", "l2_fwd_offload": "off [fixed]", "hw_tc_offload": "off [fixed]", "esp_hw_offload": "off [fixed]", "esp_tx_csum_hw_offload": "off [fixed]", "rx_udp_tunnel_port_offload": "off [fixed]", "tls_hw_tx_offload": "off [fixed]", "tls_hw_rx_offload": "off [fixed]", "rx_gro_hw": "off [fixed]", "tls_hw_record": "off [fixed]", "rx_gro_list": "off", "macsec_hw_offload": "off [fixed]", "rx_udp_gro_forwarding": "off", "hsr_tag_ins_offload": "off [fixed]", "hsr_tag_rm_offload": "off [fixed]", "hsr_fwd_offload": "off [fixed]", "hsr_dup_offload": "off [fixed]"}, "timestamping": ["tx_software", "rx_software", "software"], "hw_timestamp_filters": []}, "ansible_eth0": {"device": "eth0", "macaddress": "06:db:5c:2c:71:d5", "mtu": 9001, "active": true, "module": "xen_netfront", "type": "ether", "pciid": "vif-0", "promisc": false, "ipv4": {"address": "10.0.112.29", "broadcast": "10.0.127.255", "netmask": "255.255.224.0", "network": "10.0.96.0", "prefix": "19"}, "ipv6": [{"address": "fe80::4db:5cff:fe2c:71d5", "prefix": "64", "scope": "link"}], "features": {"rx_checksumming": "on [fixed]", "tx_checksumming": "on", "tx_checksum_ipv4": "on [fixed]", "tx_checksum_ip_generic": "off [fixed]", "tx_checksum_ipv6": "on", "tx_checksum_fcoe_crc": "off [fixed]", "tx_checksum_sctp": "off [fixed]", "scatter_gather": "on", "tx_scatter_gather": "on", "tx_scatter_gather_fraglist": "off [fixed]", "tcp_segmentation_offload": "on", "tx_tcp_segmentation": "on", "tx_tcp_ecn_segmentation": "off [fixed]", "tx_tcp_mangleid_segmentation": "off", "tx_tcp6_segmentation": "on", "generic_segmentation_offload": "on", "generic_receive_offload": "on", "large_receive_offload": "off [fixed]", "rx_vlan_offload": "off [fixed]", "tx_vlan_offload": "off [fixed]", "ntuple_filters": "off [fixed]", "receive_hashing": "off [fixed]", "highdma": "off [fixed]", "rx_vlan_filter": "off [fixed]", "vlan_challenged": "off [fixed]", "tx_lockless": "off [fixed]", "netns_local": "off [fixed]", "tx_gso_robust": "on [fixed]", "tx_fcoe_segmentation": "off [fixed]", "tx_gre_segmentation": "off [fixed]", "tx_gre_csum_segmentation": "off [fixed]", "tx_ipxip4_segmentation": "off [fixed]", "tx_ipxip6_segmentation": "off [fixed]", "tx_udp_tnl_segmentation": "off [fixed]", "tx_udp_tnl_csum_segmentation": "off [fixed]", "tx_gso_partial": "off [fixed]", "tx_tunnel_remcsum_segmentation": "off [fixed]", "tx_sctp_segmentation": "off [fixed]", "tx_esp_segmentation": "off [fixed]", "tx_udp_segmentation": "off [fixed]", "tx_gso_list": "off [fixed]", "fcoe_mtu": "off [fixed]", "tx_nocache_copy": "off", "loopback": "off [fixed]", "rx_fcs": "off [fixed]", "rx_all": "off [fixed]", "tx_vlan_stag_hw_insert": "off [fixed]", "rx_vlan_stag_hw_parse": "off [fixed]", "rx_vlan_stag_filter": "off [fixed]", "l2_fwd_offload": "off [fixed]", "hw_tc_offload": "off [fixed]", "esp_hw_offload": "off [fixed]", "esp_tx_csum_hw_offload": "off [fixed]", "rx_udp_tunnel_port_offload": "off [fixed]", "tls_hw_tx_offload": "off [fixed]", "tls_hw_rx_offload": "off [fixed]", "rx_gro_hw": "off [fixed]", "tls_hw_record": "off [fixed]", "rx_gro_list": "off", "macsec_hw_offload": "off [fixed]", "rx_udp_gro_forwarding": "off", "hsr_tag_ins_offload": "off [fixed]", "hsr_tag_rm_offload": "off [fixed]", "hsr_fwd_offload": "off [fixed]", "hsr_dup_offload": "off [fixed]"}, "timestamping": ["tx_software", "rx_software", "software"], "hw_timestamp_filters": []}, "ansible_default_ipv4": {"gateway": "10.0.96.1", "interface": "eth0", "address": "10.0.112.29", "broadcast": "10.0.127.255", "netmask": "255.255.224.0", "network": "10.0.96.0", "prefix": "19", "macaddress": "06:db:5c:2c:71:d5", "mtu": 9001, "type": "ether", "alias": "eth0"}, "ansible_default_ipv6": {}, "ansible_all_ipv4_addresses": ["10.0.112.29"], "ansible_all_ipv6_addresses": ["fe80::4db:5cff:fe2c:71d5"], "ansible_hostnqn": "", "ansible_dns": {"nameservers": ["127.0.0.53"], "options": {"edns0": true, "trust-ad": true}, "search": ["eu-west-1.compute.internal"]}, "ansible_iscsi_iqn": "", "ansible_pkg_mgr": "apt", "gather_subset": ["all"], "module_setup": true}, "invocation": {"module_args": {"gather_subset": ["all"], "gather_timeout": 10, "filter": [], "fact_path": "/etc/ansible/facts.d"}}}\n', b'Shared connection to 127.0.0.1 closed.\r\n')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'rm -f -r '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258872.5354333-2842-23650116596943/'"'"'"'"'"'"'"'"' > /dev/null 2>&1 && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: ok: [default]
+    amazon-ebs.ubuntu: META: ran handlers
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: TASK [wordpress/front : ansible.builtin.debug] *********************************
+    amazon-ebs.ubuntu: task path: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/00_get_aws_info.yml:16
+    amazon-ebs.ubuntu: ok: [default -> localhost] => {
+    amazon-ebs.ubuntu:     "nginx_wordpress_conf_wordpress_back_lb_url": "internal-back-lb-2102008848.eu-west-1.elb.amazonaws.com"
+    amazon-ebs.ubuntu: }
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: TASK [wordpress/front : Install packages] **************************************
+    amazon-ebs.ubuntu: task path: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/01_install.yml:1
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'echo ~lodis && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'~lodis\n', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo ~lodis/.ansible/tmp `"&& mkdir "` echo ~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420 `" && echo ansible-tmp-1675258882.7482018-2859-103503609281420="` echo ~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420 `" ) && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'ansible-tmp-1675258882.7482018-2859-103503609281420=~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420\n', b'')
+    amazon-ebs.ubuntu: Using module file /usr/lib/python3/dist-packages/ansible/modules/apt.py
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmp0bmvmeds TO ~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420/AnsiballZ_apt.py
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmp0bmvmeds '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420/AnsiballZ_apt.py'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420/AnsiballZ_apt.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' -tt 127.0.0.1 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-djuzdixoscxzkodqxzdczgwbfjwbyihg ; /usr/bin/python3 '"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420/AnsiballZ_apt.py'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"''"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: Escalation succeeded
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'\n{"changed": true, "stdout": "Reading package lists...\\nBuilding dependency tree...\\nReading state information...\\nThe following additional packages will be installed:\\n  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0\\n  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter\\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5\\n  libwebp6 libxpm4 nginx-common nginx-core\\nSuggested packages:\\n  libgd-tools fcgiwrap nginx-doc ssl-cert\\nThe following NEW packages will be installed:\\n  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0\\n  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter\\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5\\n  libwebp6 libxpm4 nginx nginx-common nginx-core\\n0 upgraded, 17 newly installed, 0 to remove and 27 not upgraded.\\nNeed to get 2436 kB of archives.\\nAfter this operation, 7919 kB of additional disk space will be used.\\nGet:1 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 fonts-dejavu-core all 2.37-1 [1041 kB]\\nGet:2 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 fontconfig-config all 2.13.1-2ubuntu3 [28.8 kB]\\nGet:3 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libfontconfig1 amd64 2.13.1-2ubuntu3 [114 kB]\\nGet:4 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjpeg-turbo8 amd64 2.0.3-0ubuntu1.20.04.3 [118 kB]\\nGet:5 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2194 B]\\nGet:6 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjbig0 amd64 2.1-3.1ubuntu0.20.04.1 [27.3 kB]\\nGet:7 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libwebp6 amd64 0.6.1-2ubuntu0.20.04.1 [185 kB]\\nGet:8 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libtiff5 amd64 4.1.0+git191117-2ubuntu0.20.04.7 [163 kB]\\nGet:9 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libxpm4 amd64 1:3.5.12-1ubuntu0.20.04.1 [34.6 kB]\\nGet:10 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgd3 amd64 2.2.5-5.2ubuntu2.1 [118 kB]\\nGet:11 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-common all 1.18.0-0ubuntu1.4 [37.7 kB]\\nGet:12 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-image-filter amd64 1.18.0-0ubuntu1.4 [14.8 kB]\\nGet:13 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-xslt-filter amd64 1.18.0-0ubuntu1.4 [13.0 kB]\\nGet:14 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-mail amd64 1.18.0-0ubuntu1.4 [42.9 kB]\\nGet:15 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-stream amd64 1.18.0-0ubuntu1.4 [67.4 kB]\\nGet:16 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-core amd64 1.18.0-0ubuntu1.4 [425 kB]\\nGet:17 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx all 1.18.0-0ubuntu1.4 [3620 B]\\nPreconfiguring packages ...\\nFetched 2436 kB in 0s (35.6 MB/s)\\nSelecting previously unselected package fonts-dejavu-core.\\r\\n(Reading database ... \\r(Reading database ... 5%\\r(Reading database ... 10%\\r(Reading database ... 15%\\r(Reading database ... 20%\\r(Reading database ... 25%\\r(Reading database ... 30%\\r(Reading database ... 35%\\r(Reading database ... 40%\\r(Reading database ... 45%\\r(Reading database ... 50%\\r(Reading database ... 55%\\r(Reading database ... 60%\\r(Reading database ... 65%\\r(Reading database ... 70%\\r(Reading database ... 75%\\r(Reading database ... 80%\\r(Reading database ... 85%\\r(Reading database ... 90%\\r(Reading database ... 95%\\r(Reading database ... 100%\\r(Reading database ... 61835 files and directories currently installed.)\\r\\nPreparing to unpack .../00-fonts-dejavu-core_2.37-1_all.deb ...\\r\\nUnpacking fonts-dejavu-core (2.37-1) ...\\r\\nSelecting previously unselected package fontconfig-config.\\r\\nPreparing to unpack .../01-fontconfig-config_2.13.1-2ubuntu3_all.deb ...\\r\\nUnpacking fontconfig-config (2.13.1-2ubuntu3) ...\\r\\nSelecting previously unselected package libfontconfig1:amd64.\\r\\nPreparing to unpack .../02-libfontconfig1_2.13.1-2ubuntu3_amd64.deb ...\\r\\nUnpacking libfontconfig1:amd64 (2.13.1-2ubuntu3) ...\\r\\nSelecting previously unselected package libjpeg-turbo8:amd64.\\r\\nPreparing to unpack .../03-libjpeg-turbo8_2.0.3-0ubuntu1.20.04.3_amd64.deb ...\\r\\nUnpacking libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...\\r\\nSelecting previously unselected package libjpeg8:amd64.\\r\\nPreparing to unpack .../04-libjpeg8_8c-2ubuntu8_amd64.deb ...\\r\\nUnpacking libjpeg8:amd64 (8c-2ubuntu8) ...\\r\\nSelecting previously unselected package libjbig0:amd64.\\r\\nPreparing to unpack .../05-libjbig0_2.1-3.1ubuntu0.20.04.1_amd64.deb ...\\r\\nUnpacking libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...\\r\\nSelecting previously unselected package libwebp6:amd64.\\r\\nPreparing to unpack .../06-libwebp6_0.6.1-2ubuntu0.20.04.1_amd64.deb ...\\r\\nUnpacking libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...\\r\\nSelecting previously unselected package libtiff5:amd64.\\r\\nPreparing to unpack .../07-libtiff5_4.1.0+git191117-2ubuntu0.20.04.7_amd64.deb ...\\r\\nUnpacking libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.7) ...\\r\\nSelecting previously unselected package libxpm4:amd64.\\r\\nPreparing to unpack .../08-libxpm4_1%3a3.5.12-1ubuntu0.20.04.1_amd64.deb ...\\r\\nUnpacking libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...\\r\\nSelecting previously unselected package libgd3:amd64.\\r\\nPreparing to unpack .../09-libgd3_2.2.5-5.2ubuntu2.1_amd64.deb ...\\r\\nUnpacking libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...\\r\\nSelecting previously unselected package nginx-common.\\r\\nPreparing to unpack .../10-nginx-common_1.18.0-0ubuntu1.4_all.deb ...\\r\\nUnpacking nginx-common (1.18.0-0ubuntu1.4) ...\\r\\nSelecting previously unselected package libnginx-mod-http-image-filter.\\r\\nPreparing to unpack .../11-libnginx-mod-http-image-filter_1.18.0-0ubuntu1.4_amd64.deb ...\\r\\nUnpacking libnginx-mod-http-image-filter (1.18.0-0ubuntu1.4) ...\\r\\nSelecting previously unselected package libnginx-mod-http-xslt-filter.\\r\\nPreparing to unpack .../12-libnginx-mod-http-xslt-filter_1.18.0-0ubuntu1.4_amd64.deb ...\\r\\nUnpacking libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.4) ...\\r\\nSelecting previously unselected package libnginx-mod-mail.\\r\\nPreparing to unpack .../13-libnginx-mod-mail_1.18.0-0ubuntu1.4_amd64.deb ...\\r\\nUnpacking libnginx-mod-mail (1.18.0-0ubuntu1.4) ...\\r\\nSelecting previously unselected package libnginx-mod-stream.\\r\\nPreparing to unpack .../14-libnginx-mod-stream_1.18.0-0ubuntu1.4_amd64.deb ...\\r\\nUnpacking libnginx-mod-stream (1.18.0-0ubuntu1.4) ...\\r\\nSelecting previously unselected package nginx-core.\\r\\nPreparing to unpack .../15-nginx-core_1.18.0-0ubuntu1.4_amd64.deb ...\\r\\nUnpacking nginx-core (1.18.0-0ubuntu1.4) ...\\r\\nSelecting previously unselected package nginx.\\r\\nPreparing to unpack .../16-nginx_1.18.0-0ubuntu1.4_all.deb ...\\r\\nUnpacking nginx (1.18.0-0ubuntu1.4) ...\\r\\nSetting up libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...\\r\\nSetting up nginx-common (1.18.0-0ubuntu1.4) ...\\r\\nCreated symlink /etc/systemd/system/multi-user.target.wants/nginx.service \\u2192 /lib/systemd/system/nginx.service.\\r\\nSetting up libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...\\r\\nSetting up libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.4) ...\\r\\nSetting up libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...\\r\\nSetting up fonts-dejavu-core (2.37-1) ...\\r\\nSetting up libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...\\r\\nSetting up libjpeg8:amd64 (8c-2ubuntu8) ...\\r\\nSetting up libnginx-mod-mail (1.18.0-0ubuntu1.4) ...\\r\\nSetting up fontconfig-config (2.13.1-2ubuntu3) ...\\r\\nSetting up libnginx-mod-stream (1.18.0-0ubuntu1.4) ...\\r\\nSetting up libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.7) ...\\r\\nSetting up libfontconfig1:amd64 (2.13.1-2ubuntu3) ...\\r\\nSetting up libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...\\r\\nSetting up libnginx-mod-http-image-filter (1.18.0-0ubuntu1.4) ...\\r\\nSetting up nginx-core (1.18.0-0ubuntu1.4) ...\\r\\nSetting up nginx (1.18.0-0ubuntu1.4) ...\\r\\nProcessing triggers for ufw (0.36-6ubuntu1) ...\\r\\nProcessing triggers for systemd (245.4-4ubuntu3.19) ...\\r\\nProcessing triggers for man-db (2.9.1-1) ...\\r\\nProcessing triggers for libc-bin (2.31-0ubuntu9.9) ...\\r\\n", "stderr": "", "diff": {}, "cache_updated": true, "cache_update_time": 1675258890, "invocation": {"module_args": {"name": ["nginx"], "state": "present", "update_cache": true, "package": ["nginx"], "update_cache_retries": 5, "update_cache_retry_max_delay": 12, "cache_valid_time": 0, "purge": false, "force": false, "upgrade": null, "dpkg_options": "force-confdef,force-confold", "autoremove": false, "autoclean": false, "fail_on_autoremove": false, "only_upgrade": false, "force_apt_get": false, "clean": false, "allow_unauthenticated": false, "allow_downgrade": false, "allow_change_held_packages": false, "lock_timeout": 60, "deb": null, "default_release": null, "install_recommends": null, "policy_rc_d": null}}}\n', b'Shared connection to 127.0.0.1 closed.\r\n')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'rm -f -r '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258882.7482018-2859-103503609281420/'"'"'"'"'"'"'"'"' > /dev/null 2>&1 && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: changed: [default] => {
+    amazon-ebs.ubuntu:     "cache_update_time": 1675258890,
+    amazon-ebs.ubuntu:     "cache_updated": true,
+    amazon-ebs.ubuntu:     "changed": true,
+    amazon-ebs.ubuntu:     "diff": {},
+    amazon-ebs.ubuntu:     "invocation": {
+    amazon-ebs.ubuntu:         "module_args": {
+    amazon-ebs.ubuntu:             "allow_change_held_packages": false,
+    amazon-ebs.ubuntu:             "allow_downgrade": false,
+    amazon-ebs.ubuntu:             "allow_unauthenticated": false,
+    amazon-ebs.ubuntu:             "autoclean": false,
+    amazon-ebs.ubuntu:             "autoremove": false,
+    amazon-ebs.ubuntu:             "cache_valid_time": 0,
+    amazon-ebs.ubuntu:             "clean": false,
+    amazon-ebs.ubuntu:             "deb": null,
+    amazon-ebs.ubuntu:             "default_release": null,
+    amazon-ebs.ubuntu:             "dpkg_options": "force-confdef,force-confold",
+    amazon-ebs.ubuntu:             "fail_on_autoremove": false,
+    amazon-ebs.ubuntu:             "force": false,
+    amazon-ebs.ubuntu:             "force_apt_get": false,
+    amazon-ebs.ubuntu:             "install_recommends": null,
+    amazon-ebs.ubuntu:             "lock_timeout": 60,
+    amazon-ebs.ubuntu:             "name": [
+    amazon-ebs.ubuntu:                 "nginx"
+    amazon-ebs.ubuntu:             ],
+    amazon-ebs.ubuntu:             "only_upgrade": false,
+    amazon-ebs.ubuntu:             "package": [
+    amazon-ebs.ubuntu:                 "nginx"
+    amazon-ebs.ubuntu:             ],
+    amazon-ebs.ubuntu:             "policy_rc_d": null,
+    amazon-ebs.ubuntu:             "purge": false,
+    amazon-ebs.ubuntu:             "state": "present",
+    amazon-ebs.ubuntu:             "update_cache": true,
+    amazon-ebs.ubuntu:             "update_cache_retries": 5,
+    amazon-ebs.ubuntu:             "update_cache_retry_max_delay": 12,
+    amazon-ebs.ubuntu:             "upgrade": null
+    amazon-ebs.ubuntu:         }
+    amazon-ebs.ubuntu:     },
+    amazon-ebs.ubuntu:     "stderr": "",
+    amazon-ebs.ubuntu:     "stderr_lines": [],
+    amazon-ebs.ubuntu:     "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following additional packages will be installed:\n  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0\n  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5\n  libwebp6 libxpm4 nginx-common nginx-core\nSuggested packages:\n  libgd-tools fcgiwrap nginx-doc ssl-cert\nThe following NEW packages will be installed:\n  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0\n  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5\n  libwebp6 libxpm4 nginx nginx-common nginx-core\n0 upgraded, 17 newly installed, 0 to remove and 27 not upgraded.\nNeed to get 2436 kB of archives.\nAfter this operation, 7919 kB of additional disk space will be used.\nGet:1 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 fonts-dejavu-core all 2.37-1 [1041 kB]\nGet:2 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 fontconfig-config all 2.13.1-2ubuntu3 [28.8 kB]\nGet:3 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libfontconfig1 amd64 2.13.1-2ubuntu3 [114 kB]\nGet:4 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjpeg-turbo8 amd64 2.0.3-0ubuntu1.20.04.3 [118 kB]\nGet:5 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2194 B]\nGet:6 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjbig0 amd64 2.1-3.1ubuntu0.20.04.1 [27.3 kB]\nGet:7 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libwebp6 amd64 0.6.1-2ubuntu0.20.04.1 [185 kB]\nGet:8 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libtiff5 amd64 4.1.0+git191117-2ubuntu0.20.04.7 [163 kB]\nGet:9 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libxpm4 amd64 1:3.5.12-1ubuntu0.20.04.1 [34.6 kB]\nGet:10 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgd3 amd64 2.2.5-5.2ubuntu2.1 [118 kB]\nGet:11 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-common all 1.18.0-0ubuntu1.4 [37.7 kB]\nGet:12 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-image-filter amd64 1.18.0-0ubuntu1.4 [14.8 kB]\nGet:13 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-xslt-filter amd64 1.18.0-0ubuntu1.4 [13.0 kB]\nGet:14 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-mail amd64 1.18.0-0ubuntu1.4 [42.9 kB]\nGet:15 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-stream amd64 1.18.0-0ubuntu1.4 [67.4 kB]\nGet:16 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-core amd64 1.18.0-0ubuntu1.4 [425 kB]\nGet:17 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx all 1.18.0-0ubuntu1.4 [3620 B]\nPreconfiguring packages ...\nFetched 2436 kB in 0s (35.6 MB/s)\nSelecting previously unselected package fonts-dejavu-core.\r\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 61835 files and directories currently installed.)\r\nPreparing to unpack .../00-fonts-dejavu-core_2.37-1_all.deb ...\r\nUnpacking fonts-dejavu-core (2.37-1) ...\r\nSelecting previously unselected package fontconfig-config.\r\nPreparing to unpack .../01-fontconfig-config_2.13.1-2ubuntu3_all.deb ...\r\nUnpacking fontconfig-config (2.13.1-2ubuntu3) ...\r\nSelecting previously unselected package libfontconfig1:amd64.\r\nPreparing to unpack .../02-libfontconfig1_2.13.1-2ubuntu3_amd64.deb ...\r\nUnpacking libfontconfig1:amd64 (2.13.1-2ubuntu3) ...\r\nSelecting previously unselected package libjpeg-turbo8:amd64.\r\nPreparing to unpack .../03-libjpeg-turbo8_2.0.3-0ubuntu1.20.04.3_amd64.deb ...\r\nUnpacking libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...\r\nSelecting previously unselected package libjpeg8:amd64.\r\nPreparing to unpack .../04-libjpeg8_8c-2ubuntu8_amd64.deb ...\r\nUnpacking libjpeg8:amd64 (8c-2ubuntu8) ...\r\nSelecting previously unselected package libjbig0:amd64.\r\nPreparing to unpack .../05-libjbig0_2.1-3.1ubuntu0.20.04.1_amd64.deb ...\r\nUnpacking libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...\r\nSelecting previously unselected package libwebp6:amd64.\r\nPreparing to unpack .../06-libwebp6_0.6.1-2ubuntu0.20.04.1_amd64.deb ...\r\nUnpacking libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...\r\nSelecting previously unselected package libtiff5:amd64.\r\nPreparing to unpack .../07-libtiff5_4.1.0+git191117-2ubuntu0.20.04.7_amd64.deb ...\r\nUnpacking libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.7) ...\r\nSelecting previously unselected package libxpm4:amd64.\r\nPreparing to unpack .../08-libxpm4_1%3a3.5.12-1ubuntu0.20.04.1_amd64.deb ...\r\nUnpacking libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...\r\nSelecting previously unselected package libgd3:amd64.\r\nPreparing to unpack .../09-libgd3_2.2.5-5.2ubuntu2.1_amd64.deb ...\r\nUnpacking libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...\r\nSelecting previously unselected package nginx-common.\r\nPreparing to unpack .../10-nginx-common_1.18.0-0ubuntu1.4_all.deb ...\r\nUnpacking nginx-common (1.18.0-0ubuntu1.4) ...\r\nSelecting previously unselected package libnginx-mod-http-image-filter.\r\nPreparing to unpack .../11-libnginx-mod-http-image-filter_1.18.0-0ubuntu1.4_amd64.deb ...\r\nUnpacking libnginx-mod-http-image-filter (1.18.0-0ubuntu1.4) ...\r\nSelecting previously unselected package libnginx-mod-http-xslt-filter.\r\nPreparing to unpack .../12-libnginx-mod-http-xslt-filter_1.18.0-0ubuntu1.4_amd64.deb ...\r\nUnpacking libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.4) ...\r\nSelecting previously unselected package libnginx-mod-mail.\r\nPreparing to unpack .../13-libnginx-mod-mail_1.18.0-0ubuntu1.4_amd64.deb ...\r\nUnpacking libnginx-mod-mail (1.18.0-0ubuntu1.4) ...\r\nSelecting previously unselected package libnginx-mod-stream.\r\nPreparing to unpack .../14-libnginx-mod-stream_1.18.0-0ubuntu1.4_amd64.deb ...\r\nUnpacking libnginx-mod-stream (1.18.0-0ubuntu1.4) ...\r\nSelecting previously unselected package nginx-core.\r\nPreparing to unpack .../15-nginx-core_1.18.0-0ubuntu1.4_amd64.deb ...\r\nUnpacking nginx-core (1.18.0-0ubuntu1.4) ...\r\nSelecting previously unselected package nginx.\r\nPreparing to unpack .../16-nginx_1.18.0-0ubuntu1.4_all.deb ...\r\nUnpacking nginx (1.18.0-0ubuntu1.4) ...\r\nSetting up libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...\r\nSetting up nginx-common (1.18.0-0ubuntu1.4) ...\r\nCreated symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service.\r\nSetting up libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...\r\nSetting up libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.4) ...\r\nSetting up libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...\r\nSetting up fonts-dejavu-core (2.37-1) ...\r\nSetting up libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...\r\nSetting up libjpeg8:amd64 (8c-2ubuntu8) ...\r\nSetting up libnginx-mod-mail (1.18.0-0ubuntu1.4) ...\r\nSetting up fontconfig-config (2.13.1-2ubuntu3) ...\r\nSetting up libnginx-mod-stream (1.18.0-0ubuntu1.4) ...\r\nSetting up libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.7) ...\r\nSetting up libfontconfig1:amd64 (2.13.1-2ubuntu3) ...\r\nSetting up libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...\r\nSetting up libnginx-mod-http-image-filter (1.18.0-0ubuntu1.4) ...\r\nSetting up nginx-core (1.18.0-0ubuntu1.4) ...\r\nSetting up nginx (1.18.0-0ubuntu1.4) ...\r\nProcessing triggers for ufw (0.36-6ubuntu1) ...\r\nProcessing triggers for systemd (245.4-4ubuntu3.19) ...\r\nProcessing triggers for man-db (2.9.1-1) ...\r\nProcessing triggers for libc-bin (2.31-0ubuntu9.9) ...\r\n",
+    amazon-ebs.ubuntu:     "stdout_lines": [
+    amazon-ebs.ubuntu:         "Reading package lists...",
+    amazon-ebs.ubuntu:         "Building dependency tree...",
+    amazon-ebs.ubuntu:         "Reading state information...",
+    amazon-ebs.ubuntu:         "The following additional packages will be installed:",
+    amazon-ebs.ubuntu:         "  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0",
+    amazon-ebs.ubuntu:         "  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter",
+    amazon-ebs.ubuntu:         "  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5",
+    amazon-ebs.ubuntu:         "  libwebp6 libxpm4 nginx-common nginx-core",
+    amazon-ebs.ubuntu:         "Suggested packages:",
+    amazon-ebs.ubuntu:         "  libgd-tools fcgiwrap nginx-doc ssl-cert",
+    amazon-ebs.ubuntu:         "The following NEW packages will be installed:",
+    amazon-ebs.ubuntu:         "  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0",
+    amazon-ebs.ubuntu:         "  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter",
+    amazon-ebs.ubuntu:         "  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5",
+    amazon-ebs.ubuntu:         "  libwebp6 libxpm4 nginx nginx-common nginx-core",
+    amazon-ebs.ubuntu:         "0 upgraded, 17 newly installed, 0 to remove and 27 not upgraded.",
+    amazon-ebs.ubuntu:         "Need to get 2436 kB of archives.",
+    amazon-ebs.ubuntu:         "After this operation, 7919 kB of additional disk space will be used.",
+    amazon-ebs.ubuntu:         "Get:1 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 fonts-dejavu-core all 2.37-1 [1041 kB]",
+    amazon-ebs.ubuntu:         "Get:2 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 fontconfig-config all 2.13.1-2ubuntu3 [28.8 kB]",
+    amazon-ebs.ubuntu:         "Get:3 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libfontconfig1 amd64 2.13.1-2ubuntu3 [114 kB]",
+    amazon-ebs.ubuntu:         "Get:4 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjpeg-turbo8 amd64 2.0.3-0ubuntu1.20.04.3 [118 kB]",
+    amazon-ebs.ubuntu:         "Get:5 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2194 B]",
+    amazon-ebs.ubuntu:         "Get:6 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjbig0 amd64 2.1-3.1ubuntu0.20.04.1 [27.3 kB]",
+    amazon-ebs.ubuntu:         "Get:7 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libwebp6 amd64 0.6.1-2ubuntu0.20.04.1 [185 kB]",
+    amazon-ebs.ubuntu:         "Get:8 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libtiff5 amd64 4.1.0+git191117-2ubuntu0.20.04.7 [163 kB]",
+    amazon-ebs.ubuntu:         "Get:9 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libxpm4 amd64 1:3.5.12-1ubuntu0.20.04.1 [34.6 kB]",
+    amazon-ebs.ubuntu:         "Get:10 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgd3 amd64 2.2.5-5.2ubuntu2.1 [118 kB]",
+    amazon-ebs.ubuntu:         "Get:11 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-common all 1.18.0-0ubuntu1.4 [37.7 kB]",
+    amazon-ebs.ubuntu:         "Get:12 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-image-filter amd64 1.18.0-0ubuntu1.4 [14.8 kB]",
+    amazon-ebs.ubuntu:         "Get:13 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-xslt-filter amd64 1.18.0-0ubuntu1.4 [13.0 kB]",
+    amazon-ebs.ubuntu:         "Get:14 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-mail amd64 1.18.0-0ubuntu1.4 [42.9 kB]",
+    amazon-ebs.ubuntu:         "Get:15 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-stream amd64 1.18.0-0ubuntu1.4 [67.4 kB]",
+    amazon-ebs.ubuntu:         "Get:16 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-core amd64 1.18.0-0ubuntu1.4 [425 kB]",
+    amazon-ebs.ubuntu:         "Get:17 http://eu-west-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx all 1.18.0-0ubuntu1.4 [3620 B]",
+    amazon-ebs.ubuntu:         "Preconfiguring packages ...",
+    amazon-ebs.ubuntu:         "Fetched 2436 kB in 0s (35.6 MB/s)",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package fonts-dejavu-core.",
+    amazon-ebs.ubuntu:         "(Reading database ... ",
+    amazon-ebs.ubuntu:         "(Reading database ... 5%",
+    amazon-ebs.ubuntu:         "(Reading database ... 10%",
+    amazon-ebs.ubuntu:         "(Reading database ... 15%",
+    amazon-ebs.ubuntu:         "(Reading database ... 20%",
+    amazon-ebs.ubuntu:         "(Reading database ... 25%",
+    amazon-ebs.ubuntu:         "(Reading database ... 30%",
+    amazon-ebs.ubuntu:         "(Reading database ... 35%",
+    amazon-ebs.ubuntu:         "(Reading database ... 40%",
+    amazon-ebs.ubuntu:         "(Reading database ... 45%",
+    amazon-ebs.ubuntu:         "(Reading database ... 50%",
+    amazon-ebs.ubuntu:         "(Reading database ... 55%",
+    amazon-ebs.ubuntu:         "(Reading database ... 60%",
+    amazon-ebs.ubuntu:         "(Reading database ... 65%",
+    amazon-ebs.ubuntu:         "(Reading database ... 70%",
+    amazon-ebs.ubuntu:         "(Reading database ... 75%",
+    amazon-ebs.ubuntu:         "(Reading database ... 80%",
+    amazon-ebs.ubuntu:         "(Reading database ... 85%",
+    amazon-ebs.ubuntu:         "(Reading database ... 90%",
+    amazon-ebs.ubuntu:         "(Reading database ... 95%",
+    amazon-ebs.ubuntu:         "(Reading database ... 100%",
+    amazon-ebs.ubuntu:         "(Reading database ... 61835 files and directories currently installed.)",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../00-fonts-dejavu-core_2.37-1_all.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking fonts-dejavu-core (2.37-1) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package fontconfig-config.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../01-fontconfig-config_2.13.1-2ubuntu3_all.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking fontconfig-config (2.13.1-2ubuntu3) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libfontconfig1:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../02-libfontconfig1_2.13.1-2ubuntu3_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libfontconfig1:amd64 (2.13.1-2ubuntu3) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libjpeg-turbo8:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../03-libjpeg-turbo8_2.0.3-0ubuntu1.20.04.3_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libjpeg8:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../04-libjpeg8_8c-2ubuntu8_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libjpeg8:amd64 (8c-2ubuntu8) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libjbig0:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../05-libjbig0_2.1-3.1ubuntu0.20.04.1_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libwebp6:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../06-libwebp6_0.6.1-2ubuntu0.20.04.1_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libtiff5:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../07-libtiff5_4.1.0+git191117-2ubuntu0.20.04.7_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.7) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libxpm4:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../08-libxpm4_1%3a3.5.12-1ubuntu0.20.04.1_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libgd3:amd64.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../09-libgd3_2.2.5-5.2ubuntu2.1_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package nginx-common.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../10-nginx-common_1.18.0-0ubuntu1.4_all.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking nginx-common (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libnginx-mod-http-image-filter.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../11-libnginx-mod-http-image-filter_1.18.0-0ubuntu1.4_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libnginx-mod-http-image-filter (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libnginx-mod-http-xslt-filter.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../12-libnginx-mod-http-xslt-filter_1.18.0-0ubuntu1.4_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libnginx-mod-mail.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../13-libnginx-mod-mail_1.18.0-0ubuntu1.4_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libnginx-mod-mail (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package libnginx-mod-stream.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../14-libnginx-mod-stream_1.18.0-0ubuntu1.4_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking libnginx-mod-stream (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package nginx-core.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../15-nginx-core_1.18.0-0ubuntu1.4_amd64.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking nginx-core (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Selecting previously unselected package nginx.",
+    amazon-ebs.ubuntu:         "Preparing to unpack .../16-nginx_1.18.0-0ubuntu1.4_all.deb ...",
+    amazon-ebs.ubuntu:         "Unpacking nginx (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Setting up libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...",
+    amazon-ebs.ubuntu:         "Setting up nginx-common (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service.",
+    amazon-ebs.ubuntu:         "Setting up libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...",
+    amazon-ebs.ubuntu:         "Setting up libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Setting up libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...",
+    amazon-ebs.ubuntu:         "Setting up fonts-dejavu-core (2.37-1) ...",
+    amazon-ebs.ubuntu:         "Setting up libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...",
+    amazon-ebs.ubuntu:         "Setting up libjpeg8:amd64 (8c-2ubuntu8) ...",
+    amazon-ebs.ubuntu:         "Setting up libnginx-mod-mail (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Setting up fontconfig-config (2.13.1-2ubuntu3) ...",
+    amazon-ebs.ubuntu:         "Setting up libnginx-mod-stream (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Setting up libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.7) ...",
+    amazon-ebs.ubuntu:         "Setting up libfontconfig1:amd64 (2.13.1-2ubuntu3) ...",
+    amazon-ebs.ubuntu:         "Setting up libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...",
+    amazon-ebs.ubuntu:         "Setting up libnginx-mod-http-image-filter (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Setting up nginx-core (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Setting up nginx (1.18.0-0ubuntu1.4) ...",
+    amazon-ebs.ubuntu:         "Processing triggers for ufw (0.36-6ubuntu1) ...",
+    amazon-ebs.ubuntu:         "Processing triggers for systemd (245.4-4ubuntu3.19) ...",
+    amazon-ebs.ubuntu:         "Processing triggers for man-db (2.9.1-1) ...",
+    amazon-ebs.ubuntu:         "Processing triggers for libc-bin (2.31-0ubuntu9.9) ..."
+    amazon-ebs.ubuntu:     ]
+    amazon-ebs.ubuntu: }
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: TASK [wordpress/front : Copy nginx_wordpress.conf] *****************************
+    amazon-ebs.ubuntu: task path: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/02_configure.yml:1
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'echo ~lodis && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'~lodis\n', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo ~lodis/.ansible/tmp `"&& mkdir "` echo ~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474 `" && echo ansible-tmp-1675258905.0792942-2868-233703569153474="` echo ~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474 `" ) && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'ansible-tmp-1675258905.0792942-2868-233703569153474=~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474\n', b'')
+    amazon-ebs.ubuntu: Using module file /usr/lib/python3/dist-packages/ansible/modules/stat.py
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpdm_klwbi TO ~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_stat.py
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpdm_klwbi '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_stat.py'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_stat.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' -tt 127.0.0.1 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-maaipomkebqgfmognxhlovphqwlgcrot ; /usr/bin/python3 '"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_stat.py'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"''"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: Escalation succeeded
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'\n{"changed": false, "stat": {"exists": false}, "invocation": {"module_args": {"path": "/etc/nginx/sites-available/wordpress.conf", "follow": false, "get_checksum": true, "checksum_algorithm": "sha1", "get_md5": false, "get_mime": true, "get_attributes": true}}}\n', b'Shared connection to 127.0.0.1 closed.\r\n')
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpvbapu2lc/nginx_wordpress.conf.j2 TO ~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpvbapu2lc/nginx_wordpress.conf.j2 '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: Using module file /usr/lib/python3/dist-packages/ansible/modules/copy.py
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmp7rwvtlmf TO ~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_copy.py
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmp7rwvtlmf '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_copy.py'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_copy.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' -tt 127.0.0.1 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-jnbhuzzvsnzldyowehcppnhrgrmwpfcj ; /usr/bin/python3 '"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/AnsiballZ_copy.py'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"''"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: Escalation succeeded
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'\n{"dest": "/etc/nginx/sites-available/wordpress.conf", "src": "~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source", "md5sum": "f221886aa677b95e86c786147105bcb3", "checksum": "6615122a27d66ed02c2d730886fd8b4c028822fc", "changed": true, "uid": 0, "gid": 0, "owner": "root", "group": "root", "mode": "0644", "state": "file", "size": 159, "invocation": {"module_args": {"src": "~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source", "dest": "/etc/nginx/sites-available/wordpress.conf", "mode": "0644", "follow": false, "_original_basename": "nginx_wordpress.conf.j2", "checksum": "6615122a27d66ed02c2d730886fd8b4c028822fc", "backup": false, "force": true, "unsafe_writes": false, "content": null, "validate": null, "directory_mode": null, "remote_src": null, "local_follow": null, "owner": null, "group": null, "seuser": null, "serole": null, "selevel": null, "setype": null, "attributes": null}}}\n', b'Shared connection to 127.0.0.1 closed.\r\n')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'rm -f -r '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/'"'"'"'"'"'"'"'"' > /dev/null 2>&1 && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: changed: [default] => {
+    amazon-ebs.ubuntu:     "changed": true,
+    amazon-ebs.ubuntu:     "checksum": "6615122a27d66ed02c2d730886fd8b4c028822fc",
+    amazon-ebs.ubuntu:     "dest": "/etc/nginx/sites-available/wordpress.conf",
+    amazon-ebs.ubuntu:     "diff": [],
+    amazon-ebs.ubuntu:     "gid": 0,
+    amazon-ebs.ubuntu:     "group": "root",
+    amazon-ebs.ubuntu:     "invocation": {
+    amazon-ebs.ubuntu:         "module_args": {
+    amazon-ebs.ubuntu:             "_original_basename": "nginx_wordpress.conf.j2",
+    amazon-ebs.ubuntu:             "attributes": null,
+    amazon-ebs.ubuntu:             "backup": false,
+    amazon-ebs.ubuntu:             "checksum": "6615122a27d66ed02c2d730886fd8b4c028822fc",
+    amazon-ebs.ubuntu:             "content": null,
+    amazon-ebs.ubuntu:             "dest": "/etc/nginx/sites-available/wordpress.conf",
+    amazon-ebs.ubuntu:             "directory_mode": null,
+    amazon-ebs.ubuntu:             "follow": false,
+    amazon-ebs.ubuntu:             "force": true,
+    amazon-ebs.ubuntu:             "group": null,
+    amazon-ebs.ubuntu:             "local_follow": null,
+    amazon-ebs.ubuntu:             "mode": "0644",
+    amazon-ebs.ubuntu:             "owner": null,
+    amazon-ebs.ubuntu:             "remote_src": null,
+    amazon-ebs.ubuntu:             "selevel": null,
+    amazon-ebs.ubuntu:             "serole": null,
+    amazon-ebs.ubuntu:             "setype": null,
+    amazon-ebs.ubuntu:             "seuser": null,
+    amazon-ebs.ubuntu:             "src": "~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source",
+    amazon-ebs.ubuntu:             "unsafe_writes": false,
+    amazon-ebs.ubuntu:             "validate": null
+    amazon-ebs.ubuntu:         }
+    amazon-ebs.ubuntu:     },
+    amazon-ebs.ubuntu:     "md5sum": "f221886aa677b95e86c786147105bcb3",
+    amazon-ebs.ubuntu:     "mode": "0644",
+    amazon-ebs.ubuntu:     "owner": "root",
+    amazon-ebs.ubuntu:     "size": 159,
+    amazon-ebs.ubuntu:     "src": "~lodis/.ansible/tmp/ansible-tmp-1675258905.0792942-2868-233703569153474/source",
+    amazon-ebs.ubuntu:     "state": "file",
+    amazon-ebs.ubuntu:     "uid": 0
+    amazon-ebs.ubuntu: }
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: TASK [wordpress/front : Enable virtual-host for wordpress] *********************
+    amazon-ebs.ubuntu: task path: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/02_configure.yml:8
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'echo ~lodis && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'~lodis\n', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo ~lodis/.ansible/tmp `"&& mkdir "` echo ~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159 `" && echo ansible-tmp-1675258913.1993058-2884-117878310175159="` echo ~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159 `" ) && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'ansible-tmp-1675258913.1993058-2884-117878310175159=~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159\n', b'')
+    amazon-ebs.ubuntu: Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmphnp99m5x TO ~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159/AnsiballZ_file.py
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmphnp99m5x '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159/AnsiballZ_file.py'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' -tt 127.0.0.1 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-zbswgdrofswvydisdeumpvzcdesqaaeb ; /usr/bin/python3 '"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159/AnsiballZ_file.py'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"''"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: Escalation succeeded
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'\n{"dest": "/etc/nginx/sites-enabled/wordpress.conf", "src": "/etc/nginx/sites-available/wordpress.conf", "changed": true, "diff": {"before": {"path": "/etc/nginx/sites-enabled/wordpress.conf", "state": "absent"}, "after": {"path": "/etc/nginx/sites-enabled/wordpress.conf", "state": "link"}}, "uid": 0, "gid": 0, "owner": "root", "group": "root", "mode": "0777", "state": "link", "size": 41, "invocation": {"module_args": {"src": "/etc/nginx/sites-available/wordpress.conf", "dest": "/etc/nginx/sites-enabled/wordpress.conf", "state": "link", "path": "/etc/nginx/sites-enabled/wordpress.conf", "recurse": false, "force": false, "follow": true, "modification_time_format": "%Y%m%d%H%M.%S", "access_time_format": "%Y%m%d%H%M.%S", "unsafe_writes": false, "_original_basename": null, "_diff_peek": null, "modification_time": null, "access_time": null, "mode": null, "owner": null, "group": null, "seuser": null, "serole": null, "selevel": null, "setype": null, "attributes": null}}}\n', b'Shared connection to 127.0.0.1 closed.\r\n')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'rm -f -r '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258913.1993058-2884-117878310175159/'"'"'"'"'"'"'"'"' > /dev/null 2>&1 && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: changed: [default] => {
+    amazon-ebs.ubuntu:     "changed": true,
+    amazon-ebs.ubuntu:     "dest": "/etc/nginx/sites-enabled/wordpress.conf",
+    amazon-ebs.ubuntu:     "diff": {
+    amazon-ebs.ubuntu:         "after": {
+    amazon-ebs.ubuntu:             "path": "/etc/nginx/sites-enabled/wordpress.conf",
+    amazon-ebs.ubuntu:             "state": "link"
+    amazon-ebs.ubuntu:         },
+    amazon-ebs.ubuntu:         "before": {
+    amazon-ebs.ubuntu:             "path": "/etc/nginx/sites-enabled/wordpress.conf",
+    amazon-ebs.ubuntu:             "state": "absent"
+    amazon-ebs.ubuntu:         }
+    amazon-ebs.ubuntu:     },
+    amazon-ebs.ubuntu:     "gid": 0,
+    amazon-ebs.ubuntu:     "group": "root",
+    amazon-ebs.ubuntu:     "invocation": {
+    amazon-ebs.ubuntu:         "module_args": {
+    amazon-ebs.ubuntu:             "_diff_peek": null,
+    amazon-ebs.ubuntu:             "_original_basename": null,
+    amazon-ebs.ubuntu:             "access_time": null,
+    amazon-ebs.ubuntu:             "access_time_format": "%Y%m%d%H%M.%S",
+    amazon-ebs.ubuntu:             "attributes": null,
+    amazon-ebs.ubuntu:             "dest": "/etc/nginx/sites-enabled/wordpress.conf",
+    amazon-ebs.ubuntu:             "follow": true,
+    amazon-ebs.ubuntu:             "force": false,
+    amazon-ebs.ubuntu:             "group": null,
+    amazon-ebs.ubuntu:             "mode": null,
+    amazon-ebs.ubuntu:             "modification_time": null,
+    amazon-ebs.ubuntu:             "modification_time_format": "%Y%m%d%H%M.%S",
+    amazon-ebs.ubuntu:             "owner": null,
+    amazon-ebs.ubuntu:             "path": "/etc/nginx/sites-enabled/wordpress.conf",
+    amazon-ebs.ubuntu:             "recurse": false,
+    amazon-ebs.ubuntu:             "selevel": null,
+    amazon-ebs.ubuntu:             "serole": null,
+    amazon-ebs.ubuntu:             "setype": null,
+    amazon-ebs.ubuntu:             "seuser": null,
+    amazon-ebs.ubuntu:             "src": "/etc/nginx/sites-available/wordpress.conf",
+    amazon-ebs.ubuntu:             "state": "link",
+    amazon-ebs.ubuntu:             "unsafe_writes": false
+    amazon-ebs.ubuntu:         }
+    amazon-ebs.ubuntu:     },
+    amazon-ebs.ubuntu:     "mode": "0777",
+    amazon-ebs.ubuntu:     "owner": "root",
+    amazon-ebs.ubuntu:     "size": 41,
+    amazon-ebs.ubuntu:     "src": "/etc/nginx/sites-available/wordpress.conf",
+    amazon-ebs.ubuntu:     "state": "link",
+    amazon-ebs.ubuntu:     "uid": 0
+    amazon-ebs.ubuntu: }
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: TASK [wordpress/front : Disable default virtual-host] **************************
+    amazon-ebs.ubuntu: task path: /mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/ansible/playbooks/roles/wordpress/front/tasks/02_configure.yml:15
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'echo ~lodis && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'~lodis\n', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo ~lodis/.ansible/tmp `"&& mkdir "` echo ~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984 `" && echo ansible-tmp-1675258917.1634727-2893-187605221920984="` echo ~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984 `" ) && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'ansible-tmp-1675258917.1634727-2893-187605221920984=~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984\n', b'')
+    amazon-ebs.ubuntu: Using module file /usr/lib/python3/dist-packages/ansible/modules/file.py
+    amazon-ebs.ubuntu: <127.0.0.1> PUT /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpaucyr7_0 TO ~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984/AnsiballZ_file.py
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC scp -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' /home/lodis/.ansible/tmp/ansible-local-2838i9tm0j2i/tmpaucyr7_0 '[127.0.0.1]:'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984/AnsiballZ_file.py'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'chmod u+x '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984/'"'"'"'"'"'"'"'"' '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984/AnsiballZ_file.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' -tt 127.0.0.1 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-hbwuuzrkxanpbigivsnnpwhjkzjwrjmi ; /usr/bin/python3 '"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984/AnsiballZ_file.py'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"'"''"'"'"'"'"'"'"'"' && sleep 0'"'"''
+    amazon-ebs.ubuntu: Escalation succeeded
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'\n{"path": "/etc/nginx/sites-enabled/default", "changed": true, "diff": {"before": {"path": "/etc/nginx/sites-enabled/default", "state": "link"}, "after": {"path": "/etc/nginx/sites-enabled/default", "state": "absent"}}, "state": "absent", "invocation": {"module_args": {"dest": "/etc/nginx/sites-enabled/default", "state": "absent", "path": "/etc/nginx/sites-enabled/default", "recurse": false, "force": false, "follow": true, "modification_time_format": "%Y%m%d%H%M.%S", "access_time_format": "%Y%m%d%H%M.%S", "unsafe_writes": false, "_original_basename": null, "_diff_peek": null, "src": null, "modification_time": null, "access_time": null, "mode": null, "owner": null, "group": null, "seuser": null, "serole": null, "selevel": null, "setype": null, "attributes": null}}}\n', b'Shared connection to 127.0.0.1 closed.\r\n')
+    amazon-ebs.ubuntu: <127.0.0.1> ESTABLISH SSH CONNECTION FOR USER: lodis
+    amazon-ebs.ubuntu: <127.0.0.1> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o Port=41141 -o 'IdentityFile="/tmp/ansible-key1038712883"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="lodis"' -o ConnectTimeout=10 -o IdentitiesOnly=yes -o 'ControlPath="/home/lodis/.ansible/cp/a1da902077"' 127.0.0.1 '/bin/sh -c '"'"'rm -f -r '"'"'"'"'"'"'"'"'~lodis/.ansible/tmp/ansible-tmp-1675258917.1634727-2893-187605221920984/'"'"'"'"'"'"'"'"' > /dev/null 2>&1 && sleep 0'"'"''
+    amazon-ebs.ubuntu: <127.0.0.1> (0, b'', b'')
+    amazon-ebs.ubuntu: changed: [default] => {
+    amazon-ebs.ubuntu:     "changed": true,
+    amazon-ebs.ubuntu:     "diff": {
+    amazon-ebs.ubuntu:         "after": {
+    amazon-ebs.ubuntu:             "path": "/etc/nginx/sites-enabled/default",
+    amazon-ebs.ubuntu:             "state": "absent"
+    amazon-ebs.ubuntu:         },
+    amazon-ebs.ubuntu:         "before": {
+    amazon-ebs.ubuntu:             "path": "/etc/nginx/sites-enabled/default",
+    amazon-ebs.ubuntu:             "state": "link"
+    amazon-ebs.ubuntu:         }
+    amazon-ebs.ubuntu:     },
+    amazon-ebs.ubuntu:     "invocation": {
+    amazon-ebs.ubuntu:         "module_args": {
+    amazon-ebs.ubuntu:             "_diff_peek": null,
+    amazon-ebs.ubuntu:             "_original_basename": null,
+    amazon-ebs.ubuntu:             "access_time": null,
+    amazon-ebs.ubuntu:             "access_time_format": "%Y%m%d%H%M.%S",
+    amazon-ebs.ubuntu:             "attributes": null,
+    amazon-ebs.ubuntu:             "dest": "/etc/nginx/sites-enabled/default",
+    amazon-ebs.ubuntu:             "follow": true,
+    amazon-ebs.ubuntu:             "force": false,
+    amazon-ebs.ubuntu:             "group": null,
+    amazon-ebs.ubuntu:             "mode": null,
+    amazon-ebs.ubuntu:             "modification_time": null,
+    amazon-ebs.ubuntu:             "modification_time_format": "%Y%m%d%H%M.%S",
+    amazon-ebs.ubuntu:             "owner": null,
+    amazon-ebs.ubuntu:             "path": "/etc/nginx/sites-enabled/default",
+    amazon-ebs.ubuntu:             "recurse": false,
+    amazon-ebs.ubuntu:             "selevel": null,
+    amazon-ebs.ubuntu:             "serole": null,
+    amazon-ebs.ubuntu:             "setype": null,
+    amazon-ebs.ubuntu:             "seuser": null,
+    amazon-ebs.ubuntu:             "src": null,
+    amazon-ebs.ubuntu:             "state": "absent",
+    amazon-ebs.ubuntu:             "unsafe_writes": false
+    amazon-ebs.ubuntu:         }
+    amazon-ebs.ubuntu:     },
+    amazon-ebs.ubuntu:     "path": "/etc/nginx/sites-enabled/default",
+    amazon-ebs.ubuntu:     "state": "absent"
+    amazon-ebs.ubuntu: }
+    amazon-ebs.ubuntu: META: role_complete for default
+    amazon-ebs.ubuntu: META: ran handlers
+    amazon-ebs.ubuntu: META: ran handlers
+    amazon-ebs.ubuntu:
+    amazon-ebs.ubuntu: PLAY RECAP *********************************************************************
+    amazon-ebs.ubuntu: default                    : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    amazon-ebs.ubuntu:
+==> amazon-ebs.ubuntu: Stopping the source instance...
+    amazon-ebs.ubuntu: Stopping instance
+==> amazon-ebs.ubuntu: Waiting for the instance to stop...
+==> amazon-ebs.ubuntu: Creating AMI tms-wordpress-front-tepmlate from instance i-05754b69355d4f427
+    amazon-ebs.ubuntu: AMI: ami-0228841546c9905b7
+==> amazon-ebs.ubuntu: Waiting for AMI to become ready...
+==> amazon-ebs.ubuntu: Skipping Enable AMI deprecation...
+==> amazon-ebs.ubuntu: Adding tags to AMI (ami-0228841546c9905b7)...
+==> amazon-ebs.ubuntu: Tagging snapshot: snap-0a4612d15bfb29786
+==> amazon-ebs.ubuntu: Creating AMI tags
+    amazon-ebs.ubuntu: Adding tag: "Name": "tms-wordpress-front-tepmlate"
+==> amazon-ebs.ubuntu: Creating snapshot tags
+==> amazon-ebs.ubuntu: Terminating the source AWS instance...
+==> amazon-ebs.ubuntu: Cleaning up any extra volumes...
+==> amazon-ebs.ubuntu: No volumes to clean up, skipping
+==> amazon-ebs.ubuntu: Deleting temporary keypair...
+Build 'amazon-ebs.ubuntu' finished after 5 minutes 4 seconds.
+
+==> Wait completed after 5 minutes 4 seconds
+
+==> Builds finished. The artifacts of successful builds are:
+--> amazon-ebs.ubuntu: AMIs were created:
+eu-west-1: ami-0228841546c9905b7
+
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/packer/front$

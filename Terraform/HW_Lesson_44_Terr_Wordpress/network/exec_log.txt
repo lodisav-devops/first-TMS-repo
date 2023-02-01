@@ -1,19 +1,4 @@
 lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/network$ terraform workspace list
-* default
-
-lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/network$ terraform workspace new prod
-Created and switched to workspace "prod"!
-
-You're now on a new, empty workspace. Workspaces isolate their state,
-so if you run "terraform plan" Terraform will not see any existing state
-for this configuration.
-lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/network$ terraform workspace new dev
-Created and switched to workspace "dev"!
-
-You're now on a new, empty workspace. Workspaces isolate their state,
-so if you run "terraform plan" Terraform will not see any existing state
-for this configuration.
-lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/network$ terraform workspace list
   default
 * dev
   prod
@@ -22,8 +7,8 @@ lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/network$
 data.aws_availability_zones.available: Reading...
 data.aws_availability_zones.available: Read complete after 1s [id=eu-west-1]
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
-symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
   + create
 
 Terraform will perform the following actions:
@@ -439,47 +424,47 @@ Do you want to perform these actions in workspace "dev"?
 
   Enter a value: yes
 
-module.vpc.aws_eip.nat[0]: Creating...
 module.vpc.aws_vpc.this[0]: Creating...
-module.vpc.aws_eip.nat[0]: Creation complete after 1s [id=eipalloc-0dd9991f5a049171e]
+module.vpc.aws_eip.nat[0]: Creating...
+module.vpc.aws_eip.nat[0]: Creation complete after 1s [id=eipalloc-08644f0a71bebe794]
 module.vpc.aws_vpc.this[0]: Still creating... [10s elapsed]
-module.vpc.aws_vpc.this[0]: Creation complete after 12s [id=vpc-08160593a0e351010]
-module.vpc.aws_subnet.private[1]: Creating...
+module.vpc.aws_vpc.this[0]: Creation complete after 13s [id=vpc-0bae4c5317a17a46e]
+module.vpc.aws_route_table.private[0]: Creating...
+module.vpc.aws_route_table.public[0]: Creating...
+module.vpc.aws_subnet.public[1]: Creating...
 module.vpc.aws_subnet.private[0]: Creating...
 module.vpc.aws_internet_gateway.this[0]: Creating...
-module.vpc.aws_subnet.private[2]: Creating...
-module.vpc.aws_route_table.private[0]: Creating...
 module.vpc.aws_subnet.public[2]: Creating...
-module.vpc.aws_subnet.public[1]: Creating...
 module.vpc.aws_subnet.public[0]: Creating...
-module.vpc.aws_route_table.public[0]: Creating...
-module.vpc.aws_subnet.private[0]: Creation complete after 1s [id=subnet-0f14c3be6ff0fba6e]
-module.vpc.aws_subnet.private[1]: Creation complete after 1s [id=subnet-0abbe90f959ea5def]
-module.vpc.aws_subnet.private[2]: Creation complete after 1s [id=subnet-091989a60bb6c1a37]
-module.vpc.aws_internet_gateway.this[0]: Creation complete after 1s [id=igw-006457becf2f17bfd]
-module.vpc.aws_route_table.private[0]: Creation complete after 1s [id=rtb-09a45e89dd0f5ef4b]
-module.vpc.aws_route_table.public[0]: Creation complete after 1s [id=rtb-0750b6bc4193ebddc]
+module.vpc.aws_subnet.private[1]: Creating...
+module.vpc.aws_subnet.private[2]: Creating...
+module.vpc.aws_internet_gateway.this[0]: Creation complete after 1s [id=igw-02d4fa086f736179e]
+module.vpc.aws_route_table.private[0]: Creation complete after 1s [id=rtb-068323d080ac99541]
+module.vpc.aws_subnet.private[0]: Creation complete after 1s [id=subnet-009a0cafbe39e6859]
+module.vpc.aws_subnet.private[2]: Creation complete after 1s [id=subnet-001b77b64f64c77bf]
+module.vpc.aws_route_table.public[0]: Creation complete after 1s [id=rtb-09d4d153fa6ca1d9b]
+module.vpc.aws_subnet.private[1]: Creation complete after 1s [id=subnet-0e39abd36632f6ed5]
 module.vpc.aws_route_table_association.private[0]: Creating...
 module.vpc.aws_route_table_association.private[1]: Creating...
-module.vpc.aws_route_table_association.private[2]: Creating...
 module.vpc.aws_route.public_internet_gateway[0]: Creating...
-module.vpc.aws_route_table_association.private[1]: Creation complete after 1s [id=rtbassoc-094ec0a2e05388a05]
-module.vpc.aws_route_table_association.private[0]: Creation complete after 1s [id=rtbassoc-044a27b4a2db49709]
-module.vpc.aws_route_table_association.private[2]: Creation complete after 1s [id=rtbassoc-03e45ce4234d7d5e6]
-module.vpc.aws_route.public_internet_gateway[0]: Creation complete after 1s [id=r-rtb-0750b6bc4193ebddc1080289494]
-module.vpc.aws_subnet.public[2]: Still creating... [10s elapsed]
+module.vpc.aws_route_table_association.private[2]: Creating...
+module.vpc.aws_route_table_association.private[2]: Creation complete after 0s [id=rtbassoc-09e20f2a4b2342a63]
+module.vpc.aws_route_table_association.private[0]: Creation complete after 0s [id=rtbassoc-03897e6b47753d875]
+module.vpc.aws_route_table_association.private[1]: Creation complete after 0s [id=rtbassoc-07ec07eb42c1b64c0]
+module.vpc.aws_route.public_internet_gateway[0]: Creation complete after 1s [id=r-rtb-09d4d153fa6ca1d9b1080289494]
 module.vpc.aws_subnet.public[1]: Still creating... [10s elapsed]
 module.vpc.aws_subnet.public[0]: Still creating... [10s elapsed]
-module.vpc.aws_subnet.public[0]: Creation complete after 11s [id=subnet-043a2e54828f116f5]
-module.vpc.aws_subnet.public[2]: Creation complete after 12s [id=subnet-055a4d80b881fe5e6]
-module.vpc.aws_subnet.public[1]: Creation complete after 12s [id=subnet-0f385a341a13bc4ee]
-module.vpc.aws_route_table_association.public[1]: Creating...
+module.vpc.aws_subnet.public[2]: Still creating... [10s elapsed]
+module.vpc.aws_subnet.public[1]: Creation complete after 12s [id=subnet-071677566fedf4576]
+module.vpc.aws_subnet.public[2]: Creation complete after 12s [id=subnet-00a63733c20c34312]
+module.vpc.aws_subnet.public[0]: Creation complete after 12s [id=subnet-0624c681dbbd363ba]
 module.vpc.aws_route_table_association.public[0]: Creating...
-module.vpc.aws_nat_gateway.this[0]: Creating...
+module.vpc.aws_route_table_association.public[1]: Creating...
 module.vpc.aws_route_table_association.public[2]: Creating...
-module.vpc.aws_route_table_association.public[2]: Creation complete after 0s [id=rtbassoc-0b467bb92e53eb7d7]
-module.vpc.aws_route_table_association.public[1]: Creation complete after 0s [id=rtbassoc-00ecd766ac9d9cc12]
-module.vpc.aws_route_table_association.public[0]: Creation complete after 0s [id=rtbassoc-0b10b99dbd29938ef]
+module.vpc.aws_nat_gateway.this[0]: Creating...
+module.vpc.aws_route_table_association.public[1]: Creation complete after 2s [id=rtbassoc-08472c175c4306e7f]
+module.vpc.aws_route_table_association.public[2]: Creation complete after 2s [id=rtbassoc-0c206d3a718c1e885]
+module.vpc.aws_route_table_association.public[0]: Creation complete after 2s [id=rtbassoc-095ea5d487f8082e3]
 module.vpc.aws_nat_gateway.this[0]: Still creating... [10s elapsed]
 module.vpc.aws_nat_gateway.this[0]: Still creating... [20s elapsed]
 module.vpc.aws_nat_gateway.this[0]: Still creating... [30s elapsed]
@@ -488,23 +473,25 @@ module.vpc.aws_nat_gateway.this[0]: Still creating... [50s elapsed]
 module.vpc.aws_nat_gateway.this[0]: Still creating... [1m0s elapsed]
 module.vpc.aws_nat_gateway.this[0]: Still creating... [1m10s elapsed]
 module.vpc.aws_nat_gateway.this[0]: Still creating... [1m20s elapsed]
-module.vpc.aws_nat_gateway.this[0]: Creation complete after 1m24s [id=nat-04a824d6e78be0939]
+module.vpc.aws_nat_gateway.this[0]: Still creating... [1m30s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Still creating... [1m40s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Creation complete after 1m49s [id=nat-0e6191a131f4d068e]
 module.vpc.aws_route.private_nat_gateway[0]: Creating...
-module.vpc.aws_route.private_nat_gateway[0]: Creation complete after 1s [id=r-rtb-09a45e89dd0f5ef4b1080289494]
+module.vpc.aws_route.private_nat_gateway[0]: Creation complete after 1s [id=r-rtb-068323d080ac995411080289494]
 
 Apply complete! Resources: 20 added, 0 changed, 0 destroyed.
 
 Outputs:
 
 private_subnets = [
-  "subnet-0f14c3be6ff0fba6e",
-  "subnet-0abbe90f959ea5def",
-  "subnet-091989a60bb6c1a37",
+  "subnet-009a0cafbe39e6859",
+  "subnet-0e39abd36632f6ed5",
+  "subnet-001b77b64f64c77bf",
 ]
 public_subnets = [
-  "subnet-043a2e54828f116f5",
-  "subnet-0f385a341a13bc4ee",
-  "subnet-055a4d80b881fe5e6",
+  "subnet-0624c681dbbd363ba",
+  "subnet-071677566fedf4576",
+  "subnet-00a63733c20c34312",
 ]
 subnets_cidr_blocks = {
   "private" = [
@@ -518,5 +505,5 @@ subnets_cidr_blocks = {
     "10.0.64.0/19",
   ]
 }
-vpc_id = "vpc-08160593a0e351010"
+vpc_id = "vpc-0bae4c5317a17a46e"
 lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/network$

@@ -40,7 +40,7 @@ build {
     ]
 
     provisioner "ansible" {
-        playbook_file = "../ansible/playbooks/wp_back.yaml"
+        playbook_file = "../../ansible/playbooks/wp_back.yaml"
         extra_arguments = ["--extra-vars", "efs_address=${var.efs_address} wordpress_db_host=${var.rds_address} wordpress_db_name=${var.db_name} wordpress_db_user=${var.db_user} wordpress_db_pass=${var.db_pass}", "-vvv"]
     }
 }

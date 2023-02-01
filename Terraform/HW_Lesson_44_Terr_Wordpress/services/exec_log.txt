@@ -1,0 +1,359 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/bastion$ cd ../services/
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/services$ terraform workspace list
+  default
+* dev
+  prod
+
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/services$ terraform apply
+data.terraform_remote_state.network: Reading...
+data.terraform_remote_state.network: Read complete after 0s
+data.aws_availability_zones.available: Reading...
+data.aws_availability_zones.available: Read complete after 2s [id=eu-west-1]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_db_instance.default will be created
+  + resource "aws_db_instance" "default" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 10
+      + apply_immediately                     = false
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = (known after apply)
+      + backup_window                         = (known after apply)
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_name                               = "wordpress"
+      + db_subnet_group_name                  = (known after apply)
+      + delete_automated_backups              = true
+      + endpoint                              = (known after apply)
+      + engine                                = "mysql"
+      + engine_version                        = "8.0.30"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = "tms-wordpress"
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t2.micro"
+      + iops                                  = (known after apply)
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + maintenance_window                    = (known after apply)
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = (known after apply)
+      + name                                  = (known after apply)
+      + nchar_character_set_name              = (known after apply)
+      + network_type                          = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = (known after apply)
+      + publicly_accessible                   = false
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_throughput                    = (known after apply)
+      + storage_type                          = (known after apply)
+      + tags_all                              = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + timezone                              = (known after apply)
+      + username                              = "wordpress"
+      + vpc_security_group_ids                = (known after apply)
+    }
+
+  # aws_db_subnet_group.default will be created
+  + resource "aws_db_subnet_group" "default" {
+      + arn                     = (known after apply)
+      + description             = "Managed by Terraform"
+      + id                      = (known after apply)
+      + name                    = (known after apply)
+      + name_prefix             = (known after apply)
+      + subnet_ids              = [
+          + "subnet-001b77b64f64c77bf",
+          + "subnet-009a0cafbe39e6859",
+          + "subnet-0e39abd36632f6ed5",
+        ]
+      + supported_network_types = (known after apply)
+      + tags_all                = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+    }
+
+  # aws_efs_file_system.efs will be created
+  + resource "aws_efs_file_system" "efs" {
+      + arn                     = (known after apply)
+      + availability_zone_id    = (known after apply)
+      + availability_zone_name  = (known after apply)
+      + creation_token          = "wordpress"
+      + dns_name                = (known after apply)
+      + encrypted               = (known after apply)
+      + id                      = (known after apply)
+      + kms_key_id              = (known after apply)
+      + number_of_mount_targets = (known after apply)
+      + owner_id                = (known after apply)
+      + performance_mode        = (known after apply)
+      + size_in_bytes           = (known after apply)
+      + tags_all                = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + throughput_mode         = "bursting"
+    }
+
+  # aws_efs_mount_target.private_target[0] will be created
+  + resource "aws_efs_mount_target" "private_target" {
+      + availability_zone_id   = (known after apply)
+      + availability_zone_name = (known after apply)
+      + dns_name               = (known after apply)
+      + file_system_arn        = (known after apply)
+      + file_system_id         = (known after apply)
+      + id                     = (known after apply)
+      + ip_address             = (known after apply)
+      + mount_target_dns_name  = (known after apply)
+      + network_interface_id   = (known after apply)
+      + owner_id               = (known after apply)
+      + security_groups        = (known after apply)
+      + subnet_id              = "subnet-009a0cafbe39e6859"
+    }
+
+  # aws_efs_mount_target.private_target[1] will be created
+  + resource "aws_efs_mount_target" "private_target" {
+      + availability_zone_id   = (known after apply)
+      + availability_zone_name = (known after apply)
+      + dns_name               = (known after apply)
+      + file_system_arn        = (known after apply)
+      + file_system_id         = (known after apply)
+      + id                     = (known after apply)
+      + ip_address             = (known after apply)
+      + mount_target_dns_name  = (known after apply)
+      + network_interface_id   = (known after apply)
+      + owner_id               = (known after apply)
+      + security_groups        = (known after apply)
+      + subnet_id              = "subnet-0e39abd36632f6ed5"
+    }
+
+  # aws_efs_mount_target.private_target[2] will be created
+  + resource "aws_efs_mount_target" "private_target" {
+      + availability_zone_id   = (known after apply)
+      + availability_zone_name = (known after apply)
+      + dns_name               = (known after apply)
+      + file_system_arn        = (known after apply)
+      + file_system_id         = (known after apply)
+      + id                     = (known after apply)
+      + ip_address             = (known after apply)
+      + mount_target_dns_name  = (known after apply)
+      + network_interface_id   = (known after apply)
+      + owner_id               = (known after apply)
+      + security_groups        = (known after apply)
+      + subnet_id              = "subnet-001b77b64f64c77bf"
+    }
+
+  # aws_security_group.allow_efs will be created
+  + resource "aws_security_group" "allow_efs" {
+      + arn                    = (known after apply)
+      + description            = "allow_efs"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = [
+                  + "::/0",
+                ]
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 2049
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 2049
+            },
+        ]
+      + name                   = "allow_efs"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name" = "allow_efs"
+        }
+      + tags_all               = {
+          + "Environment" = "dev"
+          + "Name"        = "allow_efs"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                 = "vpc-0bae4c5317a17a46e"
+    }
+
+  # aws_security_group.allow_mysql will be created
+  + resource "aws_security_group" "allow_mysql" {
+      + arn                    = (known after apply)
+      + description            = "allow_mysql"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = [
+                  + "::/0",
+                ]
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 3306
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 3306
+            },
+        ]
+      + name                   = "allow_mysql"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name" = "allow_mysql"
+        }
+      + tags_all               = {
+          + "Environment" = "dev"
+          + "Name"        = "allow_mysql"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                 = "vpc-0bae4c5317a17a46e"
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions in workspace "dev"?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_db_subnet_group.default: Creating...
+aws_efs_file_system.efs: Creating...
+aws_security_group.allow_efs: Creating...
+aws_security_group.allow_mysql: Creating...
+aws_db_subnet_group.default: Creation complete after 3s [id=terraform-20230201125253533700000001]
+aws_security_group.allow_efs: Creation complete after 4s [id=sg-053f450ed2cf15a12]
+aws_security_group.allow_mysql: Creation complete after 4s [id=sg-0e093a7238d817d55]
+aws_db_instance.default: Creating...
+aws_efs_file_system.efs: Creation complete after 7s [id=fs-0483aa7b60683426e]
+aws_efs_mount_target.private_target[0]: Creating...
+aws_efs_mount_target.private_target[1]: Creating...
+aws_efs_mount_target.private_target[2]: Creating...
+aws_db_instance.default: Still creating... [10s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [10s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [10s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [10s elapsed]
+aws_db_instance.default: Still creating... [20s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [20s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [20s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [20s elapsed]
+aws_db_instance.default: Still creating... [30s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [30s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [30s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [30s elapsed]
+aws_db_instance.default: Still creating... [40s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [40s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [40s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [40s elapsed]
+aws_db_instance.default: Still creating... [50s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [50s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [50s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [50s elapsed]
+aws_db_instance.default: Still creating... [1m0s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [1m0s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [1m0s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [1m0s elapsed]
+aws_db_instance.default: Still creating... [1m10s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [1m10s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [1m10s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [1m10s elapsed]
+aws_db_instance.default: Still creating... [1m20s elapsed]
+aws_efs_mount_target.private_target[2]: Still creating... [1m20s elapsed]
+aws_efs_mount_target.private_target[0]: Still creating... [1m20s elapsed]
+aws_efs_mount_target.private_target[1]: Still creating... [1m20s elapsed]
+aws_efs_mount_target.private_target[0]: Creation complete after 1m24s [id=fsmt-0b4dc6ce8e6ef429b]
+aws_efs_mount_target.private_target[2]: Creation complete after 1m24s [id=fsmt-0ad46a584797b38ae]
+aws_efs_mount_target.private_target[1]: Creation complete after 1m24s [id=fsmt-08fcb1c4a5a150ce8]
+aws_db_instance.default: Still creating... [1m30s elapsed]
+aws_db_instance.default: Still creating... [1m40s elapsed]
+aws_db_instance.default: Still creating... [1m50s elapsed]
+aws_db_instance.default: Still creating... [2m0s elapsed]
+aws_db_instance.default: Still creating... [2m10s elapsed]
+aws_db_instance.default: Still creating... [2m20s elapsed]
+aws_db_instance.default: Still creating... [2m30s elapsed]
+aws_db_instance.default: Still creating... [2m40s elapsed]
+aws_db_instance.default: Still creating... [2m50s elapsed]
+aws_db_instance.default: Still creating... [3m0s elapsed]
+aws_db_instance.default: Still creating... [3m10s elapsed]
+aws_db_instance.default: Still creating... [3m20s elapsed]
+aws_db_instance.default: Still creating... [3m30s elapsed]
+aws_db_instance.default: Still creating... [3m40s elapsed]
+aws_db_instance.default: Still creating... [3m50s elapsed]
+aws_db_instance.default: Still creating... [4m0s elapsed]
+aws_db_instance.default: Still creating... [4m10s elapsed]
+aws_db_instance.default: Still creating... [4m20s elapsed]
+aws_db_instance.default: Still creating... [4m30s elapsed]
+aws_db_instance.default: Still creating... [4m40s elapsed]
+aws_db_instance.default: Still creating... [4m50s elapsed]
+aws_db_instance.default: Creation complete after 4m58s [id=tms-wordpress]
+
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/services$

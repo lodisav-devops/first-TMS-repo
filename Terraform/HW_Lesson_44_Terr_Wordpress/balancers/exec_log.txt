@@ -1,0 +1,400 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/balancers$ terraform workspace list
+  default
+* dev
+  prod
+
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/balancers$ terraform apply
+data.terraform_remote_state.network: Reading...
+data.terraform_remote_state.network: Read complete after 0s
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_lb.back_alb will be created
+  + resource "aws_lb" "back_alb" {
+      + arn                        = (known after apply)
+      + arn_suffix                 = (known after apply)
+      + desync_mitigation_mode     = "defensive"
+      + dns_name                   = (known after apply)
+      + drop_invalid_header_fields = false
+      + enable_deletion_protection = false
+      + enable_http2               = true
+      + enable_waf_fail_open       = false
+      + id                         = (known after apply)
+      + idle_timeout               = 60
+      + internal                   = true
+      + ip_address_type            = (known after apply)
+      + load_balancer_type         = "application"
+      + name                       = "back-lb"
+      + preserve_host_header       = false
+      + security_groups            = (known after apply)
+      + subnets                    = [
+          + "subnet-001b77b64f64c77bf",
+          + "subnet-009a0cafbe39e6859",
+          + "subnet-0e39abd36632f6ed5",
+        ]
+      + tags_all                   = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                     = (known after apply)
+      + zone_id                    = (known after apply)
+
+      + subnet_mapping {
+          + allocation_id        = (known after apply)
+          + ipv6_address         = (known after apply)
+          + outpost_id           = (known after apply)
+          + private_ipv4_address = (known after apply)
+          + subnet_id            = (known after apply)
+        }
+    }
+
+  # aws_lb.front_alb will be created
+  + resource "aws_lb" "front_alb" {
+      + arn                        = (known after apply)
+      + arn_suffix                 = (known after apply)
+      + desync_mitigation_mode     = "defensive"
+      + dns_name                   = (known after apply)
+      + drop_invalid_header_fields = false
+      + enable_deletion_protection = false
+      + enable_http2               = true
+      + enable_waf_fail_open       = false
+      + id                         = (known after apply)
+      + idle_timeout               = 60
+      + internal                   = false
+      + ip_address_type            = (known after apply)
+      + load_balancer_type         = "application"
+      + name                       = "front-lb"
+      + preserve_host_header       = false
+      + security_groups            = (known after apply)
+      + subnets                    = [
+          + "subnet-00a63733c20c34312",
+          + "subnet-0624c681dbbd363ba",
+          + "subnet-071677566fedf4576",
+        ]
+      + tags_all                   = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                     = (known after apply)
+      + zone_id                    = (known after apply)
+
+      + subnet_mapping {
+          + allocation_id        = (known after apply)
+          + ipv6_address         = (known after apply)
+          + outpost_id           = (known after apply)
+          + private_ipv4_address = (known after apply)
+          + subnet_id            = (known after apply)
+        }
+    }
+
+  # aws_lb_listener.back_listener will be created
+  + resource "aws_lb_listener" "back_listener" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + load_balancer_arn = (known after apply)
+      + port              = 80
+      + protocol          = "HTTP"
+      + ssl_policy        = (known after apply)
+      + tags_all          = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+
+      + default_action {
+          + order            = (known after apply)
+          + target_group_arn = (known after apply)
+          + type             = "forward"
+        }
+    }
+
+  # aws_lb_listener.front_listener will be created
+  + resource "aws_lb_listener" "front_listener" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + load_balancer_arn = (known after apply)
+      + port              = 80
+      + protocol          = "HTTP"
+      + ssl_policy        = (known after apply)
+      + tags_all          = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+
+      + default_action {
+          + order            = (known after apply)
+          + target_group_arn = (known after apply)
+          + type             = "forward"
+        }
+    }
+
+  # aws_lb_target_group.back_tg will be created
+  + resource "aws_lb_target_group" "back_tg" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + connection_termination             = false
+      + deregistration_delay               = "300"
+      + id                                 = (known after apply)
+      + ip_address_type                    = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + name                               = "back-lb-tg"
+      + port                               = 80
+      + preserve_client_ip                 = (known after apply)
+      + protocol                           = "HTTP"
+      + protocol_version                   = (known after apply)
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + tags_all                           = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + target_type                        = "instance"
+      + vpc_id                             = "vpc-0bae4c5317a17a46e"
+
+      + health_check {
+          + enabled             = (known after apply)
+          + healthy_threshold   = (known after apply)
+          + interval            = (known after apply)
+          + matcher             = (known after apply)
+          + path                = (known after apply)
+          + port                = (known after apply)
+          + protocol            = (known after apply)
+          + timeout             = (known after apply)
+          + unhealthy_threshold = (known after apply)
+        }
+
+      + stickiness {
+          + cookie_duration = (known after apply)
+          + cookie_name     = (known after apply)
+          + enabled         = (known after apply)
+          + type            = (known after apply)
+        }
+
+      + target_failover {
+          + on_deregistration = (known after apply)
+          + on_unhealthy      = (known after apply)
+        }
+    }
+
+  # aws_lb_target_group.front_tg will be created
+  + resource "aws_lb_target_group" "front_tg" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + connection_termination             = false
+      + deregistration_delay               = "300"
+      + id                                 = (known after apply)
+      + ip_address_type                    = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + name                               = "front-lb-tg"
+      + port                               = 80
+      + preserve_client_ip                 = (known after apply)
+      + protocol                           = "HTTP"
+      + protocol_version                   = (known after apply)
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + tags_all                           = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + target_type                        = "instance"
+      + vpc_id                             = "vpc-0bae4c5317a17a46e"
+
+      + health_check {
+          + enabled             = (known after apply)
+          + healthy_threshold   = (known after apply)
+          + interval            = (known after apply)
+          + matcher             = (known after apply)
+          + path                = (known after apply)
+          + port                = (known after apply)
+          + protocol            = (known after apply)
+          + timeout             = (known after apply)
+          + unhealthy_threshold = (known after apply)
+        }
+
+      + stickiness {
+          + cookie_duration = (known after apply)
+          + cookie_name     = (known after apply)
+          + enabled         = (known after apply)
+          + type            = (known after apply)
+        }
+
+      + target_failover {
+          + on_deregistration = (known after apply)
+          + on_unhealthy      = (known after apply)
+        }
+    }
+
+  # aws_security_group.allow_http_from_back_alb will be created
+  + resource "aws_security_group" "allow_http_from_back_alb" {
+      + arn                    = (known after apply)
+      + description            = "allow_http_from_back_alb"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 80
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = (known after apply)
+              + self             = false
+              + to_port          = 80
+            },
+        ]
+      + name                   = "allow_http_from_back_alb"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name" = "allow_http_from_back_alb"
+        }
+      + tags_all               = {
+          + "Environment" = "dev"
+          + "Name"        = "allow_http_from_back_alb"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                 = "vpc-0bae4c5317a17a46e"
+    }
+
+  # aws_security_group.allow_http_from_front_alb will be created
+  + resource "aws_security_group" "allow_http_from_front_alb" {
+      + arn                    = (known after apply)
+      + description            = "allow_http_from_front_alb"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 80
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 80
+            },
+        ]
+      + name                   = "allow_http_from_front_alb"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name" = "allow_http_from_front_alb"
+        }
+      + tags_all               = {
+          + "Environment" = "dev"
+          + "Name"        = "allow_http_from_front_alb"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                 = "vpc-0bae4c5317a17a46e"
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions in workspace "dev"?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_lb_target_group.back_tg: Creating...
+aws_security_group.allow_http_from_front_alb: Creating...
+aws_lb_target_group.front_tg: Creating...
+aws_lb_target_group.front_tg: Creation complete after 2s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/front-lb-tg/6ed9ff0e1604c322]
+aws_lb_target_group.back_tg: Creation complete after 2s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/back-lb-tg/7ef1e4500515554e]
+aws_security_group.allow_http_from_front_alb: Creation complete after 4s [id=sg-08ab6b018bd600cc3]
+aws_lb.front_alb: Creating...
+aws_security_group.allow_http_from_back_alb: Creating...
+aws_security_group.allow_http_from_back_alb: Creation complete after 3s [id=sg-0a94ac91b421e0763]
+aws_lb.back_alb: Creating...
+aws_lb.front_alb: Still creating... [10s elapsed]
+aws_lb.back_alb: Still creating... [10s elapsed]
+aws_lb.front_alb: Still creating... [20s elapsed]
+aws_lb.back_alb: Still creating... [20s elapsed]
+aws_lb.front_alb: Still creating... [30s elapsed]
+aws_lb.back_alb: Still creating... [30s elapsed]
+aws_lb.front_alb: Still creating... [40s elapsed]
+aws_lb.back_alb: Still creating... [40s elapsed]
+aws_lb.front_alb: Still creating... [50s elapsed]
+aws_lb.back_alb: Still creating... [50s elapsed]
+aws_lb.front_alb: Still creating... [1m0s elapsed]
+aws_lb.back_alb: Still creating... [1m0s elapsed]
+aws_lb.front_alb: Still creating... [1m10s elapsed]
+aws_lb.back_alb: Still creating... [1m10s elapsed]
+aws_lb.front_alb: Still creating... [1m20s elapsed]
+aws_lb.back_alb: Still creating... [1m20s elapsed]
+aws_lb.front_alb: Still creating... [1m30s elapsed]
+aws_lb.back_alb: Still creating... [1m30s elapsed]
+aws_lb.front_alb: Still creating... [1m40s elapsed]
+aws_lb.back_alb: Still creating... [1m40s elapsed]
+aws_lb.front_alb: Still creating... [1m50s elapsed]
+aws_lb.back_alb: Still creating... [1m50s elapsed]
+aws_lb.front_alb: Still creating... [2m0s elapsed]
+aws_lb.back_alb: Still creating... [2m0s elapsed]
+aws_lb.back_alb: Creation complete after 2m3s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:loadbalancer/app/back-lb/f81f52e640031139]
+aws_lb_listener.back_listener: Creating...
+aws_lb_listener.back_listener: Creation complete after 0s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:listener/app/back-lb/f81f52e640031139/ff493bbaf8ff0437]
+aws_lb.front_alb: Still creating... [2m10s elapsed]
+aws_lb.front_alb: Still creating... [2m20s elapsed]
+aws_lb.front_alb: Still creating... [2m30s elapsed]
+aws_lb.front_alb: Still creating... [2m40s elapsed]
+aws_lb.front_alb: Still creating... [2m50s elapsed]
+aws_lb.front_alb: Still creating... [3m0s elapsed]
+aws_lb.front_alb: Creation complete after 3m4s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:loadbalancer/app/front-lb/f9be809e79052b03]
+aws_lb_listener.front_listener: Creating...
+aws_lb_listener.front_listener: Creation complete after 1s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:listener/app/front-lb/f9be809e79052b03/2aac42472dd0a54d]
+
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/balancers$

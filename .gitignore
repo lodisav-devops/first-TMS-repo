@@ -33,3 +33,4 @@
 /Terraform/HW_Lesson_44_Terr_Wordpress/*/.terraform.lock.hcl
 /Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate
 /Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate.backup
+/Terraform/HW_Lesson_44_Terr_Wordpress/template_file

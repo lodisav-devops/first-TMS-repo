@@ -1,11 +1,3 @@
-data "terraform_remote_state" "network" {
-    backend = "local"
-
-    config = {
-        path = "../network/terraform.tfstate.d/${terraform.workspace}/terraform.tfstate"
-    }
-}
-
 resource "aws_autoscaling_group" "frontend" {
   name                      = "frontend_asg"
   max_size                  = 4
@@ -16,4 +8,9 @@ resource "aws_autoscaling_group" "frontend" {
   }
   vpc_zone_identifier       = data.terraform_remote_state.network.outputs.public_subnets
   target_group_arns = [ data.aws_lb_target_group.front_alb.arn ]
+  tag {
+    key                 = "Name"
+    value               = "${var.frontend_instance_name}"
+    propagate_at_launch = true
+  }
 }

@@ -26,3 +26,13 @@ variable "back_target_alb_name" {
   type = string
   default = "back-lb-tg"
 }
+
+variable "backend_instance_name" {
+  type = string
+  default = "Backend-Instance"
+}
+
+variable "frontend_instance_name" {
+  type = string
+  default = "Frontend-Instance"
+}

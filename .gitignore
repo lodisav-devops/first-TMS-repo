@@ -28,4 +28,9 @@
 /Terraform/HW_Lesson_43_Terr_modules/*/.terraform.lock.hcl
 /Terraform/HW_Lesson_43_Terr_modules/*/terraform.tfstate
 /Terraform/HW_Lesson_43_Terr_modules/*/terraform.tfstate.backup
-/Terraform/HW_Lesson_44_Terr_Wordpress
+/Terraform/HW_Lesson_44_Terr_Wordpress/*/.terraform/*
+/Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate.d/*
+/Terraform/HW_Lesson_44_Terr_Wordpress/*/.terraform.lock.hcl
+/Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate
+/Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate.backup
+/Terraform/HW_Lesson_44_Terr_Wordpress/template_file

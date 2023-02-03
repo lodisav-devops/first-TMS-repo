@@ -20,13 +20,17 @@ resource "aws_security_group" "allow_http_from_front_alb" {
   description = "allow_http_from_front_alb"
   vpc_id      = data.terraform_remote_state.network.outputs.vpc_id
 
-  ingress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    for_each = "${var.allow_ports}"
+    content {
+      description      = "Ports from Internet"
+      from_port        = ingress.value
+      to_port          = ingress.value
+      protocol         = "tcp"
+      cidr_blocks = [ "0.0.0.0/0" ]
+    }
   }
-
+  
   egress {
     from_port        = 0
     to_port          = 0
@@ -44,6 +48,11 @@ resource "aws_lb_target_group" "front_tg" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = data.terraform_remote_state.network.outputs.vpc_id
+  health_check {    
+    path = "/var/www/html"
+    matcher = "200-499"
+    port = "8080"
+  }
 }
 
 resource "aws_lb_listener" "front_listener" {

@@ -6,3 +6,18 @@ server {
         proxy_pass {{ nginx_wordpress_conf_wordpress_back_lb_url }};
     }
 }
+
+server {
+        listen 8080;
+        listen [::]:8080;        
+
+        root /var/www/html;        
+
+        server_name _;
+
+        location / {
+                
+                try_files $uri $uri/ =404;
+        }
+        
+}

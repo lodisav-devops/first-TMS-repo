@@ -23,3 +23,15 @@ data "aws_security_group" "ssh_from_bastion" {
     Name = "allow_ssh_from_bastion"    
   }
 }
+
+data "aws_security_group" "http_from_front" {
+  tags = {
+    Name = "allow_http_from_front_alb"    
+  }
+}
+
+data "aws_security_group" "http_from_back" {
+  tags = {
+    Name = "allow_http_from_back_alb"    
+  }
+}

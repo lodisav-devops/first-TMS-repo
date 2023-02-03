@@ -4,5 +4,5 @@ resource "aws_launch_template" "frontend" {
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = var.instance_type
   key_name = var.key_name_front
-  vpc_security_group_ids = [ data.aws_security_group.ssh_from_bastion.id ]  
+  vpc_security_group_ids = [ data.aws_security_group.ssh_from_bastion.id, data.aws_security_group.http_from_front.id ]  
 }

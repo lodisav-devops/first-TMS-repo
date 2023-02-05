@@ -1,0 +1,252 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl create -f deployment.yaml
+deployment.apps/httpd-deployment created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+httpd-deployment-b6b49bfc9-6rlb8   1/1     Running             0          3s
+httpd-deployment-b6b49bfc9-hlfg8   0/1     ContainerCreating   0          3s
+httpd-deployment-b6b49bfc9-p5gs4   1/1     Running             0          3s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get all
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/httpd-deployment-b6b49bfc9-6rlb8   1/1     Running   0          2m43s
+pod/httpd-deployment-b6b49bfc9-hlfg8   1/1     Running   0          2m43s
+pod/httpd-deployment-b6b49bfc9-p5gs4   1/1     Running   0          2m43s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h44m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           2m45s
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-b6b49bfc9   3         3         3       2m45s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ cd ../replicaset/
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl apply -f replicaset.yaml
+replicaset.apps/nginx created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl get all
+NAME                                   READY   STATUS              RESTARTS   AGE
+pod/httpd-deployment-b6b49bfc9-6rlb8   1/1     Running             0          4m10s
+pod/httpd-deployment-b6b49bfc9-hlfg8   1/1     Running             0          4m10s
+pod/httpd-deployment-b6b49bfc9-p5gs4   1/1     Running             0          4m10s
+pod/nginx-drwwp                        1/1     Running             0          6s
+pod/nginx-lhdzh                        0/1     ContainerCreating   0          6s
+pod/nginx-nc2pl                        1/1     Running             0          6s
+pod/nginx-slb7f                        0/1     ContainerCreating   0          6s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h45m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           4m10s
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-b6b49bfc9   3         3         3       4m10s
+replicaset.apps/nginx                        4         4         4       6s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl apply -f replicaset.yaml
+replicaset.apps/nginx configured
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl describe rs nginx
+Name:         nginx
+Namespace:    default
+Selector:     app=nginx
+Labels:       app=nginx
+Annotations:  <none>
+Replicas:     4 current / 4 desired
+Pods Status:  4 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:        nginx:1.14.2
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age    From                   Message
+  ----    ------            ----   ----                   -------
+  Normal  SuccessfulCreate  3m11s  replicaset-controller  Created pod: nginx-drwwp
+  Normal  SuccessfulCreate  3m11s  replicaset-controller  Created pod: nginx-lhdzh
+  Normal  SuccessfulCreate  3m11s  replicaset-controller  Created pod: nginx-nc2pl
+  Normal  SuccessfulCreate  3m11s  replicaset-controller  Created pod: nginx-slb7f
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl get all
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/httpd-deployment-b6b49bfc9-6rlb8   1/1     Running   0          7m52s
+pod/httpd-deployment-b6b49bfc9-hlfg8   1/1     Running   0          7m52s
+pod/httpd-deployment-b6b49bfc9-p5gs4   1/1     Running   0          7m52s
+pod/nginx-drwwp                        1/1     Running   0          3m48s
+pod/nginx-lhdzh                        1/1     Running   0          3m48s
+pod/nginx-nc2pl                        1/1     Running   0          3m48s
+pod/nginx-slb7f                        1/1     Running   0          3m48s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h49m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           7m53s
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-b6b49bfc9   3         3         3       7m53s
+replicaset.apps/nginx                        4         4         4       3m49s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl delete pod pod/nginx-lhdzh
+error: there is no need to specify a resource type as a separate argument when passing arguments in resource/name form (e.g. 'kubectl get resource/<resource_name>' instead of 'kubectl get resource resource/<resource_name>'
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl delete pod nginx-lhdzh
+pod "nginx-lhdzh" deleted
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl get all
+NAME                                   READY   STATUS              RESTARTS   AGE
+pod/httpd-deployment-b6b49bfc9-6rlb8   1/1     Running             0          8m52s
+pod/httpd-deployment-b6b49bfc9-hlfg8   1/1     Running             0          8m52s
+pod/httpd-deployment-b6b49bfc9-p5gs4   1/1     Running             0          8m52s
+pod/nginx-drwwp                        1/1     Running             0          4m48s
+pod/nginx-nc2pl                        1/1     Running             0          4m48s
+pod/nginx-slb7f                        1/1     Running             0          4m48s
+pod/nginx-w2v5p                        0/1     ContainerCreating   0          4s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h50m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           8m52s
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-b6b49bfc9   3         3         3       8m52s
+replicaset.apps/nginx                        4         4         4       4m48s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+httpd-deployment-b6b49bfc9-6rlb8   1/1     Running   0          9m8s
+httpd-deployment-b6b49bfc9-hlfg8   1/1     Running   0          9m8s
+httpd-deployment-b6b49bfc9-p5gs4   1/1     Running   0          9m8s
+nginx-drwwp                        1/1     Running   0          5m4s
+nginx-nc2pl                        1/1     Running   0          5m4s
+nginx-slb7f                        1/1     Running   0          5m4s
+nginx-w2v5p                        1/1     Running   0          20s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl describe pod nginx-lhdzh
+Error from server (NotFound): pods "nginx-lhdzh" not found
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl describe pod nginx-drwwp
+Name:             nginx-drwwp
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-75-20.eu-west-1.compute.internal/192.168.75.20
+Start Time:       Sun, 05 Feb 2023 14:36:28 +0300
+Labels:           app=nginx
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.76.27
+IPs:
+  IP:           192.168.76.27
+Controlled By:  ReplicaSet/nginx
+Containers:
+  nginx:
+    Container ID:   containerd://b63f3d5fc465bfca6c124e63b9d73101415e84981ae94cd3eb2123ffe46555c0
+    Image:          nginx:1.16.1
+    Image ID:       docker.io/library/nginx@sha256:d20aa6d1cae56fd17cd458f4807e0de462caf2336f0b70b5eeb69fcaaf30dd9c
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Sun, 05 Feb 2023 14:36:32 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hhvp2 (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-hhvp2:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  5m41s  default-scheduler  Successfully assigned default/nginx-drwwp to ip-192-168-75-20.eu-west-1.compute.internal
+  Normal  Pulling    5m41s  kubelet            Pulling image "nginx:1.16.1"
+  Normal  Pulled     5m37s  kubelet            Successfully pulled image "nginx:1.16.1" in 3.845438473s
+  Normal  Created    5m37s  kubelet            Created container nginx
+  Normal  Started    5m37s  kubelet            Started container nginx
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl describe pod nginx-w2v5p
+Name:             nginx-w2v5p
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-75-20.eu-west-1.compute.internal/192.168.75.20
+Start Time:       Sun, 05 Feb 2023 14:41:12 +0300
+Labels:           app=nginx
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.75.115
+IPs:
+  IP:           192.168.75.115
+Controlled By:  ReplicaSet/nginx
+Containers:
+  nginx:
+    Container ID:   containerd://2bae8a2288459fa6162a9afb16ba7ef70f53c015a166e32c283fc5637747096d
+    Image:          nginx:1.14.2
+    Image ID:       docker.io/library/nginx@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Sun, 05 Feb 2023 14:41:16 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bvb24 (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-bvb24:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  71s   default-scheduler  Successfully assigned default/nginx-w2v5p to ip-192-168-75-20.eu-west-1.compute.internal
+  Normal  Pulling    70s   kubelet            Pulling image "nginx:1.14.2"
+  Normal  Pulled     67s   kubelet            Successfully pulled image "nginx:1.14.2" in 3.399387613s
+  Normal  Created    67s   kubelet            Created container nginx
+  Normal  Started    67s   kubelet            Started container nginx
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl delete -f replicaset.yaml
+replicaset.apps "nginx" deleted
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ kubectl get all
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/httpd-deployment-b6b49bfc9-6rlb8   1/1     Running   0          11m
+pod/httpd-deployment-b6b49bfc9-hlfg8   1/1     Running   0          11m
+pod/httpd-deployment-b6b49bfc9-p5gs4   1/1     Running   0          11m
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h53m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           11m
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-b6b49bfc9   3         3         3       11m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/replicaset$ cd ../deployment/
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl delete -f deployment.yaml
+deployment.apps "httpd-deployment" deleted
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h53m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$

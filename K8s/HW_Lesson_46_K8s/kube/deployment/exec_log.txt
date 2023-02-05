@@ -1,0 +1,312 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl apply -f deployment.yaml
+deployment.apps/httpd-deployment created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get deployments
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+httpd-deployment   3/3     3            3           31s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+httpd-deployment-5b5c46bbdf   3         3         3       60m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+httpd-deployment-5b5c46bbdf-c6xqh   1/1     Running   0          61m
+httpd-deployment-5b5c46bbdf-m5mzg   1/1     Running   0          61m
+httpd-deployment-5b5c46bbdf-znllk   1/1     Running   0          61m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl describe deployments httpd-deployment
+Name:                   httpd-deployment
+Namespace:              default
+CreationTimestamp:      Sun, 05 Feb 2023 12:33:40 +0300
+Labels:                 app=httpd
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=httpd
+Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=httpd
+  Containers:
+   httpd:
+    Image:        httpd:2.4
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   httpd-deployment-5b5c46bbdf (3/3 replicas created)
+Events:          <none>
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl apply -f deployment.yaml
+deployment.apps/httpd-deployment configured
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+httpd-deployment-b6b49bfc9-7chn8   1/1     Running   0          23s
+httpd-deployment-b6b49bfc9-glsp6   1/1     Running   0          16s
+httpd-deployment-b6b49bfc9-p9bjh   1/1     Running   0          10s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+httpd-deployment-5b5c46bbdf   0         0         0       78m
+httpd-deployment-b6b49bfc9    3         3         3       78s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl describe pod httpd-deployment-b6b49bfc9-7chn8
+Name:             httpd-deployment-b6b49bfc9-7chn8
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-75-20.eu-west-1.compute.internal/192.168.75.20
+Start Time:       Sun, 05 Feb 2023 13:50:41 +0300
+Labels:           app=httpd
+                  pod-template-hash=b6b49bfc9
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.86.206
+IPs:
+  IP:           192.168.86.206
+Controlled By:  ReplicaSet/httpd-deployment-b6b49bfc9
+Containers:
+  httpd:
+    Container ID:   containerd://c94144c4b0f5b225fbab2432b2f663d9ba58dfdbc6e99b3e9a325741d4c5d415
+    Image:          httpd:2.2
+    Image ID:       docker.io/library/httpd@sha256:9784d70c8ea466fabd52b0bc8cde84980324f9612380d22fbad2151df9a430eb
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Sun, 05 Feb 2023 13:50:47 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-4zmgs (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-4zmgs:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  2m56s  default-scheduler  Successfully assigned default/httpd-deployment-b6b49bfc9-7chn8 to ip-192-168-75-20.eu-west-1.compute.internal
+  Normal  Pulling    2m55s  kubelet            Pulling image "httpd:2.2"
+  Normal  Pulled     2m50s  kubelet            Successfully pulled image "httpd:2.2" in 4.908312279s
+  Normal  Created    2m50s  kubelet            Created container httpd
+  Normal  Started    2m50s  kubelet            Started container httpd
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get events
+LAST SEEN   TYPE     REASON              OBJECT                                   MESSAGE
+4m15s       Normal   Killing             pod/httpd-deployment-5b5c46bbdf-c6xqh    Stopping container httpd
+4m6s        Normal   Killing             pod/httpd-deployment-5b5c46bbdf-m5mzg    Stopping container httpd
+4m10s       Normal   Killing             pod/httpd-deployment-5b5c46bbdf-znllk    Stopping container httpd
+4m18s       Normal   SuccessfulDelete    replicaset/httpd-deployment-5b5c46bbdf   Deleted pod: httpd-deployment-5b5c46bbdf-c6xqh
+4m12s       Normal   SuccessfulDelete    replicaset/httpd-deployment-5b5c46bbdf   Deleted pod: httpd-deployment-5b5c46bbdf-znllk
+4m6s        Normal   SuccessfulDelete    replicaset/httpd-deployment-5b5c46bbdf   Deleted pod: httpd-deployment-5b5c46bbdf-m5mzg
+4m25s       Normal   Scheduled           pod/httpd-deployment-b6b49bfc9-7chn8     Successfully assigned default/httpd-deployment-b6b49bfc9-7chn8 to ip-192-168-75-20.eu-west-1.compute.internal
+4m24s       Normal   Pulling             pod/httpd-deployment-b6b49bfc9-7chn8     Pulling image "httpd:2.2"
+4m19s       Normal   Pulled              pod/httpd-deployment-b6b49bfc9-7chn8     Successfully pulled image "httpd:2.2" in 4.908312279s
+4m19s       Normal   Created             pod/httpd-deployment-b6b49bfc9-7chn8     Created container httpd
+4m19s       Normal   Started             pod/httpd-deployment-b6b49bfc9-7chn8     Started container httpd
+4m18s       Normal   Scheduled           pod/httpd-deployment-b6b49bfc9-glsp6     Successfully assigned default/httpd-deployment-b6b49bfc9-glsp6 to ip-192-168-50-103.eu-west-1.compute.internal
+4m18s       Normal   Pulling             pod/httpd-deployment-b6b49bfc9-glsp6     Pulling image "httpd:2.2"
+4m13s       Normal   Pulled              pod/httpd-deployment-b6b49bfc9-glsp6     Successfully pulled image "httpd:2.2" in 4.752020388s
+4m13s       Normal   Created             pod/httpd-deployment-b6b49bfc9-glsp6     Created container httpd
+4m13s       Normal   Started             pod/httpd-deployment-b6b49bfc9-glsp6     Started container httpd
+4m12s       Normal   Scheduled           pod/httpd-deployment-b6b49bfc9-p9bjh     Successfully assigned default/httpd-deployment-b6b49bfc9-p9bjh to ip-192-168-13-82.eu-west-1.compute.internal
+4m11s       Normal   Pulling             pod/httpd-deployment-b6b49bfc9-p9bjh     Pulling image "httpd:2.2"
+4m6s        Normal   Pulled              pod/httpd-deployment-b6b49bfc9-p9bjh     Successfully pulled image "httpd:2.2" in 4.673941156s
+4m6s        Normal   Created             pod/httpd-deployment-b6b49bfc9-p9bjh     Created container httpd
+4m6s        Normal   Started             pod/httpd-deployment-b6b49bfc9-p9bjh     Started container httpd
+4m25s       Normal   SuccessfulCreate    replicaset/httpd-deployment-b6b49bfc9    Created pod: httpd-deployment-b6b49bfc9-7chn8
+4m18s       Normal   SuccessfulCreate    replicaset/httpd-deployment-b6b49bfc9    Created pod: httpd-deployment-b6b49bfc9-glsp6
+4m12s       Normal   SuccessfulCreate    replicaset/httpd-deployment-b6b49bfc9    Created pod: httpd-deployment-b6b49bfc9-p9bjh
+4m25s       Normal   ScalingReplicaSet   deployment/httpd-deployment              Scaled up replica set httpd-deployment-b6b49bfc9 to 1
+4m18s       Normal   ScalingReplicaSet   deployment/httpd-deployment              Scaled down replica set httpd-deployment-5b5c46bbdf to 2
+4m18s       Normal   ScalingReplicaSet   deployment/httpd-deployment              Scaled up replica set httpd-deployment-b6b49bfc9 to 2
+4m12s       Normal   ScalingReplicaSet   deployment/httpd-deployment              Scaled down replica set httpd-deployment-5b5c46bbdf to 1
+4m12s       Normal   ScalingReplicaSet   deployment/httpd-deployment              Scaled up replica set httpd-deployment-b6b49bfc9 to 3
+4m6s        Normal   ScalingReplicaSet   deployment/httpd-deployment              Scaled down replica set httpd-deployment-5b5c46bbdf to 0
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl rollout history deployment httpd-deployment
+deployment.apps/httpd-deployment
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get deployments.apps httpd-deployment -oyaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"httpd"},"name":"httpd-deployment","namespace":"default"},"spec":{"replicas":3,"selector":{"matchLabels":{"app":"httpd"}},"template":{"metadata":{"labels":{"app":"httpd"}},"spec":{"containers":[{"image":"httpd:2.2","name":"httpd","ports":[{"containerPort":80}]}]}}}}
+  creationTimestamp: "2023-02-05T09:33:40Z"
+  generation: 2
+  labels:
+    app: httpd
+  name: httpd-deployment
+  namespace: default
+  resourceVersion: "30680"
+  uid: 8896fe26-eae4-4fe0-96bb-065d3b874bd6
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: httpd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: httpd
+    spec:
+      containers:
+      - image: httpd:2.2
+        imagePullPolicy: IfNotPresent
+        name: httpd
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 3
+  conditions:
+  - lastTransitionTime: "2023-02-05T09:33:47Z"
+    lastUpdateTime: "2023-02-05T09:33:47Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2023-02-05T09:33:40Z"
+    lastUpdateTime: "2023-02-05T10:51:01Z"
+    message: ReplicaSet "httpd-deployment-b6b49bfc9" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 3
+  replicas: 3
+  updatedReplicas: 3
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl describe deployments
+Name:                   httpd-deployment
+Namespace:              default
+CreationTimestamp:      Sun, 05 Feb 2023 12:33:40 +0300
+Labels:                 app=httpd
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               app=httpd
+Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=httpd
+  Containers:
+   httpd:
+    Image:        httpd:2.2
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   httpd-deployment-b6b49bfc9 (3/3 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  18m   deployment-controller  Scaled up replica set httpd-deployment-b6b49bfc9 to 1
+  Normal  ScalingReplicaSet  17m   deployment-controller  Scaled down replica set httpd-deployment-5b5c46bbdf to 2
+  Normal  ScalingReplicaSet  17m   deployment-controller  Scaled up replica set httpd-deployment-b6b49bfc9 to 2
+  Normal  ScalingReplicaSet  17m   deployment-controller  Scaled down replica set httpd-deployment-5b5c46bbdf to 1
+  Normal  ScalingReplicaSet  17m   deployment-controller  Scaled up replica set httpd-deployment-b6b49bfc9 to 3
+  Normal  ScalingReplicaSet  17m   deployment-controller  Scaled down replica set httpd-deployment-5b5c46bbdf to 0
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl rollout undo deployment httpd-deployment
+deployment.apps/httpd-deployment rolled back
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl describe deployments
+Name:                   httpd-deployment
+Namespace:              default
+CreationTimestamp:      Sun, 05 Feb 2023 12:33:40 +0300
+Labels:                 app=httpd
+Annotations:            deployment.kubernetes.io/revision: 3
+Selector:               app=httpd
+Replicas:               3 desired | 3 updated | 4 total | 3 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=httpd
+  Containers:
+   httpd:
+    Image:        httpd:2.4
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  httpd-deployment-b6b49bfc9 (1/1 replicas created)
+NewReplicaSet:   httpd-deployment-5b5c46bbdf (3/3 replicas created)
+Events:
+  Type    Reason             Age               From                   Message
+  ----    ------             ----              ----                   -------
+  Normal  ScalingReplicaSet  21m               deployment-controller  Scaled up replica set httpd-deployment-b6b49bfc9 to 1
+  Normal  ScalingReplicaSet  21m               deployment-controller  Scaled down replica set httpd-deployment-5b5c46bbdf to 2
+  Normal  ScalingReplicaSet  21m               deployment-controller  Scaled up replica set httpd-deployment-b6b49bfc9 to 2
+  Normal  ScalingReplicaSet  21m               deployment-controller  Scaled down replica set httpd-deployment-5b5c46bbdf to 1
+  Normal  ScalingReplicaSet  21m               deployment-controller  Scaled up replica set httpd-deployment-b6b49bfc9 to 3
+  Normal  ScalingReplicaSet  21m               deployment-controller  Scaled down replica set httpd-deployment-5b5c46bbdf to 0
+  Normal  ScalingReplicaSet  4s                deployment-controller  Scaled up replica set httpd-deployment-5b5c46bbdf to 1
+  Normal  ScalingReplicaSet  2s                deployment-controller  Scaled down replica set httpd-deployment-b6b49bfc9 to 2
+  Normal  ScalingReplicaSet  2s                deployment-controller  Scaled up replica set httpd-deployment-5b5c46bbdf to 2
+  Normal  ScalingReplicaSet  1s (x2 over 98m)  deployment-controller  Scaled up replica set httpd-deployment-5b5c46bbdf to 3
+  Normal  ScalingReplicaSet  1s                deployment-controller  Scaled down replica set httpd-deployment-b6b49bfc9 to 1
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl rollout history deployment httpd-deploym
+ent
+deployment.apps/httpd-deployment
+REVISION  CHANGE-CAUSE
+2         <none>
+3         <none>
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get replicaset
+NAME                          DESIRED   CURRENT   READY   AGE
+httpd-deployment-5b5c46bbdf   3         3         3       100m
+httpd-deployment-b6b49bfc9    0         0         0       23m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl scale --replicas=6 deployment httpd-deployment
+deployment.apps/httpd-deployment scaled
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ kubectl get rs
+NAME                          DESIRED   CURRENT   READY   AGE
+httpd-deployment-5b5c46bbdf   6         6         6       105m
+httpd-deployment-b6b49bfc9    0         0         0       28m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$

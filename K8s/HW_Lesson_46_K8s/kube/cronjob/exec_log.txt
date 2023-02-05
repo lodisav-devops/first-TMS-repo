@@ -1,0 +1,40 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl create -f cronjob.yaml
+cronjob.batch/hello created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get cronjob hello
+NAME    SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+hello   */2 * * * *   False     0        14s             19s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get jobs --watch
+NAME             COMPLETIONS   DURATION   AGE
+hello-27926788   1/1           7s         41s
+^Clodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get jobs --watch
+NAME             COMPLETIONS   DURATION   AGE
+hello-27926788   1/1           7s         62s
+hello-27926790   0/1                      0s
+hello-27926790   0/1           0s         0s
+hello-27926790   0/1           3s         3s
+hello-27926790   0/1           3s         3s
+^Clodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get cronjob hello
+NAME    SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+hello   */2 * * * *   False     0        9s              2m14s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ pods=$(kubectl get pods --selector=job-name=hello-27926790 --output=jsonpath={.items[*].metadata.name})
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl logs $pods
+Sun Feb  5 14:30:02 UTC 2023
+Hello from the Kubernetes cluster by Lodis Artyom
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get jobs --watch
+NAME             COMPLETIONS   DURATION   AGE
+hello-27926788   1/1           7s         4m33s
+hello-27926790   1/1           6s         2m33s
+hello-27926792   1/1           5s         33s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get cronjob hello
+NAME    SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+hello   */2 * * * *   False     0        46s             4m51s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ pods=$(kubectl get pods --selector=job-name=hello-27926792 --output=jsonpath={.items[*].metadata.name})
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl logs $pods
+Sun Feb  5 14:32:01 UTC 2023
+Hello from the Kubernetes cluster by Lodis Artyom
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl delete cronjob hello
+cronjob.batch "hello" deleted
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   6h43m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/cronjob$

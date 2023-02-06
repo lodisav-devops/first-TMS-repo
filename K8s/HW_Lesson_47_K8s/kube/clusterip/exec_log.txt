@@ -1,0 +1,126 @@
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/create_cluster$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   31m
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/create_cluster$ cd ../kube/clusterip/
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb  6 12:10 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb  6 12:10 ../
+-rwxrwxrwx 1 lodis lodis  592 Feb  6 12:32 clusterip.yaml*
+-rwxrwxrwx 1 lodis lodis    4 Feb  6 12:11 exec_log.txt*
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl apply -f clusterip.yaml
+deployment.apps/httpd-deployment created
+service/httpd created
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl get all
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/httpd-deployment-5b5c46bbdf-7jxxs   1/1     Running   0          7s
+pod/httpd-deployment-5b5c46bbdf-m4zrw   1/1     Running   0          7s
+pod/httpd-deployment-5b5c46bbdf-s8h6v   1/1     Running   0          7s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/httpd        ClusterIP   10.100.132.204   <none>        8080/TCP   7s
+service/kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP    48m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           8s
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-5b5c46bbdf   3         3         3       8s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+httpd-deployment-5b5c46bbdf-7jxxs   1/1     Running   0          72s
+httpd-deployment-5b5c46bbdf-m4zrw   1/1     Running   0          72s
+httpd-deployment-5b5c46bbdf-s8h6v   1/1     Running   0          72s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+httpd        ClusterIP   10.100.132.204   <none>        8080/TCP   4m19s
+kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP    52m
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ aws ssm start-session     --target i-0c809a348a401e84e
+
+Starting session with SessionId: av.lodis.awscli-0aa78ecd620f87625
+sh-4.2$ curl http://10.100.132.204:8080
+<html><body><h1>It works!</h1></body></html>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-0aa78ecd620f87625.
+
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ ll
+total 8
+drwxrwxrwx 1 lodis lodis 4096 Feb  6 12:40 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb  6 12:10 ../
+-rwxrwxrwx 1 lodis lodis  592 Feb  6 12:32 clusterip.yaml*
+-rwxrwxrwx 1 lodis lodis  595 Feb  6 12:45 clusterip_nginx.yaml*
+-rwxrwxrwx 1 lodis lodis 2682 Feb  6 12:42 exec_log.txt*
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl apply -f clusterip_nginx.yaml
+deployment.apps/nginx-deployment created
+service/nginx created
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl get all
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/httpd-deployment-5b5c46bbdf-7jxxs   1/1     Running   0          13m
+pod/httpd-deployment-5b5c46bbdf-m4zrw   1/1     Running   0          13m
+pod/httpd-deployment-5b5c46bbdf-s8h6v   1/1     Running   0          13m
+pod/nginx-deployment-6595874d85-km7cl   1/1     Running   0          5s
+pod/nginx-deployment-6595874d85-skqxn   1/1     Running   0          5s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/httpd        ClusterIP   10.100.132.204   <none>        8080/TCP   13m
+service/kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP    60m
+service/nginx        ClusterIP   10.100.165.123   <none>        8088/TCP   6s
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   3/3     3            3           13m
+deployment.apps/nginx-deployment   2/2     2            2           6s
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-5b5c46bbdf   3         3         3       13m
+replicaset.apps/nginx-deployment-6595874d85   2         2         2       6s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+httpd-deployment-5b5c46bbdf-7jxxs   1/1     Running   0          13m
+httpd-deployment-5b5c46bbdf-m4zrw   1/1     Running   0          13m
+httpd-deployment-5b5c46bbdf-s8h6v   1/1     Running   0          13m
+nginx-deployment-6595874d85-km7cl   1/1     Running   0          13s
+nginx-deployment-6595874d85-skqxn   1/1     Running   0          13s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+httpd        ClusterIP   10.100.132.204   <none>        8080/TCP   13m
+kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP    61m
+nginx        ClusterIP   10.100.165.123   <none>        8088/TCP   21s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$ aws ssm start-session     --target i-0c809a348a401e84e
+
+Starting session with SessionId: av.lodis.awscli-036ea7fd56e955561
+sh-4.2$ curl http://10.100.165.123:8088
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-036ea7fd56e955561.
+
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip$

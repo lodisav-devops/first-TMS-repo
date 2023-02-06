@@ -1,0 +1,252 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/deployment$ cd ../
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 14:23 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 11:20 ../
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 12:06 deployment/
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 14:35 replicaset/
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 15:00 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 11:20 ../
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 12:06 deployment/
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 14:35 replicaset/
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 15:00 statefulset/
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube$ cd statefulset/
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl apply -f statefulset.yaml
+statefulset.apps/httpd created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl get all
+NAME          READY   STATUS    RESTARTS   AGE
+pod/httpd-0   1/1     Running   0          6s
+pod/httpd-1   1/1     Running   0          5s
+pod/httpd-2   1/1     Running   0          3s
+pod/httpd-3   1/1     Running   0          2s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h19m
+
+NAME                     READY   AGE
+statefulset.apps/httpd   4/4     6s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl describe pod httpd-0
+Name:             httpd-0
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-50-103.eu-west-1.compute.internal/192.168.50.103
+Start Time:       Sun, 05 Feb 2023 15:09:47 +0300
+Labels:           app=httpd
+                  controller-revision-hash=httpd-9fc585ff5
+                  statefulset.kubernetes.io/pod-name=httpd-0
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.57.108
+IPs:
+  IP:           192.168.57.108
+Controlled By:  StatefulSet/httpd
+Containers:
+  httpd:
+    Container ID:   containerd://c7d9126ee7f09142f96db37ae766df47984aa20986fe2587ad32558894ce2617
+    Image:          httpd:2.4
+    Image ID:       docker.io/library/httpd@sha256:e63470b5cf761fe43810b49a1cc3117746d7d6bff36d80e2b0a5ad1c6f0325d5
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Sun, 05 Feb 2023 15:09:48 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-dd5qg (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-dd5qg:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  2m7s  default-scheduler  Successfully assigned default/httpd-0 to ip-192-168-50-103.eu-west-1.compute.internal
+  Normal  Pulled     2m6s  kubelet            Container image "httpd:2.4" already present on machine
+  Normal  Created    2m6s  kubelet            Created container httpd
+  Normal  Started    2m6s  kubelet            Started container httpd
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl scsle --replicas=3 sts httpd
+error: unknown command "scsle" for "kubectl"
+
+Did you mean this?
+        scale
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl scale --replicas=3 sts httpd
+statefulset.apps/httpd scaled
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl get all
+NAME          READY   STATUS    RESTARTS   AGE
+pod/httpd-0   1/1     Running   0          3m28s
+pod/httpd-1   1/1     Running   0          3m27s
+pod/httpd-2   1/1     Running   0          3m25s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h22m
+
+NAME                     READY   AGE
+statefulset.apps/httpd   3/3     3m29s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl apply -f statefulset.yaml
+statefulset.apps/httpd configured
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl get all
+NAME          READY   STATUS        RESTARTS   AGE
+pod/httpd-0   1/1     Running       0          4m28s
+pod/httpd-1   1/1     Running       0          4m27s
+pod/httpd-2   1/1     Terminating   0          4m25s
+pod/httpd-3   1/1     Running       0          4s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h23m
+
+NAME                     READY   AGE
+statefulset.apps/httpd   3/4     4m28s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl get all
+NAME          READY   STATUS    RESTARTS   AGE
+pod/httpd-0   1/1     Running   0          2s
+pod/httpd-1   1/1     Running   0          5s
+pod/httpd-2   1/1     Running   0          8s
+pod/httpd-3   1/1     Running   0          12s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h23m
+
+NAME                     READY   AGE
+statefulset.apps/httpd   4/4     4m37s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl describe pod httpd-0
+Name:             httpd-0
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-75-20.eu-west-1.compute.internal/192.168.75.20
+Start Time:       Sun, 05 Feb 2023 15:14:21 +0300
+Labels:           app=httpd
+                  controller-revision-hash=httpd-555b8f9645
+                  statefulset.kubernetes.io/pod-name=httpd-0
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.93.21
+IPs:
+  IP:           192.168.93.21
+Controlled By:  StatefulSet/httpd
+Containers:
+  httpd:
+    Container ID:   containerd://0cdeaa44cc11f210095fa09891eefae547409ae4a17d530404e718e44bce40bb
+    Image:          httpd:2.2
+    Image ID:       docker.io/library/httpd@sha256:9784d70c8ea466fabd52b0bc8cde84980324f9612380d22fbad2151df9a430eb
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Sun, 05 Feb 2023 15:14:22 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5s9gw (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-5s9gw:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  50s   default-scheduler  Successfully assigned default/httpd-0 to ip-192-168-75-20.eu-west-1.compute.internal
+  Normal  Pulled     49s   kubelet            Container image "httpd:2.2" already present on machine
+  Normal  Created    49s   kubelet            Created container httpd
+  Normal  Started    49s   kubelet            Started container httpd
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl rollout history sts httpd
+statefulset.apps/httpd
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl desceibe sts httpd
+error: unknown command "desceibe" for "kubectl"
+
+Did you mean this?
+        describe
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl describe sts httpd
+Name:               httpd
+Namespace:          default
+CreationTimestamp:  Sun, 05 Feb 2023 15:09:47 +0300
+Selector:           app=httpd
+Labels:             <none>
+Annotations:        <none>
+Replicas:           4 desired | 4 total
+Update Strategy:    RollingUpdate
+  Partition:        0
+Pods Status:        4 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=httpd
+  Containers:
+   httpd:
+    Image:        httpd:2.2
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Volume Claims:    <none>
+Events:
+  Type    Reason            Age                    From                    Message
+  ----    ------            ----                   ----                    -------
+  Normal  SuccessfulDelete  3m53s                  statefulset-controller  delete Pod httpd-3 in StatefulSet httpd successful
+  Normal  SuccessfulCreate  2m50s (x2 over 7m10s)  statefulset-controller  create Pod httpd-3 in StatefulSet httpd successful
+  Normal  SuccessfulDelete  2m48s                  statefulset-controller  delete Pod httpd-2 in StatefulSet httpd successful
+  Normal  SuccessfulCreate  2m46s (x2 over 7m11s)  statefulset-controller  create Pod httpd-2 in StatefulSet httpd successful
+  Normal  SuccessfulDelete  2m45s                  statefulset-controller  delete Pod httpd-1 in StatefulSet httpd successful
+  Normal  SuccessfulCreate  2m43s (x2 over 7m13s)  statefulset-controller  create Pod httpd-1 in StatefulSet httpd successful
+  Normal  SuccessfulDelete  2m42s                  statefulset-controller  delete Pod httpd-0 in StatefulSet httpd successful
+  Normal  SuccessfulCreate  2m40s (x2 over 7m14s)  statefulset-controller  create Pod httpd-0 in StatefulSet httpd successful
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl delete pod httpd-1
+pod "httpd-1" deleted
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl get all
+NAME          READY   STATUS    RESTARTS   AGE
+pod/httpd-0   1/1     Running   0          5m4s
+pod/httpd-1   1/1     Running   0          6s
+pod/httpd-2   1/1     Running   0          5m10s
+pod/httpd-3   1/1     Running   0          5m14s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h28m
+
+NAME                     READY   AGE
+statefulset.apps/httpd   4/4     9m39s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ kubectl get all -owide
+NAME          READY   STATUS    RESTARTS   AGE     IP               NODE                                           NOMINATED NODE   READINESS GATES
+pod/httpd-0   1/1     Running   0          5m28s   192.168.93.21    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+pod/httpd-1   1/1     Running   0          30s     192.168.38.101   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+pod/httpd-2   1/1     Running   0          5m34s   192.168.18.104   ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+pod/httpd-3   1/1     Running   0          5m38s   192.168.55.231   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   4h28m   <none>
+
+NAME                     READY   AGE   CONTAINERS   IMAGES
+statefulset.apps/httpd   4/4     10m   httpd        httpd:2.2
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$

@@ -1,0 +1,357 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/statefulset$ cd ../daemonset/
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 15:23 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb  5 15:23 ../
+-rwxrwxrwx 1 lodis lodis  655 Feb  5 15:38 daemonset.yaml*
+-rwxrwxrwx 1 lodis lodis    4 Feb  5 15:24 exec_log.txt*
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   4h50m
+kube-node-lease   Active   4h50m
+kube-public       Active   4h50m
+kube-system       Active   4h50m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl delete -f daemonset.yaml
+daemonset.apps "fluentd-elasticsearch" deleted
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl apply -f daemonset.yaml
+daemonset.apps/fluentd-elasticsearch created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get all -owide -n kube-system
+NAME                              READY   STATUS    RESTARTS   AGE     IP               NODE                                           NOMINATED NODE   READINESS GATES
+pod/aws-node-h2s5s                1/1     Running   0          4h48m   192.168.13.82    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+pod/aws-node-q6m88                1/1     Running   0          4h48m   192.168.75.20    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+pod/aws-node-qtjx8                1/1     Running   0          4h48m   192.168.50.103   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+pod/coredns-6bc4667bcc-hprpt      1/1     Running   0          4h58m   192.168.16.235   ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+pod/coredns-6bc4667bcc-q6hxv      1/1     Running   0          4h58m   192.168.5.140    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+pod/fluentd-elasticsearch-5n9sd   1/1     Running   0          20s     192.168.1.111    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+pod/fluentd-elasticsearch-6zrws   1/1     Running   0          20s     192.168.75.115   ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+pod/fluentd-elasticsearch-86f52   1/1     Running   0          20s     192.168.47.223   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+pod/kube-proxy-8t8px              1/1     Running   0          4h48m   192.168.75.20    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+pod/kube-proxy-mcn67              1/1     Running   0          4h48m   192.168.50.103   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+pod/kube-proxy-rfm2x              1/1     Running   0          4h48m   192.168.13.82    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+
+NAME               TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)         AGE     SELECTOR
+service/kube-dns   ClusterIP   10.100.0.10   <none>        53/UDP,53/TCP   4h58m   k8s-app=kube-dns
+
+NAME                                   DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE     CONTAINERS              IMAGES                                                                                   SELECTOR
+daemonset.apps/aws-node                3         3         3       3            3           <none>          4h58m   aws-node                602401143452.dkr.ecr.eu-west-1.amazonaws.com/amazon-k8s-cni:v1.11.4-eksbuild.1           k8s-app=aws-node
+daemonset.apps/fluentd-elasticsearch   3         3         3       3            3           <none>          21s     fluentd-elasticsearch   quay.io/fluentd_elasticsearch/fluentd:v2.5.2                                             name=fluentd-elasticsearch
+daemonset.apps/kube-proxy              3         3         3       3            3           <none>          4h58m   kube-proxy              602401143452.dkr.ecr.eu-west-1.amazonaws.com/eks/kube-proxy:v1.24.7-minimal-eksbuild.2   k8s-app=kube-proxy
+
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                                                                       SELECTOR
+deployment.apps/coredns   2/2     2            2           4h58m   coredns      602401143452.dkr.ecr.eu-west-1.amazonaws.com/eks/coredns:v1.8.7-eksbuild.3   eks.amazonaws.com/component=coredns,k8s-app=kube-dns
+
+NAME                                 DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES                                                                       SELECTOR
+replicaset.apps/coredns-6bc4667bcc   2         2         2       4h58m   coredns      602401143452.dkr.ecr.eu-west-1.amazonaws.com/eks/coredns:v1.8.7-eksbuild.3   eks.amazonaws.com/component=coredns,k8s-app=kube-dns,pod-template-hash=6bc4667bcc
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl describe nodes
+Name:               ip-192-168-13-82.eu-west-1.compute.internal
+Roles:              <none>
+Labels:             alpha.eksctl.io/cluster-name=lodisav-cluster
+                    alpha.eksctl.io/instance-id=i-0ae67cccd7c94830d
+                    alpha.eksctl.io/nodegroup-name=worker
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=t3.medium
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=eu-west-1
+                    failure-domain.beta.kubernetes.io/zone=eu-west-1a
+                    k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=ip-192-168-13-82.eu-west-1.compute.internal
+                    kubernetes.io/os=linux
+                    node-lifecycle=on-demand
+                    node.kubernetes.io/instance-type=t3.medium
+                    topology.kubernetes.io/region=eu-west-1
+                    topology.kubernetes.io/zone=eu-west-1a
+Annotations:        alpha.kubernetes.io/provided-node-ip: 192.168.13.82
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Sun, 05 Feb 2023 11:01:00 +0300
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  ip-192-168-13-82.eu-west-1.compute.internal
+  AcquireTime:     <unset>
+  RenewTime:       Sun, 05 Feb 2023 15:59:05 +0300
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Sun, 05 Feb 2023 15:55:24 +0300   Sun, 05 Feb 2023 11:00:58 +0300   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Sun, 05 Feb 2023 15:55:24 +0300   Sun, 05 Feb 2023 11:00:58 +0300   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Sun, 05 Feb 2023 15:55:24 +0300   Sun, 05 Feb 2023 11:00:58 +0300   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Sun, 05 Feb 2023 15:55:24 +0300   Sun, 05 Feb 2023 11:01:21 +0300   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:   192.168.13.82
+  ExternalIP:   34.254.200.210
+  Hostname:     ip-192-168-13-82.eu-west-1.compute.internal
+  InternalDNS:  ip-192-168-13-82.eu-west-1.compute.internal
+  ExternalDNS:  ec2-34-254-200-210.eu-west-1.compute.amazonaws.com
+Capacity:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         2
+  ephemeral-storage:           83873772Ki
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      3964600Ki
+  pods:                        17
+Allocatable:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         1930m
+  ephemeral-storage:           76224326324
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      3409592Ki
+  pods:                        17
+System Info:
+  Machine ID:                 ec221607bd1c269c64d92a6a16605161
+  System UUID:                ec221607-bd1c-269c-64d9-2a6a16605161
+  Boot ID:                    36eac6e7-baa2-4dd9-b119-c3c2586fc943
+  Kernel Version:             5.4.228-131.415.amzn2.x86_64
+  OS Image:                   Amazon Linux 2
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.6.6
+  Kubelet Version:            v1.24.9-eks-49d8fe8
+  Kube-Proxy Version:         v1.24.9-eks-49d8fe8
+ProviderID:                   aws:///eu-west-1a/i-0ae67cccd7c94830d
+Non-terminated Pods:          (5 in total)
+  Namespace                   Name                           CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                           ------------  ----------  ---------------  -------------  ---
+  kube-system                 aws-node-h2s5s                 25m (1%)      0 (0%)      0 (0%)           0 (0%)         4h58m
+  kube-system                 coredns-6bc4667bcc-hprpt       100m (5%)     0 (0%)      70Mi (2%)        170Mi (5%)     5h8m
+  kube-system                 coredns-6bc4667bcc-q6hxv       100m (5%)     0 (0%)      70Mi (2%)        170Mi (5%)     5h8m
+  kube-system                 fluentd-elasticsearch-5n9sd    100m (5%)     0 (0%)      200Mi (6%)       200Mi (6%)     10m
+  kube-system                 kube-proxy-rfm2x               100m (5%)     0 (0%)      0 (0%)           0 (0%)         4h58m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource                    Requests     Limits
+  --------                    --------     ------
+  cpu                         425m (22%)   0 (0%)
+  memory                      340Mi (10%)  540Mi (16%)
+  ephemeral-storage           0 (0%)       0 (0%)
+  hugepages-1Gi               0 (0%)       0 (0%)
+  hugepages-2Mi               0 (0%)       0 (0%)
+  attachable-volumes-aws-ebs  0            0
+Events:                       <none>
+
+
+Name:               ip-192-168-50-103.eu-west-1.compute.internal
+Roles:              <none>
+Labels:             alpha.eksctl.io/cluster-name=lodisav-cluster
+                    alpha.eksctl.io/instance-id=i-07873ae4dd40fea7f
+                    alpha.eksctl.io/nodegroup-name=worker
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=t3.medium
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=eu-west-1
+                    failure-domain.beta.kubernetes.io/zone=eu-west-1c
+                    k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=ip-192-168-50-103.eu-west-1.compute.internal
+                    kubernetes.io/os=linux
+                    node-lifecycle=on-demand
+                    node.kubernetes.io/instance-type=t3.medium
+                    topology.kubernetes.io/region=eu-west-1
+                    topology.kubernetes.io/zone=eu-west-1c
+Annotations:        alpha.kubernetes.io/provided-node-ip: 192.168.50.103
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Sun, 05 Feb 2023 11:01:00 +0300
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  ip-192-168-50-103.eu-west-1.compute.internal
+  AcquireTime:     <unset>
+  RenewTime:       Sun, 05 Feb 2023 15:59:06 +0300
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Sun, 05 Feb 2023 15:55:26 +0300   Sun, 05 Feb 2023 11:00:58 +0300   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Sun, 05 Feb 2023 15:55:26 +0300   Sun, 05 Feb 2023 11:00:58 +0300   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Sun, 05 Feb 2023 15:55:26 +0300   Sun, 05 Feb 2023 11:00:58 +0300   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Sun, 05 Feb 2023 15:55:26 +0300   Sun, 05 Feb 2023 11:01:24 +0300   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:   192.168.50.103
+  ExternalIP:   54.78.74.18
+  Hostname:     ip-192-168-50-103.eu-west-1.compute.internal
+  InternalDNS:  ip-192-168-50-103.eu-west-1.compute.internal
+  ExternalDNS:  ec2-54-78-74-18.eu-west-1.compute.amazonaws.com
+Capacity:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         2
+  ephemeral-storage:           83873772Ki
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      3964600Ki
+  pods:                        17
+Allocatable:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         1930m
+  ephemeral-storage:           76224326324
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      3409592Ki
+  pods:                        17
+System Info:
+  Machine ID:                 ec2162d8d855615618ef16e649557a7f
+  System UUID:                ec2162d8-d855-6156-18ef-16e649557a7f
+  Boot ID:                    16e00fbc-189b-4eed-bae4-34d168d78385
+  Kernel Version:             5.4.228-131.415.amzn2.x86_64
+  OS Image:                   Amazon Linux 2
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.6.6
+  Kubelet Version:            v1.24.9-eks-49d8fe8
+  Kube-Proxy Version:         v1.24.9-eks-49d8fe8
+ProviderID:                   aws:///eu-west-1c/i-07873ae4dd40fea7f
+Non-terminated Pods:          (3 in total)
+  Namespace                   Name                           CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                           ------------  ----------  ---------------  -------------  ---
+  kube-system                 aws-node-qtjx8                 25m (1%)      0 (0%)      0 (0%)           0 (0%)         4h58m
+  kube-system                 fluentd-elasticsearch-86f52    100m (5%)     0 (0%)      200Mi (6%)       200Mi (6%)     10m
+  kube-system                 kube-proxy-mcn67               100m (5%)     0 (0%)      0 (0%)           0 (0%)         4h58m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource                    Requests    Limits
+  --------                    --------    ------
+  cpu                         225m (11%)  0 (0%)
+  memory                      200Mi (6%)  200Mi (6%)
+  ephemeral-storage           0 (0%)      0 (0%)
+  hugepages-1Gi               0 (0%)      0 (0%)
+  hugepages-2Mi               0 (0%)      0 (0%)
+  attachable-volumes-aws-ebs  0           0
+Events:                       <none>
+
+
+Name:               ip-192-168-75-20.eu-west-1.compute.internal
+Roles:              <none>
+Labels:             alpha.eksctl.io/cluster-name=lodisav-cluster
+                    alpha.eksctl.io/instance-id=i-0d442291b423c4bd7
+                    alpha.eksctl.io/nodegroup-name=worker
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=t3.medium
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=eu-west-1
+                    failure-domain.beta.kubernetes.io/zone=eu-west-1b
+                    k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=ip-192-168-75-20.eu-west-1.compute.internal
+                    kubernetes.io/os=linux
+                    node-lifecycle=on-demand
+                    node.kubernetes.io/instance-type=t3.medium
+                    topology.kubernetes.io/region=eu-west-1
+                    topology.kubernetes.io/zone=eu-west-1b
+Annotations:        alpha.kubernetes.io/provided-node-ip: 192.168.75.20
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Sun, 05 Feb 2023 11:01:00 +0300
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  ip-192-168-75-20.eu-west-1.compute.internal
+  AcquireTime:     <unset>
+  RenewTime:       Sun, 05 Feb 2023 15:59:09 +0300
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Sun, 05 Feb 2023 15:55:20 +0300   Sun, 05 Feb 2023 11:01:00 +0300   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Sun, 05 Feb 2023 15:55:20 +0300   Sun, 05 Feb 2023 11:01:00 +0300   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Sun, 05 Feb 2023 15:55:20 +0300   Sun, 05 Feb 2023 11:01:00 +0300   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Sun, 05 Feb 2023 15:55:20 +0300   Sun, 05 Feb 2023 11:01:22 +0300   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:   192.168.75.20
+  ExternalIP:   34.241.28.37
+  Hostname:     ip-192-168-75-20.eu-west-1.compute.internal
+  InternalDNS:  ip-192-168-75-20.eu-west-1.compute.internal
+  ExternalDNS:  ec2-34-241-28-37.eu-west-1.compute.amazonaws.com
+Capacity:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         2
+  ephemeral-storage:           83873772Ki
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      3964600Ki
+  pods:                        17
+Allocatable:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         1930m
+  ephemeral-storage:           76224326324
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      3409592Ki
+  pods:                        17
+System Info:
+  Machine ID:                 ec2307d08139cb6fa83cd9d9b2ff772a
+  System UUID:                ec2307d0-8139-cb6f-a83c-d9d9b2ff772a
+  Boot ID:                    f4bf3bac-14c1-4ae4-8492-bddfc221dac6
+  Kernel Version:             5.4.228-131.415.amzn2.x86_64
+  OS Image:                   Amazon Linux 2
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.6.6
+  Kubelet Version:            v1.24.9-eks-49d8fe8
+  Kube-Proxy Version:         v1.24.9-eks-49d8fe8
+ProviderID:                   aws:///eu-west-1b/i-0d442291b423c4bd7
+Non-terminated Pods:          (3 in total)
+  Namespace                   Name                           CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                           ------------  ----------  ---------------  -------------  ---
+  kube-system                 aws-node-q6m88                 25m (1%)      0 (0%)      0 (0%)           0 (0%)         4h58m
+  kube-system                 fluentd-elasticsearch-6zrws    100m (5%)     0 (0%)      200Mi (6%)       200Mi (6%)     10m
+  kube-system                 kube-proxy-8t8px               100m (5%)     0 (0%)      0 (0%)           0 (0%)         4h58m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource                    Requests    Limits
+  --------                    --------    ------
+  cpu                         225m (11%)  0 (0%)
+  memory                      200Mi (6%)  200Mi (6%)
+  ephemeral-storage           0 (0%)      0 (0%)
+  hugepages-1Gi               0 (0%)      0 (0%)
+  hugepages-2Mi               0 (0%)      0 (0%)
+  attachable-volumes-aws-ebs  0           0
+Events:                       <none>
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get pods -n kube-system -owide
+NAME                          READY   STATUS    RESTARTS   AGE     IP               NODE                                           NOMINATED NODE   READINESS GATES
+aws-node-h2s5s                1/1     Running   0          5h6m    192.168.13.82    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+aws-node-q6m88                1/1     Running   0          5h6m    192.168.75.20    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+aws-node-qtjx8                1/1     Running   0          5h6m    192.168.50.103   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+coredns-6bc4667bcc-hprpt      1/1     Running   0          5h16m   192.168.16.235   ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+coredns-6bc4667bcc-q6hxv      1/1     Running   0          5h16m   192.168.5.140    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+fluentd-elasticsearch-5n9sd   1/1     Running   0          18m     192.168.1.111    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+fluentd-elasticsearch-6zrws   1/1     Running   0          18m     192.168.75.115   ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+fluentd-elasticsearch-86f52   1/1     Running   0          18m     192.168.47.223   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+kube-proxy-8t8px              1/1     Running   0          5h6m    192.168.75.20    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+kube-proxy-mcn67              1/1     Running   0          5h6m    192.168.50.103   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+kube-proxy-rfm2x              1/1     Running   0          5h6m    192.168.13.82    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-13-82.eu-west-1.compute.internal    Ready    <none>   5h21m   v1.24.9-eks-49d8fe8
+ip-192-168-50-103.eu-west-1.compute.internal   Ready    <none>   5h21m   v1.24.9-eks-49d8fe8
+ip-192-168-75-20.eu-west-1.compute.internal    Ready    <none>   5h21m   v1.24.9-eks-49d8fe8
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get nodes --show-labels
+NAME                                           STATUS   ROLES    AGE     VERSION               LABELS
+ip-192-168-13-82.eu-west-1.compute.internal    Ready    <none>   5h22m   v1.24.9-eks-49d8fe8   alpha.eksctl.io/cluster-name=lodisav-cluster,alpha.eksctl.io/instance-id=i-0ae67cccd7c94830d,alpha.eksctl.io/nodegroup-name=worker,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3.medium,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1a,k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-192-168-13-82.eu-west-1.compute.internal,kubernetes.io/os=linux,node-lifecycle=on-demand,node.kubernetes.io/instance-type=t3.medium,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1a
+ip-192-168-50-103.eu-west-1.compute.internal   Ready    <none>   5h22m   v1.24.9-eks-49d8fe8   alpha.eksctl.io/cluster-name=lodisav-cluster,alpha.eksctl.io/instance-id=i-07873ae4dd40fea7f,alpha.eksctl.io/nodegroup-name=worker,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3.medium,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1c,k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-192-168-50-103.eu-west-1.compute.internal,kubernetes.io/os=linux,node-lifecycle=on-demand,node.kubernetes.io/instance-type=t3.medium,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1c
+ip-192-168-75-20.eu-west-1.compute.internal    Ready    <none>   5h22m   v1.24.9-eks-49d8fe8   alpha.eksctl.io/cluster-name=lodisav-cluster,alpha.eksctl.io/instance-id=i-0d442291b423c4bd7,alpha.eksctl.io/nodegroup-name=worker,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3.medium,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1b,k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-192-168-75-20.eu-west-1.compute.internal,kubernetes.io/os=linux,node-lifecycle=on-demand,node.kubernetes.io/instance-type=t3.medium,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1b
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl label nodes ip-192-168-13-82.eu-west-1.compute.internal nodePort=true
+node/ip-192-168-13-82.eu-west-1.compute.internal labeled
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl label nodes ip-192-168-50-103.eu-west-1.compute.internal nodePort=false
+node/ip-192-168-50-103.eu-west-1.compute.internal labeled
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl label nodes ip-192-168-75-20.eu-west-1.compute.internal nodePort=false
+node/ip-192-168-75-20.eu-west-1.compute.internal labeled
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get nodes --show-labels
+NAME                                           STATUS   ROLES    AGE     VERSION               LABELS
+ip-192-168-13-82.eu-west-1.compute.internal    Ready    <none>   5h31m   v1.24.9-eks-49d8fe8   alpha.eksctl.io/cluster-name=lodisav-cluster,alpha.eksctl.io/instance-id=i-0ae67cccd7c94830d,alpha.eksctl.io/nodegroup-name=worker,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3.medium,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1a,k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-192-168-13-82.eu-west-1.compute.internal,kubernetes.io/os=linux,node-lifecycle=on-demand,node.kubernetes.io/instance-type=t3.medium,nodePort=true,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1a
+ip-192-168-50-103.eu-west-1.compute.internal   Ready    <none>   5h31m   v1.24.9-eks-49d8fe8   alpha.eksctl.io/cluster-name=lodisav-cluster,alpha.eksctl.io/instance-id=i-07873ae4dd40fea7f,alpha.eksctl.io/nodegroup-name=worker,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3.medium,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1c,k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-192-168-50-103.eu-west-1.compute.internal,kubernetes.io/os=linux,node-lifecycle=on-demand,node.kubernetes.io/instance-type=t3.medium,nodePort=false,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1c
+ip-192-168-75-20.eu-west-1.compute.internal    Ready    <none>   5h31m   v1.24.9-eks-49d8fe8   alpha.eksctl.io/cluster-name=lodisav-cluster,alpha.eksctl.io/instance-id=i-0d442291b423c4bd7,alpha.eksctl.io/nodegroup-name=worker,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3.medium,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1b,k8s.io/cloud-provider-aws=a1624296e4993e88174909029a283a6c,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-192-168-75-20.eu-west-1.compute.internal,kubernetes.io/os=linux,node-lifecycle=on-demand,node.kubernetes.io/instance-type=t3.medium,nodePort=false,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1b
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl apply -f daemonset.yaml
+daemonset.apps/fluentd-elasticsearch configured
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$ kubectl get pods -n kube-system -owide
+NAME                          READY   STATUS    RESTARTS   AGE     IP               NODE                                           NOMINATED NODE   READINESS GATES
+aws-node-h2s5s                1/1     Running   0          5h34m   192.168.13.82    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+aws-node-q6m88                1/1     Running   0          5h34m   192.168.75.20    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+aws-node-qtjx8                1/1     Running   0          5h34m   192.168.50.103   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+coredns-6bc4667bcc-hprpt      1/1     Running   0          5h44m   192.168.16.235   ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+coredns-6bc4667bcc-q6hxv      1/1     Running   0          5h44m   192.168.5.140    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+fluentd-elasticsearch-2l6c5   1/1     Running   0          14s     192.168.26.159   ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+kube-proxy-8t8px              1/1     Running   0          5h34m   192.168.75.20    ip-192-168-75-20.eu-west-1.compute.internal    <none>           <none>
+kube-proxy-mcn67              1/1     Running   0          5h34m   192.168.50.103   ip-192-168-50-103.eu-west-1.compute.internal   <none>           <none>
+kube-proxy-rfm2x              1/1     Running   0          5h34m   192.168.13.82    ip-192-168-13-82.eu-west-1.compute.internal    <none>           <none>
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/kube/daemonset$

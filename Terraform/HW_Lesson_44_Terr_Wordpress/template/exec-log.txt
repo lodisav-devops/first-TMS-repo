@@ -1,0 +1,117 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/template$ terraform workspace list
+  default
+* dev
+  prod
+
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/template$ terraform apply
+data.aws_security_group.ssh_from_bastion: Reading...
+data.aws_security_group.http_from_back: Reading...
+data.aws_ami.backend: Reading...
+data.aws_security_group.http_from_front: Reading...
+data.aws_ami.frontend: Reading...
+data.aws_ami.frontend: Read complete after 3s [id=ami-0db0521a881117770]
+data.aws_ami.backend: Read complete after 3s [id=ami-012db536c7a9d49e9]
+data.aws_security_group.http_from_front: Read complete after 3s [id=sg-08ab6b018bd600cc3]
+data.aws_security_group.ssh_from_bastion: Read complete after 3s [id=sg-0122e0c7f96ea09d1]
+data.aws_security_group.http_from_back: Read complete after 4s [id=sg-0a94ac91b421e0763]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_launch_template.backend will be created
+  + resource "aws_launch_template" "backend" {
+      + arn                                  = (known after apply)
+      + default_version                      = (known after apply)
+      + id                                   = (known after apply)
+      + image_id                             = "ami-012db536c7a9d49e9"
+      + instance_initiated_shutdown_behavior = "terminate"
+      + instance_type                        = "t2.micro"
+      + key_name                             = "test-backend-key-pair"
+      + latest_version                       = (known after apply)
+      + name                                 = "backend-ec2-template"
+      + name_prefix                          = (known after apply)
+      + tags_all                             = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_security_group_ids               = [
+          + "sg-0122e0c7f96ea09d1",
+          + "sg-0a94ac91b421e0763",
+        ]
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_protocol_ipv6          = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+          + instance_metadata_tags      = (known after apply)
+        }
+    }
+
+  # aws_launch_template.frontend will be created
+  + resource "aws_launch_template" "frontend" {
+      + arn                                  = (known after apply)
+      + default_version                      = (known after apply)
+      + id                                   = (known after apply)
+      + image_id                             = "ami-0db0521a881117770"
+      + instance_initiated_shutdown_behavior = "terminate"
+      + instance_type                        = "t2.micro"
+      + key_name                             = "test-frontend-key-pair"
+      + latest_version                       = (known after apply)
+      + name                                 = "frontend-ec2-template"
+      + name_prefix                          = (known after apply)
+      + tags_all                             = {
+          + "Environment" = "dev"
+          + "Name"        = "dos11"
+          + "Project"     = "tms-wordpress"
+          + "Terraform"   = "true"
+        }
+      + vpc_security_group_ids               = [
+          + "sg-0122e0c7f96ea09d1",
+          + "sg-08ab6b018bd600cc3",
+        ]
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_protocol_ipv6          = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+          + instance_metadata_tags      = (known after apply)
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + ami_back                 = "ami-012db536c7a9d49e9"
+  + ami_front                = "ami-0db0521a881117770"
+  + sec_group_for_http_back  = "sg-0a94ac91b421e0763"
+  + sec_group_for_http_front = "sg-08ab6b018bd600cc3"
+  + sec_group_for_ssh        = "sg-0122e0c7f96ea09d1"
+
+Do you want to perform these actions in workspace "dev"?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_launch_template.frontend: Creating...
+aws_launch_template.backend: Creating...
+aws_launch_template.frontend: Creation complete after 4s [id=lt-09f480ab7847651ec]
+aws_launch_template.backend: Creation complete after 4s [id=lt-04e56184f3420c1cf]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+ami_back = "ami-012db536c7a9d49e9"
+ami_front = "ami-0db0521a881117770"
+sec_group_for_http_back = "sg-0a94ac91b421e0763"
+sec_group_for_http_front = "sg-08ab6b018bd600cc3"
+sec_group_for_ssh = "sg-0122e0c7f96ea09d1"
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/template$

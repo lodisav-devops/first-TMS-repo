@@ -1,0 +1,144 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/template$ cd ../autoscaling_groups/
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/autoscaling_groups$ terraform workspace list
+  default
+* dev
+  prod
+
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/autoscaling_groups$ terraform apply
+data.terraform_remote_state.network: Reading...
+data.terraform_remote_state.network: Read complete after 0s
+data.aws_launch_template.front: Reading...
+data.aws_lb_target_group.back_alb: Reading...
+data.aws_lb_target_group.front_alb: Reading...
+data.aws_launch_template.back: Reading...
+data.aws_launch_template.front: Read complete after 1s [id=lt-09f480ab7847651ec]
+data.aws_launch_template.back: Read complete after 1s [id=lt-04e56184f3420c1cf]
+data.aws_lb_target_group.front_alb: Read complete after 1s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/front-lb-tg/6ed9ff0e1604c322]
+data.aws_lb_target_group.back_alb: Read complete after 1s [id=arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/back-lb-tg/7ef1e4500515554e]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_autoscaling_group.backend will be created
+  + resource "aws_autoscaling_group" "backend" {
+      + arn                       = (known after apply)
+      + availability_zones        = (known after apply)
+      + default_cooldown          = (known after apply)
+      + desired_capacity          = 3
+      + force_delete              = false
+      + force_delete_warm_pool    = false
+      + health_check_grace_period = 300
+      + health_check_type         = (known after apply)
+      + id                        = (known after apply)
+      + max_size                  = 5
+      + metrics_granularity       = "1Minute"
+      + min_size                  = 2
+      + name                      = "backend_asg"
+      + name_prefix               = (known after apply)
+      + protect_from_scale_in     = false
+      + service_linked_role_arn   = (known after apply)
+      + target_group_arns         = [
+          + "arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/back-lb-tg/7ef1e4500515554e",
+        ]
+      + vpc_zone_identifier       = [
+          + "subnet-001b77b64f64c77bf",
+          + "subnet-009a0cafbe39e6859",
+          + "subnet-0e39abd36632f6ed5",
+        ]
+      + wait_for_capacity_timeout = "10m"
+
+      + launch_template {
+          + id   = "lt-04e56184f3420c1cf"
+          + name = (known after apply)
+        }
+
+      + tag {
+          + key                 = "Name"
+          + propagate_at_launch = true
+          + value               = "Backend-Instance"
+        }
+    }
+
+  # aws_autoscaling_group.frontend will be created
+  + resource "aws_autoscaling_group" "frontend" {
+      + arn                       = (known after apply)
+      + availability_zones        = (known after apply)
+      + default_cooldown          = (known after apply)
+      + desired_capacity          = 2
+      + force_delete              = false
+      + force_delete_warm_pool    = false
+      + health_check_grace_period = 300
+      + health_check_type         = (known after apply)
+      + id                        = (known after apply)
+      + max_size                  = 4
+      + metrics_granularity       = "1Minute"
+      + min_size                  = 1
+      + name                      = "frontend_asg"
+      + name_prefix               = (known after apply)
+      + protect_from_scale_in     = false
+      + service_linked_role_arn   = (known after apply)
+      + target_group_arns         = [
+          + "arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/front-lb-tg/6ed9ff0e1604c322",
+        ]
+      + vpc_zone_identifier       = [
+          + "subnet-00a63733c20c34312",
+          + "subnet-0624c681dbbd363ba",
+          + "subnet-071677566fedf4576",
+        ]
+      + wait_for_capacity_timeout = "10m"
+
+      + launch_template {
+          + id   = "lt-09f480ab7847651ec"
+          + name = (known after apply)
+        }
+
+      + tag {
+          + key                 = "Name"
+          + propagate_at_launch = true
+          + value               = "Frontend-Instance"
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + back_alb       = "arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/back-lb-tg/7ef1e4500515554e"
+  + front_alb      = "arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/front-lb-tg/6ed9ff0e1604c322"
+  + front_template = "lt-09f480ab7847651ec"
+
+Do you want to perform these actions in workspace "dev"?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_autoscaling_group.backend: Creating...
+aws_autoscaling_group.frontend: Creating...
+aws_autoscaling_group.backend: Still creating... [10s elapsed]
+aws_autoscaling_group.frontend: Still creating... [10s elapsed]
+aws_autoscaling_group.frontend: Still creating... [20s elapsed]
+aws_autoscaling_group.backend: Still creating... [20s elapsed]
+aws_autoscaling_group.backend: Still creating... [30s elapsed]
+aws_autoscaling_group.frontend: Still creating... [30s elapsed]
+aws_autoscaling_group.backend: Still creating... [40s elapsed]
+aws_autoscaling_group.frontend: Still creating... [40s elapsed]
+aws_autoscaling_group.frontend: Still creating... [50s elapsed]
+aws_autoscaling_group.backend: Still creating... [50s elapsed]
+aws_autoscaling_group.backend: Still creating... [1m0s elapsed]
+aws_autoscaling_group.frontend: Still creating... [1m0s elapsed]
+aws_autoscaling_group.backend: Still creating... [1m10s elapsed]
+aws_autoscaling_group.frontend: Still creating... [1m10s elapsed]
+aws_autoscaling_group.frontend: Creation complete after 1m20s [id=frontend_asg]
+aws_autoscaling_group.backend: Creation complete after 1m20s [id=backend_asg]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+back_alb = "arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/back-lb-tg/7ef1e4500515554e"
+front_alb = "arn:aws:elasticloadbalancing:eu-west-1:335809563306:targetgroup/front-lb-tg/6ed9ff0e1604c322"
+front_template = "lt-09f480ab7847651ec"
+lodis@My-PC:/mnt/d/first-TMS-repo/Terraform/HW_Lesson_44_Terr_Wordpress/autoscaling_groups$

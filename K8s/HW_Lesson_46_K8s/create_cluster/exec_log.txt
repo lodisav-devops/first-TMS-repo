@@ -1,0 +1,106 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/create_cluster$ eksctl create cluster -f my_cluster.yaml
+2023-02-05 10:44:13 [ℹ]  eksctl version 0.128.0
+2023-02-05 10:44:13 [ℹ]  using region eu-west-1
+2023-02-05 10:44:14 [ℹ]  setting availability zones to [eu-west-1a eu-west-1c eu-west-1b]
+2023-02-05 10:44:14 [ℹ]  subnets for eu-west-1a - public:192.168.0.0/19 private:192.168.96.0/19
+2023-02-05 10:44:14 [ℹ]  subnets for eu-west-1c - public:192.168.32.0/19 private:192.168.128.0/19
+2023-02-05 10:44:14 [ℹ]  subnets for eu-west-1b - public:192.168.64.0/19 private:192.168.160.0/19
+2023-02-05 10:44:15 [ℹ]  nodegroup "worker" will use "ami-04acd82aa606078dc" [AmazonLinux2/1.24]
+2023-02-05 10:44:15 [ℹ]  using Kubernetes version 1.24
+2023-02-05 10:44:15 [ℹ]  creating EKS cluster "lodisav-cluster" in "eu-west-1" region with un-managed nodes
+2023-02-05 10:44:15 [ℹ]  1 nodegroup (worker) was included (based on the include/exclude rules)
+2023-02-05 10:44:15 [ℹ]  will create a CloudFormation stack for cluster itself and 1 nodegroup stack(s)
+2023-02-05 10:44:15 [ℹ]  will create a CloudFormation stack for cluster itself and 0 managed nodegroup stack(s)
+2023-02-05 10:44:15 [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=eu-west-1 --cluster=lodisav-cluster'
+2023-02-05 10:44:15 [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "lodisav-cluster" in "eu-west-1"
+2023-02-05 10:44:15 [ℹ]  CloudWatch logging will not be enabled for cluster "lodisav-cluster" in "eu-west-1"
+2023-02-05 10:44:15 [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} --region=eu-west-1 --cluster=lodisav-cluster'
+2023-02-05 10:44:15 [ℹ]
+2 sequential tasks: { create cluster control plane "lodisav-cluster",
+    2 sequential sub-tasks: {
+        wait for control plane to become ready,
+        create nodegroup "worker",
+    }
+}
+2023-02-05 10:44:15 [ℹ]  building cluster stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:44:16 [ℹ]  deploying stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:44:46 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:45:16 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:46:17 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:47:17 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:48:18 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:49:18 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:50:18 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:51:19 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:52:19 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:53:20 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:54:20 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:55:21 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-cluster"
+2023-02-05 10:57:24 [ℹ]  building nodegroup stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 10:57:24 [ℹ]  --nodes-min=3 was set automatically for nodegroup worker
+2023-02-05 10:57:24 [ℹ]  --nodes-max=3 was set automatically for nodegroup worker
+2023-02-05 10:57:25 [ℹ]  deploying stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 10:57:25 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 10:57:55 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 10:58:46 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 10:59:24 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 11:00:57 [ℹ]  waiting for CloudFormation stack "eksctl-lodisav-cluster-nodegroup-worker"
+2023-02-05 11:00:58 [ℹ]  waiting for the control plane to become ready
+2023-02-05 11:00:58 [✔]  saved kubeconfig as "/home/lodis/.kube/config"
+2023-02-05 11:00:58 [ℹ]  no tasks
+2023-02-05 11:00:58 [✔]  all EKS cluster resources for "lodisav-cluster" have been created
+2023-02-05 11:00:58 [ℹ]  adding identity "arn:aws:iam::335809563306:role/eksctl-lodisav-cluster-nodegroup-NodeInstanceRole-ODD5524LA6GR" to auth ConfigMap
+2023-02-05 11:00:58 [ℹ]  nodegroup "worker" has 0 node(s)
+2023-02-05 11:00:58 [ℹ]  waiting for at least 3 node(s) to become ready in "worker"
+2023-02-05 11:01:24 [ℹ]  nodegroup "worker" has 3 node(s)
+2023-02-05 11:01:24 [ℹ]  node "ip-192-168-13-82.eu-west-1.compute.internal" is ready
+2023-02-05 11:01:24 [ℹ]  node "ip-192-168-50-103.eu-west-1.compute.internal" is ready
+2023-02-05 11:01:24 [ℹ]  node "ip-192-168-75-20.eu-west-1.compute.internal" is ready
+2023-02-05 11:01:25 [ℹ]  kubectl command should work with "/home/lodis/.kube/config", try 'kubectl get nodes'
+2023-02-05 11:01:25 [✔]  EKS cluster "lodisav-cluster" in "eu-west-1" region is ready
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/create_cluster$ kubectl get componentstatuses
+Warning: v1 ComponentStatus is deprecated in v1.19+
+NAME                 STATUS    MESSAGE                         ERROR
+etcd-0               Healthy   {"health":"true","reason":""}
+etcd-2               Healthy   {"health":"true","reason":""}
+etcd-1               Healthy   {"health":"true","reason":""}
+controller-manager   Healthy   ok
+scheduler            Healthy   ok
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/create_cluster$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-13-82.eu-west-1.compute.internal    Ready    <none>   10m   v1.24.9-eks-49d8fe8
+ip-192-168-50-103.eu-west-1.compute.internal   Ready    <none>   10m   v1.24.9-eks-49d8fe8
+ip-192-168-75-20.eu-west-1.compute.internal    Ready    <none>   10m   v1.24.9-eks-49d8fe8
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_46_K8s/create_cluster$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://1A6012BEB493CBDD7BB4D91F48727807.gr7.eu-west-1.eks.amazonaws.com
+  name: lodisav-cluster.eu-west-1.eksctl.io
+contexts:
+- context:
+    cluster: lodisav-cluster.eu-west-1.eksctl.io
+    user: av.lodis.awscli@lodisav-cluster.eu-west-1.eksctl.io
+  name: av.lodis.awscli@lodisav-cluster.eu-west-1.eksctl.io
+current-context: av.lodis.awscli@lodisav-cluster.eu-west-1.eksctl.io
+kind: Config
+preferences: {}
+users:
+- name: av.lodis.awscli@lodisav-cluster.eu-west-1.eksctl.io
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - eks
+      - get-token
+      - --cluster-name
+      - lodisav-cluster
+      - --region
+      - eu-west-1
+      command: aws
+      env:
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: regional
+      interactiveMode: IfAvailable
+      provideClusterInfo: false

@@ -1,0 +1,138 @@
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h6m
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl apply -f nodeport_httpd.yaml
+deployment.apps/httpd-deployment created
+service/httpd created
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl apply -f nodeport_nginx.yaml
+deployment.apps/nginx-deployment created
+service/nginx created
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+httpd-deployment-5b5c46bbdf-mdggz   1/1     Running   0          19s
+httpd-deployment-5b5c46bbdf-zgsjb   1/1     Running   0          19s
+nginx-deployment-6595874d85-cp4zz   1/1     Running   0          7s
+nginx-deployment-6595874d85-xt4jz   1/1     Running   0          7s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+httpd        NodePort    10.100.118.128   <none>        8080:30103/TCP   36s
+kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP          3h9m
+nginx        NodePort    10.100.187.144   <none>        8088:30108/TCP   23s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl get pods -owide
+NAME                                READY   STATUS    RESTARTS   AGE   IP               NODE                                           NOMINATED NODE   READINESS GATES
+httpd-deployment-5b5c46bbdf-mdggz   1/1     Running   0          59s   192.168.75.104   ip-192-168-81-74.eu-west-1.compute.internal    <none>           <none>
+httpd-deployment-5b5c46bbdf-zgsjb   1/1     Running   0          59s   192.168.55.94    ip-192-168-61-167.eu-west-1.compute.internal   <none>           <none>
+nginx-deployment-6595874d85-cp4zz   1/1     Running   0          47s   192.168.7.139    ip-192-168-8-86.eu-west-1.compute.internal     <none>           <none>
+nginx-deployment-6595874d85-xt4jz   1/1     Running   0          47s   192.168.84.112   ip-192-168-81-74.eu-west-1.compute.internal    <none>           <none>
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ aws ssm start-session     --target i-0ec920d4858f130f9
+
+Starting session with SessionId: av.lodis.awscli-08d7f09aa12b9bbcb
+sh-4.2$ curl http://localhost:30103
+<html><body><h1>It works!</h1></body></html>
+sh-4.2$ curl http://localhost:30108
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-08d7f09aa12b9bbcb.
+
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ aws ssm start-session     --target i-0c809a348a401e84e
+
+Starting session with SessionId: av.lodis.awscli-0f9a55b3d944ff30b
+sh-4.2$ curl http://localhost:30103
+<html><body><h1>It works!</h1></body></html>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-0f9a55b3d944ff30b.
+
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ aws ssm start-session     --target i-0df0b3ed7cd86f499
+
+Starting session with SessionId: av.lodis.awscli-0eb93530f4bef40b0
+sh-4.2$ curl http://localhost:30108
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-0eb93530f4bef40b0.
+
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl get all
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/httpd-deployment-5b5c46bbdf-mdggz   1/1     Running   0          6m14s
+pod/httpd-deployment-5b5c46bbdf-zgsjb   1/1     Running   0          6m14s
+pod/nginx-deployment-6595874d85-cp4zz   1/1     Running   0          6m2s
+pod/nginx-deployment-6595874d85-xt4jz   1/1     Running   0          6m2s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/httpd        NodePort    10.100.118.128   <none>        8080:30103/TCP   6m15s
+service/kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP          3h14m
+service/nginx        NodePort    10.100.187.144   <none>        8088:30108/TCP   6m2s
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/httpd-deployment   2/2     2            2           6m15s
+deployment.apps/nginx-deployment   2/2     2            2           6m3s
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/httpd-deployment-5b5c46bbdf   2         2         2       6m15s
+replicaset.apps/nginx-deployment-6595874d85   2         2         2       6m3s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl delete -f nodeport_nginx.yaml
+deployment.apps "nginx-deployment" deleted
+service "nginx" deleted
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl delete -f nodeport_httpd.yaml
+deployment.apps "httpd-deployment" deleted
+service "httpd" deleted
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   3h15m
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$

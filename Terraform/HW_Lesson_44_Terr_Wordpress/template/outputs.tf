@@ -9,3 +9,11 @@ output "ami_front" {
 output "ami_back" {
   value = data.aws_ami.backend.id
 }
+
+output "sec_group_for_http_front" {
+  value = data.aws_security_group.http_from_front.id
+}
+
+output "sec_group_for_http_back" {
+  value = data.aws_security_group.http_from_back.id
+}

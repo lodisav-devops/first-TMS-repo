@@ -1,0 +1,114 @@
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/nodeport$ cd ../clusterip_ingress/
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ ll
+total 28
+drwxrwxrwx 1 lodis lodis  4096 Feb  6 16:02 ./
+drwxrwxrwx 1 lodis lodis  4096 Feb  6 15:02 ../
+-rwxrwxrwx 1 lodis lodis     4 Feb  6 15:04 exec_log.txt*
+-rwxrwxrwx 1 lodis lodis  1388 Feb  6 16:03 ingress.yaml*
+-rwxrwxrwx 1 lodis lodis 20745 Feb  6 16:03 ingress_controler.yaml*
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl apply -f ingress_controler.yaml
+namespace/ingress-nginx created
+serviceaccount/ingress-nginx created
+serviceaccount/ingress-nginx-admission created
+role.rbac.authorization.k8s.io/ingress-nginx created
+role.rbac.authorization.k8s.io/ingress-nginx-admission created
+clusterrole.rbac.authorization.k8s.io/ingress-nginx created
+clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created
+rolebinding.rbac.authorization.k8s.io/ingress-nginx created
+rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created
+clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+configmap/ingress-nginx-controller created
+service/ingress-nginx-controller created
+service/ingress-nginx-controller-admission created
+daemonset.apps/ingress-nginx-controller created
+job.batch/ingress-nginx-admission-create created
+job.batch/ingress-nginx-admission-patch created
+ingressclass.networking.k8s.io/nginx created
+validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl get all -n ingress-nginx
+NAME                                       READY   STATUS      RESTARTS   AGE
+pod/ingress-nginx-admission-create-h6hfp   0/1     Completed   0          53s
+pod/ingress-nginx-admission-patch-8g2lr    0/1     Completed   0          53s
+pod/ingress-nginx-controller-cqln4         1/1     Running     0          53s
+
+NAME                                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+service/ingress-nginx-controller             NodePort    10.100.126.120   <none>        80:32408/TCP,443:32017/TCP   55s
+service/ingress-nginx-controller-admission   ClusterIP   10.100.189.15    <none>        443/TCP                      55s
+
+NAME                                      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR                               AGE
+daemonset.apps/ingress-nginx-controller   1         1         1       1            1           ingress-ready=true,kubernetes.io/os=linux   54s
+
+NAME                                       COMPLETIONS   DURATION   AGE
+job.batch/ingress-nginx-admission-create   1/1           6s         54s
+job.batch/ingress-nginx-admission-patch    1/1           6s         54s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl get all -n ingress-nginx -owide
+NAME                                       READY   STATUS      RESTARTS   AGE    IP               NODE                                           NOMINATED NODE   READINESS GATES
+pod/ingress-nginx-admission-create-h6hfp   0/1     Completed   0          101s   192.168.52.200   ip-192-168-61-167.eu-west-1.compute.internal   <none>           <none>
+pod/ingress-nginx-admission-patch-8g2lr    0/1     Completed   0          101s   192.168.23.163   ip-192-168-8-86.eu-west-1.compute.internal     <none>           <none>
+pod/ingress-nginx-controller-cqln4         1/1     Running     0          101s   192.168.88.116   ip-192-168-81-74.eu-west-1.compute.internal    <none>           <none>
+
+NAME                                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE    SELECTOR
+service/ingress-nginx-controller             NodePort    10.100.126.120   <none>        80:32408/TCP,443:32017/TCP   102s   app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
+service/ingress-nginx-controller-admission   ClusterIP   10.100.189.15    <none>        443/TCP                      102s   app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
+
+NAME                                      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR                               AGE    CONTAINERS   IMAGES                                                                                                                    SELECTOR
+daemonset.apps/ingress-nginx-controller   1         1         1       1            1           ingress-ready=true,kubernetes.io/os=linux   101s   controller   registry.k8s.io/ingress-nginx/controller:v1.5.1@sha256:4ba73c697770664c1e00e9f968de14e08f606ff961c76e5d7033a4a9c593c629   app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
+
+NAME                                       COMPLETIONS   DURATION   AGE    CONTAINERS   IMAGES                                                                                                                                            SELECTOR
+job.batch/ingress-nginx-admission-create   1/1           6s         102s   create       registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f   controller-uid=b2adbbb1-a2f4-471b-b578-c115c0f7220f
+job.batch/ingress-nginx-admission-patch    1/1           6s         102s   patch        registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f   controller-uid=da1b6db3-6036-42b2-a661-6d7ce4d7fbb6
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl apply -f ingress.yaml
+pod/foo-app created
+service/foo-service created
+pod/bar-app created
+service/bar-service created
+ingress.networking.k8s.io/example-ingress created
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl describe ingress example-ingress
+Name:             example-ingress
+Labels:           <none>
+Namespace:        default
+Address:          localhost
+Ingress Class:    <none>
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /foo(/|$)(.*)   foo-service:8080 (192.168.50.198:8080)
+              /bar(/|$)(.*)   bar-service:8080 (192.168.7.139:8080)
+Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /$2
+Events:
+  Type    Reason  Age                From                      Message
+  ----    ------  ----               ----                      -------
+  Normal  Sync    22s (x2 over 27s)  nginx-ingress-controller  Scheduled for sync
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+bar-app   1/1     Running   0          3m36s
+foo-app   1/1     Running   0          3m36s
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ kubectl get pods -owide
+NAME      READY   STATUS    RESTARTS   AGE     IP               NODE                                           NOMINATED NODE   READINESS GATES
+bar-app   1/1     Running   0          3m44s   192.168.7.139    ip-192-168-8-86.eu-west-1.compute.internal     <none>           <none>
+foo-app   1/1     Running   0          3m44s   192.168.50.198   ip-192-168-61-167.eu-west-1.compute.internal   <none>           <none>
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$ aws ssm start-session     --target i-0ec920d4858f130f9
+
+Starting session with SessionId: av.lodis.awscli-00819f6a94d9d6eb6
+sh-4.2$ curl http://localhost
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+sh-4.2$ curl http://localhost/foo
+NOW: 2023-02-06 13:13:45.523634406 +0000 UTC m=+391.877431927sh-4.2$
+sh-4.2$ curl http://localhost/bar
+NOW: 2023-02-06 13:13:55.675570564 +0000 UTC m=+401.906709086sh-4.2$
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-00819f6a94d9d6eb6.
+
+lodis@My-PC:/mnt/d/HW_Lesson_47_K8s/kube/clusterip_ingress$

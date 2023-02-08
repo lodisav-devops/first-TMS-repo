@@ -1,0 +1,115 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/emptyDir$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   67m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/emptyDir$ kubectl apply -f emptydir.yaml
+pod/myempty created
+service/httpd created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/emptyDir$ kubectl get pods -owide
+NAME      READY   STATUS    RESTARTS   AGE   IP             NODE                                           NOMINATED NODE   READINESS GATES
+myempty   1/1     Running   0          5s    192.168.20.5   ip-192-168-10-200.eu-west-1.compute.internal   <none>           <none>
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/emptyDir$ aws ssm start-session     --target i-0efb62e7d5046daea
+
+Starting session with SessionId: av.lodis.awscli-0388d25652a50a3da
+sh-4.2$ curl http://localhost:30103
+<html><head></head><body><header>
+<title>http://info.cern.ch</title>
+</header>
+
+<h1>http://info.cern.ch - home of the first website</h1>
+<p>From here you can:</p>
+<ul>
+<li><a href="http://info.cern.ch/hypertext/WWW/TheProject.html">Browse the first website</a></li>
+<li><a href="http://line-mode.cern.ch/www/hypertext/WWW/TheProject.html">Browse the first website using the line-mode browser simulator</a></li>
+<li><a href="http://home.web.cern.ch/topics/birth-web">Learn about the birth of the web</a></li>
+<li><a href="http://home.web.cern.ch/about">Learn about CERN, the physics laboratory where the web was born</a></li>
+</ul>
+</body></html>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-0388d25652a50a3da.
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/emptyDir$ kubectl describe pod/myempty
+Name:             myempty
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-44-128.eu-west-1.compute.internal/192.168.44.128
+Start Time:       Wed, 08 Feb 2023 10:13:49 +0300
+Labels:           app=myempty
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.40.28
+IPs:
+  IP:  192.168.40.28
+Init Containers:
+  install:
+    Container ID:  containerd://10e7fd92e35e1cc9ae8be25c32c5f5d2984d415666dd9d1b6b544455fac34f39
+    Image:         busybox:1.28
+    Image ID:      docker.io/library/busybox@sha256:141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      wget
+      -O
+      /work-dir/index.html
+      http://info.cern.ch
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Wed, 08 Feb 2023 10:13:50 +0300
+      Finished:     Wed, 08 Feb 2023 10:13:50 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f9cb9 (ro)
+      /work-dir from workdir (rw)
+Containers:
+  httpd:
+    Container ID:   containerd://627d29e64279bc074ef2716231d33e13d9e744898e4922a2b23458188936cb08
+    Image:          httpd:2.4
+    Image ID:       docker.io/library/httpd@sha256:e63470b5cf761fe43810b49a1cc3117746d7d6bff36d80e2b0a5ad1c6f0325d5
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 08 Feb 2023 10:13:51 +0300
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /usr/local/apache2/htdocs from workdir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f9cb9 (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  workdir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  kube-api-access-f9cb9:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  62s   default-scheduler  Successfully assigned default/myempty to ip-192-168-44-128.eu-west-1.compute.internal
+  Normal  Pulled     61s   kubelet            Container image "busybox:1.28" already present on machine
+  Normal  Created    61s   kubelet            Created container install
+  Normal  Started    61s   kubelet            Started container install
+  Normal  Pulled     60s   kubelet            Container image "httpd:2.4" already present on machine
+  Normal  Created    60s   kubelet            Created container httpd
+  Normal  Started    60s   kubelet            Started container httpd
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/emptyDir$

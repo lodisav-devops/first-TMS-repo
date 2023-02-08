@@ -1,0 +1,34 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name  : lodisav-cluster
+  region: eu-west-1
+
+managedNodeGroups:
+  - name             : control-plane
+    instanceType     : t3.medium
+    desiredCapacity  : 1
+    ssh: 
+      enableSsm: true
+    labels           :
+      type: control
+  
+  - name             : worker-1
+    instanceType     : t3.medium
+    desiredCapacity  : 1
+    ssh: 
+      enableSsm: true
+    labels           :
+      type: edge
+      ingress-ready: "true"
+      nodePort: "true"
+  
+  - name             : worker-2
+    instanceType     : t3.medium
+    desiredCapacity  : 1
+    ssh: 
+      enableSsm: true
+    labels           :
+      type: worker
+      nodePort: "false"

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: myhostpath  
+spec:
+  selector:
+    matchLabels:
+      name: myhostpath
+  template:
+    metadata:
+      labels:
+        name: myhostpath
+    spec:
+      containers:
+      - name: myhostpath
+        image: nginx:latest
+        volumeMounts:
+        - mountPath: /var/local/mydir
+          name: mydir
+        - mountPath: /var/local/mydir/lodis_av.txt
+          name: myfile
+      volumes:
+      - name: mydir
+        hostPath:       
+          path: /var/local/mydir
+          type: DirectoryOrCreate
+      - name: myfile
+        hostPath:
+          path: /var/local/mydir/lodis_av.txt
+          type: FileOrCreate        
+      nodeSelector:
+        nodePort: "true"
+      terminationGracePeriodSeconds: 30

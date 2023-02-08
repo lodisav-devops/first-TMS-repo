@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myempty
+  namespace: default
+  labels:
+    app: myempty
+spec:
+  initContainers:
+  - name: install
+    image: busybox:1.28
+    command:
+    - wget
+    - "-O"
+    - "/work-dir/index.html"
+    - http://info.cern.ch
+    volumeMounts:
+    - name: workdir
+      mountPath: "/work-dir"  
+  containers:
+  - name: httpd
+    image: httpd:2.4
+    ports:
+    - containerPort: 80
+      name:  http
+    volumeMounts:
+    - name: workdir
+      mountPath: /usr/local/apache2/htdocs
+  volumes:
+    - name: workdir
+      emptyDir: {}
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd
+  namespace: default
+spec:
+  selector:
+    app: myempty
+  type: NodePort
+  ports:
+  - name: httpd
+    protocol: TCP
+    port: 8080
+    targetPort: 80
+    nodePort: 30103

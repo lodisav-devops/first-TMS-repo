@@ -1,0 +1,56 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s$ aws ssm start-session     --target i-0eb4245810749c1c2
+
+Starting session with SessionId: av.lodis.awscli-05679c94d9c534567
+sh-4.2$ ls /var/loc
+local/ lock/
+sh-4.2$ ls /var/local/
+sh-4.2$ sudo mkdir /var/local/mydir
+sh-4.2$ sudo touch /var/local/mydir/lodis_av.txt
+sh-4.2$ ls -l /var/local/
+total 0
+drwxr-xr-x 2 root root 26 Feb  8 07:50 mydir
+sh-4.2$ ls -l /var/local/mydir/
+total 0
+-rw-r--r-- 1 root root 0 Feb  8 07:50 lodis_av.txt
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-05679c94d9c534567.
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   150m
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl apply -f hostpath.yaml
+daemonset.apps/myhostpath created
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl get all
+NAME                   READY   STATUS              RESTARTS   AGE
+pod/myhostpath-p4kp5   0/1     ContainerCreating   0          4s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   151m
+
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/myhostpath   1         1         0       1            0           nodePort=true   4s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl get all
+NAME                   READY   STATUS    RESTARTS   AGE
+pod/myhostpath-p4kp5   1/1     Running   0          10s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   152m
+
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/myhostpath   1         1         1       1            1           nodePort=true   10s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl get pods
+NAME               READY   STATUS    RESTARTS   AGE
+myhostpath-p4kp5   1/1     Running   0          24s
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl get pods -owide
+NAME               READY   STATUS    RESTARTS   AGE   IP              NODE                                           NOMINATED NODE   READINESS GATES
+myhostpath-p4kp5   1/1     Running   0          31s   192.168.64.78   ip-192-168-88-242.eu-west-1.compute.internal   <none>           <none>
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$ kubectl exec -it myhostpath-p4kp5 -- /bin/bash
+root@myhostpath-p4kp5:/# ls -l /var/local/mydir/
+total 0
+-rw-r--r-- 1 root root 0 Feb  8 07:50 lodis_av.txt
+root@myhostpath-p4kp5:/# exit
+exit
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/hostPath$

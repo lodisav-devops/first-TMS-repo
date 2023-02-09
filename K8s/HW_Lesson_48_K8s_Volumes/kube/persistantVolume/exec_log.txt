@@ -1,0 +1,42 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube$ aws ssm start-session     --target i-0d2d6a87190b2658f
+
+Starting session with SessionId: av.lodis.awscli-02669f3efb1560811
+sh-4.2$ sudo mkdir /var/local/page
+sh-4.2$ ls /var/local
+page
+sh-4.2$ sudo sh -c "echo '<h1>This page was created by Lodis Artyom</h1>' >> /var/local/page/index.html"
+sh-4.2$ ls /var/local/page/
+index.html
+sh-4.2$ cat /var/local/page/index.html
+This page was created by Lodis Artyom
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-02669f3efb1560811.
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/persistantVolume$ aws ssm start-session     --target i-0d2d6a87190b2658f
+
+Starting session with SessionId: av.lodis.awscli-04b05209a7feff8cb
+sh-4.2$ curl http://localhost:30103
+<h1>This page was created by Lodis Artyom</h1>
+sh-4.2$ exit
+exit
+
+
+Exiting session with sessionId: av.lodis.awscli-04b05209a7feff8cb.
+
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/persistantVolume$ kubectl exec -it apache-5dwnm -- /bin/bash
+root@apache-5dwnm:/usr/local/apache2# cat /usr/local/apache2/htdocs
+cat: /usr/local/apache2/htdocs: Is a directory
+root@apache-5dwnm:/usr/local/apache2# cat /usr/local/apache2/htdocs/index.html
+<h1>This page was created by Lodis Artyom</h1>
+root@apache-5dwnm:/usr/local/apache2# exit
+exit
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/persistantVolume$ kubectl get pv -owide
+NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM           STORAGECLASS   REASON   AGE   VOLUMEMODE
+mypv   3Gi        RWO            Recycle          Bound    default/mypvc   mystorage               16m   Filesystem
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/persistantVolume$ kubectl get pvc -owide
+NAME    STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE   VOLUMEMODE
+mypvc   Bound    mypv     3Gi        RWO            mystorage      16m   Filesystem
+lodis@My-PC:/mnt/d/first-TMS-repo/K8s/HW_Lesson_48_K8s_Volumes/kube/persistantVolume$

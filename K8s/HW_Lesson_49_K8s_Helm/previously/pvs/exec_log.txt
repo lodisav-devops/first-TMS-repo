@@ -1,0 +1,39 @@
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$ ll
+total 8
+drwxrwxrwx 1 lodis lodis 4096 Feb 13 16:37 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 15 10:13 ../
+-rwxrwxrwx 1 lodis lodis 3184 Feb 13 13:50 exec_log.txt*
+-rwxrwxrwx 1 lodis lodis 1462 Feb 14 15:32 pvs.yaml*
+-rwxrwxrwx 1 lodis lodis  377 Feb 14 15:30 storageClass.yaml*
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$ kubectl apply -f storageClass.yaml
+storageclass.storage.k8s.io/wp-disk created
+storageclass.storage.k8s.io/db-disk created
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$ kubectl apply -f pvs.yaml
+persistentvolume/wp created
+persistentvolume/db created
+namespace/dev created
+persistentvolumeclaim/wp-pvc created
+persistentvolumeclaim/db-pvc created
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$ kubectl get pv
+NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+db     1Gi        RWO            Recycle          Available           db-disk                 14s
+wp     2Gi        RWO            Recycle          Available           wp-disk                 15s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/pvs$ kubectl get namespace
+NAME                 STATUS   AGE
+default              Active   14m
+dev                  Active   13s
+ingress-nginx        Active   2m19s
+kube-node-lease      Active   14m
+kube-public          Active   14m
+kube-system          Active   14m
+local-path-storage   Active   14m
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$ kubectl get pvc -n dev
+NAME     STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+db-pvc   Pending                                      db-disk        26s
+wp-pvc   Pending                                      wp-disk        27s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$ kubectl get storageClass
+NAME                 PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+db-disk              kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  52s
+standard (default)   rancher.io/local-path          Delete          WaitForFirstConsumer   false                  3h12m
+wp-disk              kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  53s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/kube/pvs$

@@ -1,0 +1,222 @@
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/docker-machine$ ./docker_machine_create.sh
+Running pre-create checks...
+Creating machine...
+(lodis-docker-machine) Launching instance...
+Waiting for machine to be running, this may take a few minutes...
+Detecting operating system of created instance...
+Waiting for SSH to be available...
+Detecting the provisioner...
+Provisioning with ubuntu(systemd)...
+Installing Docker...
+Copying certs to the local machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env lodis-docker-machine
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/docker-machine$ docker-machine env lodis-docker-machine
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://54.216.144.214:2376"
+export DOCKER_CERT_PATH="/home/lodis/.docker/machine/machines/lodis-docker-machine"
+export DOCKER_MACHINE_NAME="lodis-docker-machine"
+# Run this command to configure your shell:
+# eval $(docker-machine env lodis-docker-machine)
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/docker-machine$ eval $(docker-machine env lodis-docker-machine)
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/docker-machine$ cd ../kind/
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/kind$ ll
+total 244
+drwxrwxrwx 1 lodis lodis   4096 Feb 13 10:04 ./
+drwxrwxrwx 1 lodis lodis   4096 Feb 10 12:29 ../
+-rwxrwxrwx 1 lodis lodis 239921 Feb 13 10:05 calico.yaml*
+-rwxrwxrwx 1 lodis lodis   1313 Feb 13 10:05 config.yaml*
+-rwxrwxrwx 1 lodis lodis   1008 Feb 13 10:07 kind_create.sh*
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/kind$ ./kind_create.sh
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.25.3) 🖼
+ ✓ Preparing nodes 📦 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Have a nice day! 👋
+Edit kube config file...
+Install Calico CNI...
+poddisruptionbudget.policy/calico-kube-controllers created
+serviceaccount/calico-kube-controllers created
+serviceaccount/calico-node created
+configmap/calico-config created
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/caliconodestatuses.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipreservations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/kubecontrollersconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networksets.crd.projectcalico.org created
+clusterrole.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrole.rbac.authorization.k8s.io/calico-node created
+clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrolebinding.rbac.authorization.k8s.io/calico-node created
+daemonset.apps/calico-node created
+deployment.apps/calico-kube-controllers created
+Scale down coreNDS...
+deployment.apps/coredns scaled
+Kubernetes control plane is running at https://54.216.144.214:6443
+CoreDNS is running at https://54.216.144.214:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/kind$ docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS         PORTS                                                                NAMES
+0677455a3904   kindest/node:v1.25.3   "/usr/local/bin/entr…"   2 minutes ago   Up 2 minutes   172.31.16.162:6443->6443/tcp                                         kind-control-plane
+d2c34d2906fb   kindest/node:v1.25.3   "/usr/local/bin/entr…"   2 minutes ago   Up 2 minutes   0.0.0.0:8080->8080/tcp                                               kind-worker2
+4fb798a70dfc   kindest/node:v1.25.3   "/usr/local/bin/entr…"   2 minutes ago   Up 2 minutes   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:30103->30103/tcp   kind-worker
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/kind$ alias kubectl='kubectl --insecure-skip-tls-verify'
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/create_cluster/kind$ kubectl cluster-info --context kind-kind
+Kubernetes control plane is running at https://54.216.144.214:6443
+CoreDNS is running at https://54.216.144.214:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl get namespace
+NAME                 STATUS   AGE
+default              Active   2m26s
+kube-node-lease      Active   2m28s
+kube-public          Active   2m28s
+kube-system          Active   2m28s
+local-path-storage   Active   2m16s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl get all -n kube-system
+NAME                                             READY   STATUS    RESTARTS   AGE
+pod/calico-kube-controllers-798cc86c47-sbmb5     1/1     Running   0          98s
+pod/calico-node-d47g7                            1/1     Running   0          99s
+pod/calico-node-gjwrn                            1/1     Running   0          99s
+pod/calico-node-qzgrx                            1/1     Running   0          99s
+pod/coredns-565d847f94-bp9tc                     1/1     Running   0          2m23s
+pod/etcd-kind-control-plane                      1/1     Running   0          2m37s
+pod/kube-apiserver-kind-control-plane            1/1     Running   0          2m37s
+pod/kube-controller-manager-kind-control-plane   1/1     Running   0          2m37s
+pod/kube-proxy-9ptjz                             1/1     Running   0          2m4s
+pod/kube-proxy-glj2x                             1/1     Running   0          2m16s
+pod/kube-proxy-nbtzp                             1/1     Running   0          2m23s
+pod/kube-scheduler-kind-control-plane            1/1     Running   0          2m37s
+pod/metrics-server-8ff8f88c6-km5rm               0/1     Running   0          88s
+
+NAME                     TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                  AGE
+service/kube-dns         ClusterIP   10.33.0.10    <none>        53/UDP,53/TCP,9153/TCP   2m39s
+service/metrics-server   ClusterIP   10.33.12.31   <none>        443/TCP                  91s
+
+NAME                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/calico-node   3         3         3       3            3           kubernetes.io/os=linux   100s
+daemonset.apps/kube-proxy    3         3         3       3            3           kubernetes.io/os=linux   2m39s
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/calico-kube-controllers   1/1     1            1           100s
+deployment.apps/coredns                   1/1     1            1           2m39s
+deployment.apps/metrics-server            0/1     1            0           90s
+
+NAME                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/calico-kube-controllers-798cc86c47   1         1         1       100s
+replicaset.apps/coredns-565d847f94                   1         1         1       2m24s
+replicaset.apps/metrics-server-8ff8f88c6             1         1         0       90s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl edit deployment.apps metrics-server -n
+kube-system
+deployment.apps/metrics-server edited
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl get all -n kube-system
+NAME                                             READY   STATUS    RESTARTS   AGE
+pod/calico-kube-controllers-798cc86c47-sbmb5     1/1     Running   0          7m48s
+pod/calico-node-d47g7                            1/1     Running   0          7m49s
+pod/calico-node-gjwrn                            1/1     Running   0          7m49s
+pod/calico-node-qzgrx                            1/1     Running   0          7m49s
+pod/coredns-565d847f94-bp9tc                     1/1     Running   0          8m33s
+pod/etcd-kind-control-plane                      1/1     Running   0          8m47s
+pod/kube-apiserver-kind-control-plane            1/1     Running   0          8m47s
+pod/kube-controller-manager-kind-control-plane   1/1     Running   0          8m47s
+pod/kube-proxy-9ptjz                             1/1     Running   0          8m14s
+pod/kube-proxy-glj2x                             1/1     Running   0          8m26s
+pod/kube-proxy-nbtzp                             1/1     Running   0          8m33s
+pod/kube-scheduler-kind-control-plane            1/1     Running   0          8m47s
+pod/metrics-server-55dd79d7bf-gphpp              0/1     Running   0          12s
+pod/metrics-server-8ff8f88c6-km5rm               0/1     Running   0          7m38s
+
+NAME                     TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                  AGE
+service/kube-dns         ClusterIP   10.33.0.10    <none>        53/UDP,53/TCP,9153/TCP   8m49s
+service/metrics-server   ClusterIP   10.33.12.31   <none>        443/TCP                  7m41s
+
+NAME                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/calico-node   3         3         3       3            3           kubernetes.io/os=linux   7m50s
+daemonset.apps/kube-proxy    3         3         3       3            3           kubernetes.io/os=linux   8m49s
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/calico-kube-controllers   1/1     1            1           7m50s
+deployment.apps/coredns                   1/1     1            1           8m49s
+deployment.apps/metrics-server            0/1     1            0           7m40s
+
+NAME                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/calico-kube-controllers-798cc86c47   1         1         1       7m50s
+replicaset.apps/coredns-565d847f94                   1         1         1       8m34s
+replicaset.apps/metrics-server-55dd79d7bf            1         1         0       13s
+replicaset.apps/metrics-server-8ff8f88c6             1         1         0       7m40s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl get all -n kube-system
+NAME                                             READY   STATUS    RESTARTS   AGE
+pod/calico-kube-controllers-798cc86c47-sbmb5     1/1     Running   0          8m33s
+pod/calico-node-d47g7                            1/1     Running   0          8m34s
+pod/calico-node-gjwrn                            1/1     Running   0          8m34s
+pod/calico-node-qzgrx                            1/1     Running   0          8m34s
+pod/coredns-565d847f94-bp9tc                     1/1     Running   0          9m18s
+pod/etcd-kind-control-plane                      1/1     Running   0          9m32s
+pod/kube-apiserver-kind-control-plane            1/1     Running   0          9m32s
+pod/kube-controller-manager-kind-control-plane   1/1     Running   0          9m32s
+pod/kube-proxy-9ptjz                             1/1     Running   0          8m59s
+pod/kube-proxy-glj2x                             1/1     Running   0          9m11s
+pod/kube-proxy-nbtzp                             1/1     Running   0          9m18s
+pod/kube-scheduler-kind-control-plane            1/1     Running   0          9m32s
+pod/metrics-server-55dd79d7bf-gphpp              1/1     Running   0          57s
+
+NAME                     TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                  AGE
+service/kube-dns         ClusterIP   10.33.0.10    <none>        53/UDP,53/TCP,9153/TCP   9m34s
+service/metrics-server   ClusterIP   10.33.12.31   <none>        443/TCP                  8m26s
+
+NAME                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/calico-node   3         3         3       3            3           kubernetes.io/os=linux   8m35s
+daemonset.apps/kube-proxy    3         3         3       3            3           kubernetes.io/os=linux   9m34s
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/calico-kube-controllers   1/1     1            1           8m35s
+deployment.apps/coredns                   1/1     1            1           9m34s
+deployment.apps/metrics-server            1/1     1            1           8m25s
+
+NAME                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/calico-kube-controllers-798cc86c47   1         1         1       8m35s
+replicaset.apps/coredns-565d847f94                   1         1         1       9m19s
+replicaset.apps/metrics-server-55dd79d7bf            1         1         1       58s
+replicaset.apps/metrics-server-8ff8f88c6             0         0         0       8m25s
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl top pods
+No resources found in default namespace.
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$ kubectl top pods -n kube-system
+NAME                                         CPU(cores)   MEMORY(bytes)
+calico-kube-controllers-798cc86c47-sbmb5     2m           12Mi
+calico-node-d47g7                            29m          74Mi
+calico-node-gjwrn                            32m          76Mi
+calico-node-qzgrx                            27m          76Mi
+coredns-565d847f94-bp9tc                     2m           12Mi
+etcd-kind-control-plane                      23m          37Mi
+kube-apiserver-kind-control-plane            36m          370Mi
+kube-controller-manager-kind-control-plane   15m          48Mi
+kube-proxy-9ptjz                             1m           14Mi
+kube-proxy-glj2x                             1m           12Mi
+kube-proxy-nbtzp                             1m           17Mi
+kube-scheduler-kind-control-plane            3m           19Mi
+metrics-server-55dd79d7bf-gphpp              3m           14Mi
+lodis@My-PC:/mnt/d/HW_Lesson_49_K8s_Helm/previously/create_cluster/kind$

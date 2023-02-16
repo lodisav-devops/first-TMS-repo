@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  ports:
+    - port: {{ .Values.frontendService.port }}
+  selector:
+    app: {{ .Release.Name }}
+    tier: {{ .Values.frontendService.tier }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      tier: {{ .Values.frontendService.tier }}
+  strategy:
+    type: {{ .Values.wordpressDeployment.strategyType }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        tier: {{ .Values.frontendService.tier }}
+    spec:
+      containers:
+      - image: {{ .Release.Name }}:{{ .Values.wordpressDeployment.imageVersion }}
+        name: {{ .Release.Name }}
+        env:
+        - name: {{ .Values.wordpressDeployment.specEnvHostName }}
+          value: {{ .Release.Name }}-db-one # This one is from Service
+        - name: {{ .Values.wordpressDeployment.specEnvPassName }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secret.name }}
+              key: {{ .Values.wordpressDeployment.specEnvSecretKeyRefKey }}
+        resources:
+          requests:
+            cpu: {{ .Values.wordpressDeployment.specResourcesCpu }}
+            memory: {{ .Values.wordpressDeployment.specResourcesMemory }}
+          limits:
+            cpu: {{ .Values.wordpressDeployment.specResourcesCpu }}
+            memory: {{ .Values.wordpressDeployment.specResourcesMemory }}
+        ports:
+        - containerPort: {{ .Values.frontendService.port }}
+          name: {{ .Release.Name }}
+        volumeMounts:
+        - name: {{ .Release.Name }}-persistent-storage
+          mountPath: {{ .Values.wordpressDeployment.specVolumeMountPath }}
+      volumes:
+      - name: {{ .Release.Name }}-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.wordpressDeployment.specPersistentVolumeClaimName }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-autoscaling
+  namespace: {{ .Values.namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}
+  minReplicas: {{ .Values.wordpressHpa.specMinReplicas }}
+  maxReplicas: {{ .Values.wordpressHpa.specMaxReplicas }}
+  metrics:
+  - type: {{ .Values.wordpressHpa.specMetricsType }}
+    resource:
+      name: {{ .Values.wordpressHpa.specMetricsResourceCpuName }}
+      target:
+        type: {{ .Values.wordpressHpa.specMetricsResourceTargetType }}
+        averageUtilization: {{ .Values.wordpressHpa.specMetricsResourceTargetCpuAverageUtilization }}
+  - type: {{ .Values.wordpressHpa.specMetricsType }}
+    resource:
+      name: {{ .Values.wordpressHpa.specMetricsResourceMemoryName }}
+      target:
+        type: {{ .Values.wordpressHpa.specMetricsResourceTargetType }}
+        averageUtilization: {{ .Values.wordpressHpa.specMetricsResourceTargetMemoryAverageUtilization }}

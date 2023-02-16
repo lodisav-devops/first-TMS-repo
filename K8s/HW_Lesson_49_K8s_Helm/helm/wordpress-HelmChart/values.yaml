@@ -1,0 +1,66 @@
+# Default values
+
+namespace: dev
+
+secret:
+  name: mysql-pass
+  type: Opaque
+  password: VE1TLURPUzEx
+
+database:
+  port: 3306
+  image: mysql
+  version: 5.7
+
+databaseService:
+  clusterIP: None
+
+databaseDeployment:
+  strategyType: Recreate
+  specEnvName: MYSQL_ROOT_PASSWORD
+  specEnvSecretKeyRefKey: password
+  specResourcesCpu: 100m
+  specResourcesMemory: 300Mi
+  specVolumeName: db-storage
+  specVolumeMountPath: /var/lib/mysql
+  specPersistentVolumeClaimName: db-pvc
+
+databaseHpa:
+  specMinReplicas: 1
+  specMaxReplicas: 5
+  specMetricsType: Resource
+  specMetricsResourceCpuName: cpu
+  specMetricsResourceMemoryName: memory
+  specMetricsResourceTargetType: Utilization
+  specMetricsResourceTargetCpuAverageUtilization: 70
+  specMetricsResourceTargetMemoryAverageUtilization: 75
+
+frontendService:
+  port: 80
+  tier: frontend
+
+wordpressDeployment:
+  strategyType: Recreate
+  imageVersion: 4.8-apache
+  specEnvHostName: WORDPRESS_DB_HOST
+  specEnvPassName: WORDPRESS_DB_PASSWORD
+  specEnvSecretKeyRefKey: password
+  specResourcesCpu: 100m
+  specResourcesMemory: 100Mi
+  specVolumeMountPath: /var/www/html
+  specPersistentVolumeClaimName: wp-pvc
+
+wordpressHpa:
+  specMinReplicas: 1
+  specMaxReplicas: 3
+  specMetricsType: Resource
+  specMetricsResourceCpuName: cpu
+  specMetricsResourceMemoryName: memory
+  specMetricsResourceTargetType: Utilization
+  specMetricsResourceTargetCpuAverageUtilization: 65
+  specMetricsResourceTargetMemoryAverageUtilization: 80
+
+networkPolicy:
+  name: wp-network-policy
+  policyTypesIn: Ingress
+  ingressPortsProtocol: TCP

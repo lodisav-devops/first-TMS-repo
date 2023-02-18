@@ -1,0 +1,83 @@
+>>>>>> Monitoring demo app <<<<<<
+--------------------------------
+Select an action:
+--------------------------------
+1) install
+2) uninstall
+--------------------------------
+Q) Exit
+
+Your choice? Install...
+---[ Begin install ]---
+Namespace:  DEFAULT
+Version:    monitoring
+Installing: ./k8s-manifests/comment/configMap.yaml ............................. OK
+Installing: ./k8s-manifests/comment/deployment.yaml ............................ OK
+Installing: ./k8s-manifests/comment/service.yaml ............................... OK
+Installing: ./k8s-manifests/post/configMap.yaml ................................ OK
+Installing: ./k8s-manifests/post/deployment.yaml ............................... OK
+Installing: ./k8s-manifests/post/service.yaml .................................. OK
+Installing: ./k8s-manifests/post-db/deployment.yaml ............................ OK
+Installing: ./k8s-manifests/post-db/service.yaml ............................... OK
+Installing: ./k8s-manifests/ui/configMap.yaml .................................. OK
+Installing: ./k8s-manifests/ui/deployment.yaml ................................. OK
+Installing: ./k8s-manifests/ui/service.yaml .................................... OK
+--------------------------------
+The script has been running for 11 second.
+install complete!
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/app$ kubectl get all
+NAME                           READY   STATUS              RESTARTS   AGE
+pod/comment-7cc899988c-tv5k2   1/1     Running             0          31s
+pod/post-6b8c6cd8db-hw5gz      1/1     Running             0          29s
+pod/post-db-7d4894cf54-h9krc   1/1     Running             0          28s
+pod/ui-666db5bd55-98jtk        0/1     ContainerCreating   0          26s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/comment      ClusterIP   10.33.51.201    <none>        9292/TCP    32s
+service/kubernetes   ClusterIP   10.33.0.1       <none>        443/TCP     5h32m
+service/post         ClusterIP   10.33.102.176   <none>        5000/TCP    30s
+service/post-db      ClusterIP   10.33.118.92    <none>        27017/TCP   28s
+service/ui           ClusterIP   10.33.227.7     <none>        9292/TCP    26s
+
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/comment   1/1     1            1           32s
+deployment.apps/post      1/1     1            1           30s
+deployment.apps/post-db   1/1     1            1           29s
+deployment.apps/ui        0/1     1            0           27s
+
+NAME                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/comment-7cc899988c   1         1         1       32s
+replicaset.apps/post-6b8c6cd8db      1         1         1       30s
+replicaset.apps/post-db-7d4894cf54   1         1         1       29s
+replicaset.apps/ui-666db5bd55        1         1         0       27s
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/app$ kubectl get all
+NAME                           READY   STATUS    RESTARTS   AGE
+pod/comment-7cc899988c-tv5k2   1/1     Running   0          53s
+pod/post-6b8c6cd8db-hw5gz      1/1     Running   0          51s
+pod/post-db-7d4894cf54-h9krc   1/1     Running   0          50s
+pod/ui-666db5bd55-98jtk        1/1     Running   0          48s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/comment      ClusterIP   10.33.51.201    <none>        9292/TCP    53s
+service/kubernetes   ClusterIP   10.33.0.1       <none>        443/TCP     5h33m
+service/post         ClusterIP   10.33.102.176   <none>        5000/TCP    51s
+service/post-db      ClusterIP   10.33.118.92    <none>        27017/TCP   49s
+service/ui           ClusterIP   10.33.227.7     <none>        9292/TCP    47s
+
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/comment   1/1     1            1           53s
+deployment.apps/post      1/1     1            1           51s
+deployment.apps/post-db   1/1     1            1           50s
+deployment.apps/ui        1/1     1            1           48s
+
+NAME                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/comment-7cc899988c   1         1         1       53s
+replicaset.apps/post-6b8c6cd8db      1         1         1       51s
+replicaset.apps/post-db-7d4894cf54   1         1         1       50s
+replicaset.apps/ui-666db5bd55        1         1         1       48s
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/app$ kubectl port-forward service/ui 9292:9292
+Forwarding from 127.0.0.1:9292 -> 9292
+Forwarding from [::1]:9292 -> 9292
+Handling connection for 9292
+Handling connection for 9292
+Handling connection for 9292

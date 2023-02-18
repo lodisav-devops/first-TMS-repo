@@ -34,3 +34,5 @@
 /Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate
 /Terraform/HW_Lesson_44_Terr_Wordpress/*/terraform.tfstate.backup
 /Terraform/HW_Lesson_44_Terr_Wordpress/template_file
+/Monitoring/HW_Lesson_50_Prometheus/app/secrets/.dockerconfigjson
+/Monitoring/HW_Lesson_50_Prometheus/app/src

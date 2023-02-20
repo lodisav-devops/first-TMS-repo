@@ -1,0 +1,207 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 22:54 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 22:47 ../
+-rwxrwxrwx 1 lodis lodis  355 Feb 18 22:53 deployment.yaml*
+-rwxrwxrwx 1 lodis lodis    4 Feb 18 22:54 exec_log.txt*
+-rwxrwxrwx 1 lodis lodis  205 Feb 18 22:54 service.yaml*
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ kubectl apply -f deployment.yaml
+deployment.apps/blackbox created
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ kubectl apply -f service.yaml
+service/blackbox created
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ kubectl gett all
+Error: flags cannot be placed before plugin name: --insecure-skip-tls-verify
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ kubectl get all
+NAME                            READY   STATUS             RESTARTS      AGE
+pod/blackbox-6d4cf89858-shpbv   1/1     Running            0             18s
+pod/comment-7cc899988c-tv5k2    0/1     CrashLoopBackOff   4 (67s ago)   28m
+pod/post-6b8c6cd8db-hw5gz       1/1     Running            0             28m
+pod/post-db-7d4894cf54-h9krc    1/1     Running            0             28m
+pod/ui-666db5bd55-98jtk         1/1     Running            0             28m
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/blackbox     ClusterIP   10.33.243.238   <none>        9115/TCP    11s
+service/comment      ClusterIP   10.33.51.201    <none>        9292/TCP    28m
+service/kubernetes   ClusterIP   10.33.0.1       <none>        443/TCP     6h1m
+service/post         ClusterIP   10.33.102.176   <none>        5000/TCP    28m
+service/post-db      ClusterIP   10.33.118.92    <none>        27017/TCP   28m
+service/ui           ClusterIP   10.33.227.7     <none>        9292/TCP    28m
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/blackbox   1/1     1            1           19s
+deployment.apps/comment    0/1     1            0           28m
+deployment.apps/post       1/1     1            1           28m
+deployment.apps/post-db    1/1     1            1           28m
+deployment.apps/ui         1/1     1            1           28m
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/blackbox-6d4cf89858   1         1         1       19s
+replicaset.apps/comment-7cc899988c    1         1         0       28m
+replicaset.apps/post-6b8c6cd8db       1         1         1       28m
+replicaset.apps/post-db-7d4894cf54    1         1         1       28m
+replicaset.apps/ui-666db5bd55         1         1         1       28m
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ kubectl get all
+NAME                            READY   STATUS             RESTARTS      AGE
+pod/blackbox-6d4cf89858-shpbv   1/1     Running            0             33s
+pod/comment-7cc899988c-tv5k2    0/1     CrashLoopBackOff   4 (82s ago)   29m
+pod/post-6b8c6cd8db-hw5gz       1/1     Running            0             29m
+pod/post-db-7d4894cf54-h9krc    1/1     Running            0             29m
+pod/ui-666db5bd55-98jtk         1/1     Running            0             28m
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/blackbox     ClusterIP   10.33.243.238   <none>        9115/TCP    26s
+service/comment      ClusterIP   10.33.51.201    <none>        9292/TCP    29m
+service/kubernetes   ClusterIP   10.33.0.1       <none>        443/TCP     6h1m
+service/post         ClusterIP   10.33.102.176   <none>        5000/TCP    29m
+service/post-db      ClusterIP   10.33.118.92    <none>        27017/TCP   28m
+service/ui           ClusterIP   10.33.227.7     <none>        9292/TCP    28m
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/blackbox   1/1     1            1           33s
+deployment.apps/comment    0/1     1            0           29m
+deployment.apps/post       1/1     1            1           29m
+deployment.apps/post-db    1/1     1            1           29m
+deployment.apps/ui         1/1     1            1           28m
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/blackbox-6d4cf89858   1         1         1       34s
+replicaset.apps/comment-7cc899988c    1         1         0       29m
+replicaset.apps/post-6b8c6cd8db       1         1         1       29m
+replicaset.apps/post-db-7d4894cf54    1         1         1       29m
+replicaset.apps/ui-666db5bd55         1         1         1       28m
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/blackbox$ kubectl port-forward service/blackbox 9115:9115
+Forwarding from 127.0.0.1:9115 -> 9115
+Forwarding from [::1]:9115 -> 9115
+Handling connection for 9115
+
+lodis@My-PC:~$ curl 'localhost:9115/metrics'
+# HELP blackbox_exporter_build_info A metric with a constant '1' value labeled by version, revision, branch, and goversion from which blackbox_exporter was built.
+# TYPE blackbox_exporter_build_info gauge
+blackbox_exporter_build_info{branch="HEAD",goversion="go1.19.3",revision="26fc98b9c6db21457653ed752f34d1b7fb5bba43",version="0.23.0"} 1
+# HELP blackbox_exporter_config_last_reload_success_timestamp_seconds Timestamp of the last successful configuration reload.
+# TYPE blackbox_exporter_config_last_reload_success_timestamp_seconds gauge
+blackbox_exporter_config_last_reload_success_timestamp_seconds 1.6767501530580552e+09
+# HELP blackbox_exporter_config_last_reload_successful Blackbox exporter config loaded successfully.
+# TYPE blackbox_exporter_config_last_reload_successful gauge
+blackbox_exporter_config_last_reload_successful 1
+# HELP blackbox_module_unknown_total Count of unknown modules requested by probes
+# TYPE blackbox_module_unknown_total counter
+blackbox_module_unknown_total 0
+# HELP go_gc_duration_seconds A summary of the pause duration of garbage collection cycles.
+# TYPE go_gc_duration_seconds summary
+go_gc_duration_seconds{quantile="0"} 0
+go_gc_duration_seconds{quantile="0.25"} 0
+go_gc_duration_seconds{quantile="0.5"} 0
+go_gc_duration_seconds{quantile="0.75"} 0
+go_gc_duration_seconds{quantile="1"} 0
+go_gc_duration_seconds_sum 0
+go_gc_duration_seconds_count 0
+# HELP go_goroutines Number of goroutines that currently exist.
+# TYPE go_goroutines gauge
+go_goroutines 10
+# HELP go_info Information about the Go environment.
+# TYPE go_info gauge
+go_info{version="go1.19.3"} 1
+# HELP go_memstats_alloc_bytes Number of bytes allocated and still in use.
+# TYPE go_memstats_alloc_bytes gauge
+go_memstats_alloc_bytes 563600
+# HELP go_memstats_alloc_bytes_total Total number of bytes allocated, even if freed.
+# TYPE go_memstats_alloc_bytes_total counter
+go_memstats_alloc_bytes_total 563600
+# HELP go_memstats_buck_hash_sys_bytes Number of bytes used by the profiling bucket hash table.
+# TYPE go_memstats_buck_hash_sys_bytes gauge
+go_memstats_buck_hash_sys_bytes 1.446039e+06
+# HELP go_memstats_frees_total Total number of frees.
+# TYPE go_memstats_frees_total counter
+go_memstats_frees_total 229
+# HELP go_memstats_gc_sys_bytes Number of bytes used for garbage collection system metadata.
+# TYPE go_memstats_gc_sys_bytes gauge
+go_memstats_gc_sys_bytes 7.808872e+06
+# HELP go_memstats_heap_alloc_bytes Number of heap bytes allocated and still in use.
+# TYPE go_memstats_heap_alloc_bytes gauge
+go_memstats_heap_alloc_bytes 563600
+# HELP go_memstats_heap_idle_bytes Number of heap bytes waiting to be used.
+# TYPE go_memstats_heap_idle_bytes gauge
+go_memstats_heap_idle_bytes 1.51552e+06
+# HELP go_memstats_heap_inuse_bytes Number of heap bytes that are in use.
+# TYPE go_memstats_heap_inuse_bytes gauge
+go_memstats_heap_inuse_bytes 2.220032e+06
+# HELP go_memstats_heap_objects Number of allocated objects.
+# TYPE go_memstats_heap_objects gauge
+go_memstats_heap_objects 3990
+# HELP go_memstats_heap_released_bytes Number of heap bytes released to OS.
+# TYPE go_memstats_heap_released_bytes gauge
+go_memstats_heap_released_bytes 1.51552e+06
+# HELP go_memstats_heap_sys_bytes Number of heap bytes obtained from system.
+# TYPE go_memstats_heap_sys_bytes gauge
+go_memstats_heap_sys_bytes 3.735552e+06
+# HELP go_memstats_last_gc_time_seconds Number of seconds since 1970 of last garbage collection.
+# TYPE go_memstats_last_gc_time_seconds gauge
+go_memstats_last_gc_time_seconds 0
+# HELP go_memstats_lookups_total Total number of pointer lookups.
+# TYPE go_memstats_lookups_total counter
+go_memstats_lookups_total 0
+# HELP go_memstats_mallocs_total Total number of mallocs.
+# TYPE go_memstats_mallocs_total counter
+go_memstats_mallocs_total 4219
+# HELP go_memstats_mcache_inuse_bytes Number of bytes in use by mcache structures.
+# TYPE go_memstats_mcache_inuse_bytes gauge
+go_memstats_mcache_inuse_bytes 2400
+# HELP go_memstats_mcache_sys_bytes Number of bytes used for mcache structures obtained from system.
+# TYPE go_memstats_mcache_sys_bytes gauge
+go_memstats_mcache_sys_bytes 15600
+# HELP go_memstats_mspan_inuse_bytes Number of bytes in use by mspan structures.
+# TYPE go_memstats_mspan_inuse_bytes gauge
+go_memstats_mspan_inuse_bytes 37264
+# HELP go_memstats_mspan_sys_bytes Number of bytes used for mspan structures obtained from system.
+# TYPE go_memstats_mspan_sys_bytes gauge
+go_memstats_mspan_sys_bytes 48960
+# HELP go_memstats_next_gc_bytes Number of heap bytes when next garbage collection will take place.
+# TYPE go_memstats_next_gc_bytes gauge
+go_memstats_next_gc_bytes 4.194304e+06
+# HELP go_memstats_other_sys_bytes Number of bytes used for other system allocations.
+# TYPE go_memstats_other_sys_bytes gauge
+go_memstats_other_sys_bytes 622809
+# HELP go_memstats_stack_inuse_bytes Number of bytes in use by the stack allocator.
+# TYPE go_memstats_stack_inuse_bytes gauge
+go_memstats_stack_inuse_bytes 458752
+# HELP go_memstats_stack_sys_bytes Number of bytes obtained from system for stack allocator.
+# TYPE go_memstats_stack_sys_bytes gauge
+go_memstats_stack_sys_bytes 458752
+# HELP go_memstats_sys_bytes Number of bytes obtained from system.
+# TYPE go_memstats_sys_bytes gauge
+go_memstats_sys_bytes 1.4136584e+07
+# HELP go_threads Number of OS threads created.
+# TYPE go_threads gauge
+go_threads 7
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+process_cpu_seconds_total 0.01
+# HELP process_max_fds Maximum number of open file descriptors.
+# TYPE process_max_fds gauge
+process_max_fds 1.048576e+06
+# HELP process_open_fds Number of open file descriptors.
+# TYPE process_open_fds gauge
+process_open_fds 9
+# HELP process_resident_memory_bytes Resident memory size in bytes.
+# TYPE process_resident_memory_bytes gauge
+process_resident_memory_bytes 1.18784e+07
+# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1.67675015283e+09
+# HELP process_virtual_memory_bytes Virtual memory size in bytes.
+# TYPE process_virtual_memory_bytes gauge
+process_virtual_memory_bytes 7.43112704e+08
+# HELP process_virtual_memory_max_bytes Maximum amount of virtual memory available in bytes.
+# TYPE process_virtual_memory_max_bytes gauge
+process_virtual_memory_max_bytes 1.8446744073709552e+19
+# HELP promhttp_metric_handler_requests_in_flight Current number of scrapes being served.
+# TYPE promhttp_metric_handler_requests_in_flight gauge
+promhttp_metric_handler_requests_in_flight 1
+# HELP promhttp_metric_handler_requests_total Total number of scrapes by HTTP status code.
+# TYPE promhttp_metric_handler_requests_total counter
+promhttp_metric_handler_requests_total{code="200"} 0
+promhttp_metric_handler_requests_total{code="500"} 0
+promhttp_metric_handler_requests_total{code="503"} 0
+lodis@My-PC:~$
+

@@ -1,0 +1,128 @@
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 22:47 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 17 09:02 ../
+-rwxrwxrwx 1 lodis lodis  353 Feb 16 11:29 50_hw.md*
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 22:29 app/
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 23:03 blackbox/
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 14:00 create_cluster/
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 23:06 prometheus/
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus$ cd prometheus/
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 23:06 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 18 22:47 ../
+-rwxrwxrwx 1 lodis lodis  228 Feb 18 22:44 README.md*
+-rwxrwxrwx 1 lodis lodis    4 Feb 18 23:07 exec_log.txt*
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+"prometheus-community" has been added to your repositories
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ helm show values prometheus-community/kube-prometheus-stack > prometheus-src-values.yaml
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ kubectl get all
+NAME                            READY   STATUS    RESTARTS         AGE
+pod/blackbox-6d4cf89858-shpbv   1/1     Running   0                90m
+pod/comment-7cc899988c-tv5k2    1/1     Running   17 (6m14s ago)   118m
+pod/post-6b8c6cd8db-hw5gz       1/1     Running   0                118m
+pod/post-db-7d4894cf54-h9krc    1/1     Running   0                118m
+pod/ui-666db5bd55-98jtk         1/1     Running   0                118m
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/blackbox     ClusterIP   10.33.243.238   <none>        9115/TCP    89m
+service/comment      ClusterIP   10.33.51.201    <none>        9292/TCP    118m
+service/kubernetes   ClusterIP   10.33.0.1       <none>        443/TCP     7h30m
+service/post         ClusterIP   10.33.102.176   <none>        5000/TCP    118m
+service/post-db      ClusterIP   10.33.118.92    <none>        27017/TCP   118m
+service/ui           ClusterIP   10.33.227.7     <none>        9292/TCP    118m
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/blackbox   1/1     1            1           90m
+deployment.apps/comment    1/1     1            1           118m
+deployment.apps/post       1/1     1            1           118m
+deployment.apps/post-db    1/1     1            1           118m
+deployment.apps/ui         1/1     1            1           118m
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/blackbox-6d4cf89858   1         1         1       90m
+replicaset.apps/comment-7cc899988c    1         1         1       118m
+replicaset.apps/post-6b8c6cd8db       1         1         1       118m
+replicaset.apps/post-db-7d4894cf54    1         1         1       118m
+replicaset.apps/ui-666db5bd55         1         1         1       118m
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ helm install -f prometheus.yaml prometh
+eus prometheus-community/kube-prometheus-stack
+Error: INSTALLATION FAILED: Kubernetes cluster unreachable: Get "https://63.33.51.167:6443/version": x509: certificate is valid for 10.33.0.1, 172.18.0.3, 172.31.28.2, not 63.33.51.167
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ helm uninstall prometheus
+Error: Kubernetes cluster unreachable: Get "https://63.33.51.167:6443/version": x509: certificate is valid for 10.33.0.1, 172.18.0.3, 172.31.28.2, not 63.33.51.167
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ alias helm='helm --kube-insecure-skip-tls-verify'
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ helm install -f prometheus.yaml prometheus prometheus-community/kube-prometheus-stack
+NAME: prometheus
+LAST DEPLOYED: Sun Feb 19 00:39:38 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace default get pods -l "release=prometheus"
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ kubectl get all
+NAME                                                       READY   STATUS    RESTARTS         AGE
+pod/blackbox-6d4cf89858-shpbv                              1/1     Running   0                105m
+pod/comment-7cc899988c-tv5k2                               1/1     Running   19 (6m54s ago)   134m
+pod/post-6b8c6cd8db-hw5gz                                  1/1     Running   0                134m
+pod/post-db-7d4894cf54-h9krc                               1/1     Running   0                134m
+pod/prometheus-kube-prometheus-operator-566c5c5dc7-4wvxc   1/1     Running   0                80s
+pod/prometheus-kube-state-metrics-6cfd96f4c8-5nsns         1/1     Running   0                80s
+pod/prometheus-prometheus-kube-prometheus-prometheus-0     2/2     Running   0                73s
+pod/prometheus-prometheus-node-exporter-h2pg6              1/1     Running   0                80s
+pod/prometheus-prometheus-node-exporter-hnbzv              1/1     Running   0                80s
+pod/prometheus-prometheus-node-exporter-n9v58              1/1     Running   0                80s
+pod/ui-666db5bd55-98jtk                                    1/1     Running   0                134m
+
+NAME                                            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/blackbox                                ClusterIP   10.33.243.238   <none>        9115/TCP    105m
+service/comment                                 ClusterIP   10.33.51.201    <none>        9292/TCP    134m
+service/kubernetes                              ClusterIP   10.33.0.1       <none>        443/TCP     7h46m
+service/post                                    ClusterIP   10.33.102.176   <none>        5000/TCP    134m
+service/post-db                                 ClusterIP   10.33.118.92    <none>        27017/TCP   134m
+service/prometheus-kube-prometheus-operator     ClusterIP   10.33.37.143    <none>        443/TCP     81s
+service/prometheus-kube-prometheus-prometheus   ClusterIP   10.33.140.242   <none>        9090/TCP    81s
+service/prometheus-kube-state-metrics           ClusterIP   10.33.188.68    <none>        8080/TCP    81s
+service/prometheus-operated                     ClusterIP   None            <none>        9090/TCP    74s
+service/prometheus-prometheus-node-exporter     ClusterIP   10.33.55.242    <none>        9100/TCP    81s
+service/ui                                      ClusterIP   10.33.227.7     <none>        9292/TCP    134m
+
+NAME                                                 DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/prometheus-prometheus-node-exporter   3         3         3       3            3           <none>          81s
+
+NAME                                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/blackbox                              1/1     1            1           105m
+deployment.apps/comment                               1/1     1            1           134m
+deployment.apps/post                                  1/1     1            1           134m
+deployment.apps/post-db                               1/1     1            1           134m
+deployment.apps/prometheus-kube-prometheus-operator   1/1     1            1           81s
+deployment.apps/prometheus-kube-state-metrics         1/1     1            1           81s
+deployment.apps/ui                                    1/1     1            1           134m
+
+NAME                                                             DESIRED   CURRENT   READY   AGE
+replicaset.apps/blackbox-6d4cf89858                              1         1         1       105m
+replicaset.apps/comment-7cc899988c                               1         1         1       134m
+replicaset.apps/post-6b8c6cd8db                                  1         1         1       134m
+replicaset.apps/post-db-7d4894cf54                               1         1         1       134m
+replicaset.apps/prometheus-kube-prometheus-operator-566c5c5dc7   1         1         1       81s
+replicaset.apps/prometheus-kube-state-metrics-6cfd96f4c8         1         1         1       81s
+replicaset.apps/ui-666db5bd55                                    1         1         1       134m
+
+NAME                                                                READY   AGE
+statefulset.apps/prometheus-prometheus-kube-prometheus-prometheus   1/1     74s
+lodis@My-PC:/mnt/d/first-TMS-repo/Monitoring/HW_Lesson_50_Prometheus/prometheus$ kubectl port-forward service/blackbox 9115:9115
+Forwarding from 127.0.0.1:9115 -> 9115
+Forwarding from [::1]:9115 -> 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115
+Handling connection for 9115

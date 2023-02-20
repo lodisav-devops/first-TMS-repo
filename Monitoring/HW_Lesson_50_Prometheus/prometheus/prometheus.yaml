@@ -5,16 +5,29 @@ alertmanager:
 prometheus:
   prometheusSpec:
     additionalScrapeConfigs: |
-      - job_name: 'blackbox'
+      - job_name: 'blackbox_http'
         metrics_path: /probe
         params:
           module: [http_2xx]
         static_configs:
           - targets:
-            - 'ui.default.svc.cluster.local:9292'
+            - 'ui.default.svc.cluster.local:9292'            
+            - 'post-db.default.svc.cluster.local:27017'
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 'blackbox.default.svc.cluster.local:9115'
+      - job_name: 'blackbox_tcp'
+        metrics_path: /probe
+        params:
+          module: [tcp_connect]
+        static_configs:
+          - targets:
             - 'comment.default.svc.cluster.local:9292'
             - 'post.default.svc.cluster.local:5000'
-            - 'post-db.default.svc.cluster.local:27017'
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target

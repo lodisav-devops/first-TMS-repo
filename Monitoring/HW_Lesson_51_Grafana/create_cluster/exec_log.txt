@@ -1,0 +1,133 @@
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:40 ../
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 docker-machine/
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 kind/
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster$ cd docker-machine/
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/docker-machine$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 ../
+-rwxrwxrwx 1 lodis lodis  350 Feb 18 14:03 docker_machine_create.sh*
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/docker-machine$ ./docker_machine_create.sh
+Running pre-create checks...
+Creating machine...
+(lodis-docker-machine) Launching instance...
+Waiting for machine to be running, this may take a few minutes...
+Detecting operating system of created instance...
+Waiting for SSH to be available...
+Detecting the provisioner...
+Provisioning with ubuntu(systemd)...
+Installing Docker...
+Copying certs to the local machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env lodis-docker-machine
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/docker-machine$ docker-machine env lodis-docker-machine
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://34.243.135.0:2376"
+export DOCKER_CERT_PATH="/home/lodis/.docker/machine/machines/lodis-docker-machine"
+export DOCKER_MACHINE_NAME="lodis-docker-machine"
+# Run this command to configure your shell:
+# eval $(docker-machine env lodis-docker-machine)
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/docker-machine$ eval $(docker-machine env lodis-docker-machine)
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/docker-machine$ cd ..
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster$ ll
+total 0
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 ./
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:40 ../
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 docker-machine/
+drwxrwxrwx 1 lodis lodis 4096 Feb 20 09:36 kind/
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster$ cd kind/
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/kind$ ll
+total 252
+drwxrwxrwx 1 lodis lodis   4096 Feb 20 09:36 ./
+drwxrwxrwx 1 lodis lodis   4096 Feb 20 09:36 ../
+-rwxrwxrwx 1 lodis lodis 239921 Feb 18 14:01 calico.yaml*
+-rwxrwxrwx 1 lodis lodis   1147 Feb 18 14:02 config.yaml*
+-rwxrwxrwx 1 lodis lodis    170 Feb 20 09:43 env.sh*
+-rwxrwxrwx 1 lodis lodis   1041 Feb 18 14:18 kind_create.sh*
+-rwxrwxrwx 1 lodis lodis   4411 Feb 18 14:20 metrics-server.yaml*
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/kind$ ./kind_create.sh
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.25.3) 🖼
+ ✓ Preparing nodes 📦 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Not sure what to do next? 😅  Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+Edit kube config file...
+Install Calico CNI...
+poddisruptionbudget.policy/calico-kube-controllers created
+serviceaccount/calico-kube-controllers created
+serviceaccount/calico-node created
+configmap/calico-config created
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/caliconodestatuses.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipreservations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/kubecontrollersconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networksets.crd.projectcalico.org created
+clusterrole.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrole.rbac.authorization.k8s.io/calico-node created
+clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrolebinding.rbac.authorization.k8s.io/calico-node created
+daemonset.apps/calico-node created
+deployment.apps/calico-kube-controllers created
+Scale down coreNDS...
+deployment.apps/coredns scaled
+Install Ingress NGINX...
+namespace/ingress-nginx created
+serviceaccount/ingress-nginx created
+serviceaccount/ingress-nginx-admission created
+role.rbac.authorization.k8s.io/ingress-nginx created
+role.rbac.authorization.k8s.io/ingress-nginx-admission created
+clusterrole.rbac.authorization.k8s.io/ingress-nginx created
+clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created
+rolebinding.rbac.authorization.k8s.io/ingress-nginx created
+rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created
+clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+configmap/ingress-nginx-controller created
+service/ingress-nginx-controller created
+service/ingress-nginx-controller-admission created
+deployment.apps/ingress-nginx-controller created
+job.batch/ingress-nginx-admission-create created
+job.batch/ingress-nginx-admission-patch created
+ingressclass.networking.k8s.io/nginx created
+validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created
+Install Metrics-server...
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+Kubernetes control plane is running at https://34.243.135.0:6443
+CoreDNS is running at https://34.243.135.0:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/create_cluster/kind$

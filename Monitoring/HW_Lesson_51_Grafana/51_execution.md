@@ -1,0 +1,9 @@
+1. Развернут кластер K8s, развернуто приложение app.
+2. Из директории prometheus развернут helm chart с prometheus и grafana, создан namespase monitoring, в ручную создан dashboard ('my tms dashboard') c тремя panels ('ui_request /', 'ui_request / post', 'ui_request / metrics'). 
+3. Сделан экспорт созданого dashboard в файл my-tms-dashboard.json.
+4. Удален развернутый helm chart.
+5. Склонирован с GitHub ('git clone https://github.com/prometheus-community/helm-charts.git') необходимый для корректировки chart kube-prometheus-stack. В директории панелей мониторинга grafana (cd helm-charts/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/), которая содержит все готовые панели мониторинга добавлена своя панель инструментов 'my-tms-dashboard.yaml' по средством создания configmap helm.
+6. Генерация визуализированных шаблонов helm -> добавление репозитория helm с grafana ('helm repo add grafana https://grafana.github.io/helm-charts') -> извлечение всех зависимостей диаграмм и обновление ('helm dependency build'&& 'helm repo update') -> запуск команды шаблона helm, для отображения манифестов yaml  сохранение в файл для проверки добавления нашего манифеста ConfigMap ('helm template kube-prometheus-stack . --validate > rendered-template.yaml')
+7. Затем проверка файла rendered-template.yaml , чтобы убедиться, что наш ConfigMap создан и будет применяться при запуске команды установки Helm на следующем шаге.
+8. Редактирование values.yaml (установка ingress для grafana and prometheus и additionalScrapeConfigs).
+9. Установка helm chart ('helm install -n monitoring prometheus kube-prometheus-stack/') и проверка добавления нашего dashboard в grafana, проверка функционирования. Скрин экрана (dashboard) скинул в телеграмме.

@@ -1,0 +1,32 @@
+# grafana config
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana
+
+# alertmanager config
+alertmanager:
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager
+    paths:
+      - /
+
+# prometheus config
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus
+    paths:
+      - /
+  prometheusSpec:
+    additionalScrapeConfigs: |
+      - job_name: 'reddit'
+        static_configs:
+          - targets:
+            - 'ui.default.svc.cluster.local:9292'
+            - 'post.default.svc.cluster.local:5000'
+            - 'comment.default.svc.cluster.local:9292'

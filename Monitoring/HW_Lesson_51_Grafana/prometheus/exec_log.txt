@@ -1,0 +1,51 @@
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/prometheus$ ./install_prometheus.sh
+namespace/monitoring created
+Installing Helm Chart kube-prometheus-stack to namespace monitoring...
+NAME: prometheus
+LAST DEPLOYED: Mon Feb 20 10:43:05 2023
+NAMESPACE: monitoring
+STATUS: deployed
+REVISION: 1
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace monitoring get pods -l "release=prometheus"
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/prometheus$ kubectl get all -n monitoring
+NAME                                                         READY   STATUS    RESTARTS      AGE
+pod/alertmanager-prometheus-kube-prometheus-alertmanager-0   2/2     Running   1 (14m ago)   14m
+pod/prometheus-grafana-7bd666c4c-l4l88                       3/3     Running   0             14m
+pod/prometheus-kube-prometheus-operator-566c5c5dc7-bjqt6     1/1     Running   0             14m
+pod/prometheus-kube-state-metrics-6cfd96f4c8-fgc6h           1/1     Running   0             14m
+pod/prometheus-prometheus-kube-prometheus-prometheus-0       2/2     Running   0             14m
+pod/prometheus-prometheus-node-exporter-2dq2d                1/1     Running   0             14m
+pod/prometheus-prometheus-node-exporter-4c85x                1/1     Running   0             14m
+pod/prometheus-prometheus-node-exporter-q9bcx                1/1     Running   0             14m
+
+NAME                                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+service/alertmanager-operated                     ClusterIP   None            <none>        9093/TCP,9094/TCP,9094/UDP   14m
+service/prometheus-grafana                        ClusterIP   10.33.165.161   <none>        80/TCP                       14m
+service/prometheus-kube-prometheus-alertmanager   ClusterIP   10.33.11.79     <none>        9093/TCP                     14m
+service/prometheus-kube-prometheus-operator       ClusterIP   10.33.26.21     <none>        443/TCP                      14m
+service/prometheus-kube-prometheus-prometheus     ClusterIP   10.33.238.244   <none>        9090/TCP                     14m
+service/prometheus-kube-state-metrics             ClusterIP   10.33.210.254   <none>        8080/TCP                     14m
+service/prometheus-operated                       ClusterIP   None            <none>        9090/TCP                     14m
+service/prometheus-prometheus-node-exporter       ClusterIP   10.33.96.71     <none>        9100/TCP                     14m
+
+NAME                                                 DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/prometheus-prometheus-node-exporter   3         3         3       3            3           <none>          14m
+
+NAME                                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/prometheus-grafana                    1/1     1            1           14m
+deployment.apps/prometheus-kube-prometheus-operator   1/1     1            1           14m
+deployment.apps/prometheus-kube-state-metrics         1/1     1            1           14m
+
+NAME                                                             DESIRED   CURRENT   READY   AGE
+replicaset.apps/prometheus-grafana-7bd666c4c                     1         1         1       14m
+replicaset.apps/prometheus-kube-prometheus-operator-566c5c5dc7   1         1         1       14m
+replicaset.apps/prometheus-kube-state-metrics-6cfd96f4c8         1         1         1       14m
+
+NAME                                                                    READY   AGE
+statefulset.apps/alertmanager-prometheus-kube-prometheus-alertmanager   1/1     14m
+statefulset.apps/prometheus-prometheus-kube-prometheus-prometheus       1/1     14m
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/prometheus$

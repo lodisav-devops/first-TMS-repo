@@ -1,0 +1,96 @@
+PS D:\HW_Lesson_51_Grafana> git clone https://github.com/prometheus-community/helm-charts.git
+Cloning into 'helm-charts'...
+remote: Enumerating objects: 26476, done.
+remote: Counting objects: 100% (566/566), done.
+remote: Compressing objects: 100% (78/78), done.
+remote: Total 26476 (delta 512), reused 513 (delta 488), pack-reused 25910
+Receiving objects: 100% (26476/26476), 82.04 MiB | 5.98 MiB/s, done.
+Resolving deltas: 100% (19391/19391), done.
+PS D:\HW_Lesson_51_Grafana>
+
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts/kube-prometheus-stack$ helm dependency build
+Error: no repository definition for https://grafana.github.io/helm-charts. Please add the missing repos via 'helm repo add'
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts/kube-prometheus-stack$ helm repo add grafana https://grafana.github.io/helm-charts
+"grafana" has been added to your repositories
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts/kube-prometheus-stack$ helm dependency build
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+Update Complete. ⎈Happy Helming!⎈
+Saving 3 charts
+Downloading kube-state-metrics from repo https://prometheus-community.github.io/helm-charts
+Downloading prometheus-node-exporter from repo https://prometheus-community.github.io/helm-charts
+Downloading grafana from repo https://grafana.github.io/helm-charts
+Deleting outdated charts
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts/kube-prometheus-stack$ helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+Update Complete. ⎈Happy Helming!⎈
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts/kube-prometheus-stack$ helm template kube-prometheus-stack . --validate > rendered-template.yaml
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts/kube-prometheus-stack$ ll
+total 1936
+drwxrwxrwx 1 lodis lodis    4096 Feb 25 22:11 ./
+drwxrwxrwx 1 lodis lodis    4096 Feb 24 14:22 ../
+-rwxrwxrwx 1 lodis lodis     426 Feb 24 14:22 .helmignore*
+-rwxrwxrwx 1 lodis lodis     668 Feb 24 14:22 CONTRIBUTING.md*
+-rwxrwxrwx 1 lodis lodis     466 Feb 24 14:22 Chart.lock*
+-rwxrwxrwx 1 lodis lodis    1964 Feb 24 14:22 Chart.yaml*
+-rwxrwxrwx 1 lodis lodis   56977 Feb 24 14:22 README.md*
+drwxrwxrwx 1 lodis lodis    4096 Feb 25 22:11 charts/
+drwxrwxrwx 1 lodis lodis    4096 Feb 24 14:22 ci/
+drwxrwxrwx 1 lodis lodis    4096 Feb 24 14:22 crds/
+drwxrwxrwx 1 lodis lodis    4096 Feb 24 14:22 hack/
+-rwxrwxrwx 1 lodis lodis 1783342 Feb 25 22:12 rendered-template.yaml*
+drwxrwxrwx 1 lodis lodis    4096 Feb 24 14:22 templates/
+drwxrwxrwx 1 lodis lodis    4096 Feb 24 14:22 unittests/
+-rwxrwxrwx 1 lodis lodis  133100 Feb 25 22:27 values.yaml*
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts$ helm install -n monitoring prometheus kube-prometheus-stack/
+NAME: prometheus
+LAST DEPLOYED: Sat Feb 25 22:40:41 2023
+NAMESPACE: monitoring
+STATUS: deployed
+REVISION: 1
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace monitoring get pods -l "release=prometheus"
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts$ kubectl get all -n monitoring
+NAME                                                         READY   STATUS    RESTARTS      AGE
+pod/alertmanager-prometheus-kube-prometheus-alertmanager-0   2/2     Running   1 (56s ago)   59s
+pod/prometheus-grafana-7bd666c4c-485lx                       3/3     Running   0             65s
+pod/prometheus-kube-prometheus-operator-7757f46c-5jlwx       1/1     Running   0             65s
+pod/prometheus-kube-state-metrics-678b896dcf-bs675           1/1     Running   0             65s
+pod/prometheus-prometheus-kube-prometheus-prometheus-0       2/2     Running   0             57s
+pod/prometheus-prometheus-node-exporter-8fkx4                1/1     Running   0             65s
+pod/prometheus-prometheus-node-exporter-mczb4                1/1     Running   0             65s
+pod/prometheus-prometheus-node-exporter-zgc66                1/1     Running   0             65s
+
+NAME                                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+service/alertmanager-operated                     ClusterIP   None            <none>        9093/TCP,9094/TCP,9094/UDP   60s
+service/prometheus-grafana                        ClusterIP   10.33.240.218   <none>        80/TCP                       66s
+service/prometheus-kube-prometheus-alertmanager   ClusterIP   10.33.140.242   <none>        9093/TCP                     66s
+service/prometheus-kube-prometheus-operator       ClusterIP   10.33.76.134    <none>        443/TCP                      66s
+service/prometheus-kube-prometheus-prometheus     ClusterIP   10.33.101.67    <none>        9090/TCP                     66s
+service/prometheus-kube-state-metrics             ClusterIP   10.33.205.217   <none>        8080/TCP                     66s
+service/prometheus-operated                       ClusterIP   None            <none>        9090/TCP                     58s
+service/prometheus-prometheus-node-exporter       ClusterIP   10.33.72.231    <none>        9100/TCP                     66s
+
+NAME                                                 DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/prometheus-prometheus-node-exporter   3         3         3       3            3           <none>          66s
+
+NAME                                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/prometheus-grafana                    1/1     1            1           66s
+deployment.apps/prometheus-kube-prometheus-operator   1/1     1            1           66s
+deployment.apps/prometheus-kube-state-metrics         1/1     1            1           66s
+
+NAME                                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/prometheus-grafana-7bd666c4c                   1         1         1       66s
+replicaset.apps/prometheus-kube-prometheus-operator-7757f46c   1         1         1       66s
+replicaset.apps/prometheus-kube-state-metrics-678b896dcf       1         1         1       66s
+
+NAME                                                                    READY   AGE
+statefulset.apps/alertmanager-prometheus-kube-prometheus-alertmanager   1/1     60s
+statefulset.apps/prometheus-prometheus-kube-prometheus-prometheus       1/1     58s
+lodis@My-PC:/mnt/d/HW_Lesson_51_Grafana/helm-charts/charts$
